@@ -9,14 +9,17 @@ import {
 } from "./i18n";
 import { CATEGORY_ICONS } from "./category-icons";
 import activaLogo from "../../assets/Activa_Logo.png";
-import yogaCR from "../../assets/yogaCR.jpg";
-import SabanaAbove from "../../assets/SabanaAbove.webp";
-import PilatesCR from "../../assets/PilatesCR.jpg";
+import heroRunner from "../../assets/hero-runner.webp";
+import meditation from "../../assets/meditation.webp";
+import companyWellness from "../../assets/company-wellness.webp";
+import strengthTraining from "../../assets/strength-training.webp";
+import boxing from "../../assets/boxing.webp";
+import poolRecovery from "../../assets/pool-recovery.webp";
 
 // ── HELPERS ─────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-6">
+    <p className="eyebrow mb-6">
       {children}
     </p>
   );
@@ -41,25 +44,43 @@ function WhatsAppIcon({ size = 15, className }: { size?: number; className?: str
   );
 }
 
+function BrandLogo({ inverse = false, size = "lg" }: { inverse?: boolean; size?: "sm" | "lg" }) {
+  return (
+    <span
+      className={`relative inline-block shrink-0 overflow-visible ${
+        size === "sm" ? "h-9 w-[8.75rem]" : "h-12 w-[10.5rem]"
+      }`}
+    >
+      <img
+        src={activaLogo}
+        alt="Activa"
+        className={`absolute left-1/2 top-1/2 h-auto max-w-none -translate-x-1/2 -translate-y-1/2 ${
+          size === "sm" ? "w-[10rem]" : "w-[12rem]"
+        } ${inverse ? "brightness-0 invert" : ""}`}
+      />
+    </span>
+  );
+}
+
 // ── LANGUAGE PICKER (forced on first visit) ─────────────────────
 function LanguagePicker() {
   const { showPicker, choose } = useLang();
   if (!showPicker) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d]/90 backdrop-blur-sm px-6">
-      <div className="w-full max-w-md bg-background border border-border p-10 text-center">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d]/85 backdrop-blur-md px-6">
+      <div className="w-full max-w-md rounded-[2rem] border border-border bg-background p-8 text-center shadow-2xl sm:p-10">
         <div className="flex items-center justify-center mb-8">
-          <img src={activaLogo} alt="Activa" className="h-10 w-auto" />
+          <BrandLogo />
         </div>
-        <p className="text-xs tracking-[0.25em] uppercase text-muted-foreground mb-2">
+        <p className="eyebrow mb-2">
           Choose your language
         </p>
         <p className="text-sm text-muted-foreground mb-8">Elige tu idioma</p>
         <div className="flex flex-col gap-3">
           <button
             onClick={() => choose("en")}
-            className="group inline-flex items-center justify-center gap-2 py-4 bg-transparent border border-border text-foreground text-sm tracking-wide font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+            className="motion-control group inline-flex h-13 items-center justify-center gap-2 rounded-full border border-foreground/70 bg-transparent px-7 text-sm font-medium tracking-[-0.02em] text-foreground hover:border-foreground hover:bg-card"
           >
             English
             <ArrowRight
@@ -69,7 +90,7 @@ function LanguagePicker() {
           </button>
           <button
             onClick={() => choose("es")}
-            className="group inline-flex items-center justify-center gap-2 py-4 bg-transparent border border-border text-foreground text-sm tracking-wide font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+            className="motion-control group inline-flex h-13 items-center justify-center gap-2 rounded-full border border-foreground/70 bg-transparent px-7 text-sm font-medium tracking-[-0.02em] text-foreground hover:border-foreground hover:bg-card"
           >
             Español
             <ArrowRight
@@ -92,7 +113,7 @@ function LanguageToggle({ scrolled }: { scrolled: boolean }) {
     <button
       onClick={() => setLang(next)}
       aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
-      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border text-xs tracking-wide transition-colors ${
+      className={`motion-control inline-flex h-10 items-center gap-1.5 rounded-full border px-4 text-xs tracking-wide transition-colors ${
         idle
           ? "border-white/30 text-white hover:border-white/60"
           : "border-border text-muted-foreground hover:text-foreground hover:border-foreground"
@@ -161,26 +182,26 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-['Quicksand',sans-serif] overflow-x-hidden">
+    <div className="route-transition min-h-screen overflow-x-hidden bg-background text-foreground font-['Quicksand',sans-serif]">
 
       <LanguagePicker />
 
       {/* ── CONTACT FORM MODAL ─────────────────────────────────── */}
       {contactOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d]/90 backdrop-blur-sm p-0 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d]/85 backdrop-blur-md p-0 sm:p-6"
           onClick={() => setContactOpen(false)}
         >
           <div
-            className="relative flex flex-col w-full h-full sm:h-[90vh] sm:max-h-[900px] sm:w-full sm:max-w-xl bg-background sm:border border-border shadow-2xl"
+            className="relative flex h-full w-full flex-col overflow-hidden bg-background shadow-2xl sm:h-[90vh] sm:max-h-[900px] sm:max-w-xl sm:rounded-[2rem] sm:border sm:border-border"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
+            <div className="flex shrink-0 items-center justify-between border-b border-border px-6 py-5">
               <span className="text-sm tracking-wide font-medium text-foreground">{t.contact.formTitle}</span>
               <button
                 onClick={() => setContactOpen(false)}
                 aria-label="Close"
-                className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+                className="motion-control flex size-10 items-center justify-center rounded-full text-muted-foreground hover:bg-card hover:text-foreground"
               >
                 <X size={20} />
               </button>
@@ -201,30 +222,32 @@ export default function App() {
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
+        className={`fixed left-2 right-2 top-2 z-50 rounded-full transition-all duration-300 ${
+          scrolled
+            ? "border border-border/70 bg-background/92 shadow-sm backdrop-blur-xl"
+            : "border border-white/10 bg-primary/20 backdrop-blur-sm md:border-transparent md:bg-transparent md:backdrop-blur-none"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16 lg:h-20">
+        <div className="mx-auto flex h-20 w-full max-w-[90rem] items-center justify-between px-4 sm:px-6 lg:h-24 lg:px-10">
           {/* LOGO */}
-          <button onClick={() => scrollTo("#home")} className="flex items-center group">
-            <img
-              src={activaLogo}
-              alt="Activa"
-              className={`h-12 lg:h-14 w-auto transition-all duration-500 group-hover:opacity-80 ${
-                scrolled ? "" : "brightness-0 invert"
-              }`}
-            />
+          <button onClick={() => scrollTo("#home")} className="motion-control group inline-flex rounded-full">
+            <BrandLogo inverse={!scrolled} />
           </button>
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden items-center gap-6 md:flex lg:gap-8">
             {NAV_LINKS.map((link) => {
               const id = link.href.replace("#", "");
               return (
                 <button
                   key={link.href}
                   onClick={() => scrollTo(link.href)}
-                  className={`text-sm tracking-wide transition-colors duration-200 ${
-                    activeSection === id ? "text-foreground font-medium" : "text-muted-foreground hover:text-foreground"
+                  className={`rounded-full px-1 py-2 text-sm font-medium tracking-[-0.02em] transition-colors duration-200 ${
+                    scrolled
+                      ? activeSection === id
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                      : activeSection === id
+                        ? "text-white"
+                        : "text-white/70 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -233,7 +256,7 @@ export default function App() {
             })}
             <button
               onClick={() => scrollTo("#contact")}
-              className="ml-2 px-5 py-2 bg-primary text-primary-foreground text-sm tracking-wide hover:bg-foreground/80 transition-colors"
+              className="motion-control ml-1 inline-flex h-12 items-center justify-center rounded-full bg-secondary px-6 text-sm font-medium tracking-[-0.02em] text-secondary-foreground hover:bg-white"
             >
               {t.nav.cta}
             </button>
@@ -241,15 +264,21 @@ export default function App() {
           </nav>
           <div className="flex items-center gap-3 md:hidden">
             <LanguageToggle scrolled={scrolled} />
-            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-foreground" aria-label={t.nav.menu}>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className={`motion-control flex size-10 items-center justify-center rounded-full border ${
+                scrolled ? "border-border text-foreground" : "border-white/30 text-white"
+              }`}
+              aria-label={t.nav.menu}
+            >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
-        <div className={`md:hidden overflow-hidden transition-all duration-300 bg-background border-b border-border ${menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"}`}>
-          <nav className="flex flex-col px-6 py-4 gap-4">
+        <div className={`mx-2 overflow-hidden rounded-[1.5rem] border-border bg-background shadow-xl transition-all duration-300 md:hidden ${menuOpen ? "mt-2 max-h-80 border opacity-100" : "max-h-0 border-0 opacity-0"}`}>
+          <nav className="flex flex-col gap-2 p-4">
             {NAV_LINKS.map((link) => (
-              <button key={link.href} onClick={() => scrollTo(link.href)} className="text-left text-base text-foreground py-1 border-b border-border/40 last:border-0">
+              <button key={link.href} onClick={() => scrollTo(link.href)} className="rounded-full px-4 py-3 text-left text-sm font-medium text-foreground hover:bg-card">
                 {link.label}
               </button>
             ))}
@@ -258,75 +287,75 @@ export default function App() {
       </header>
 
       {/* ── 1. HERO ────────────────────────────────────────────── */}
-      <section id="home" className="relative min-h-screen flex flex-col justify-end pb-20 lg:pb-32">
-        <div className="absolute inset-0 bg-[#1a1a1a]">
+      <section id="home" className="relative isolate m-2 flex min-h-[calc(100svh-1rem)] flex-col overflow-hidden rounded-[2rem] bg-primary text-primary-foreground">
+        <div className="absolute inset-0 -z-20 bg-[#1a1a1a]">
           <img
-            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1800&h=1000&fit=crop&auto=format"
-            alt="Gym with natural light"
-            className="w-full h-full object-cover opacity-45"
+            src={heroRunner}
+            alt="Woman training outdoors"
+            className="h-full w-full scale-[1.02] object-cover object-[60%_center] opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/50 to-transparent" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
-          <div className="max-w-3xl">
-            <p className="text-secondary text-sm tracking-[0.2em] uppercase mb-6 font-medium">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-primary/90 via-primary/45 to-primary/30" />
+        <div className="mx-auto flex w-full max-w-[90rem] flex-1 items-center justify-center px-6 py-32 text-center lg:px-10">
+          <div className="max-w-5xl">
+            <p className="eyebrow !text-secondary">
               {t.hero.eyebrow}
             </p>
-            <h1 className="font-['Quicksand',sans-serif] text-white text-4xl sm:text-6xl lg:text-7xl font-light leading-[1.05] mb-6">
-              {t.hero.titleTop}<br />
-              <em className="not-italic font-light">{t.hero.titleEm}</em>
+            <h1 className="mt-7 text-[54px] font-normal leading-none tracking-[-0.05em] text-white lg:text-[74px] lg:font-[350]">
+              {t.hero.titleTop} <em className="not-italic">{t.hero.titleEm}</em>
             </h1>
-            <p className="text-white/70 text-lg lg:text-xl max-w-xl leading-relaxed mb-10">
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-[1.5] text-white/75 sm:text-lg">
               {t.hero.subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
-              {[t.hero.ctaCompany, t.hero.ctaGym, t.hero.ctaUser].map((label) => (
+            <div className="mt-10 flex flex-col flex-wrap justify-center gap-3 sm:flex-row">
+              {[t.hero.ctaCompany, t.hero.ctaGym, t.hero.ctaUser].map((label, index) => (
                 <button
                   key={label}
                   onClick={() => scrollTo("#contact")}
-                  className="inline-flex items-center justify-center w-full sm:w-auto px-7 py-3.5 border border-white/30 text-white text-sm tracking-wide hover:bg-secondary hover:border-secondary hover:text-secondary-foreground transition-colors group"
+                  className={`motion-control group inline-flex h-13 w-full items-center justify-center gap-2 rounded-full px-7 text-sm font-medium tracking-[-0.02em] sm:w-auto ${
+                    index === 0
+                      ? "bg-secondary text-secondary-foreground hover:bg-white"
+                      : "border border-white/40 text-white hover:border-white hover:bg-white hover:text-primary"
+                  }`}
                 >
                   {label}
                   <ArrowRight
                     size={15}
-                    className="w-0 ml-0 opacity-0 group-hover:w-[15px] group-hover:ml-2 group-hover:opacity-100 transition-all duration-200 shrink-0"
+                    className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
                   />
                 </button>
               ))}
             </div>
             <button
               onClick={() => scrollTo("#evidence")}
-              className="mt-8 text-left text-sm text-white/60 hover:text-white/90 transition-colors max-w-xl leading-relaxed"
+              className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-white/60 hover:text-white/90"
             >
               {t.hero.proofText}{" "}
               <span className="text-secondary underline underline-offset-4 whitespace-nowrap">{t.hero.proofLink} ↓</span>
             </button>
           </div>
         </div>
-        <div className="absolute bottom-8 right-8 lg:right-12 z-10 flex flex-col items-center gap-2 opacity-40">
-          <div className="w-px h-12 bg-white/50" />
-        </div>
       </section>
 
       {/* ── 2. WHAT IS ACTIVA ──────────────────────────────────── */}
-      <section id="what" className="py-16 sm:py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="what" className="py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.what.label}</SectionLabel>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+          <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1]">
+              <h2 className="text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.what.titleTop}<br />
                 <em className="not-italic">{t.what.titleEm}</em>
               </h2>
             </div>
             <div className="lg:pt-2">
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              <p className="mb-7 text-lg leading-[1.5] text-muted-foreground">
                 {t.what.intro}
               </p>
               <div className="flex flex-col gap-4">
                 {t.what.cards.map((card) => (
-                  <div key={card.lead} className="flex gap-4 p-5 bg-card border border-border">
-                    <span className="font-['Quicksand',sans-serif] text-secondary text-2xl font-light shrink-0">→</span>
+                  <div key={card.lead} className="flex gap-4 rounded-2xl border border-border bg-card p-6 transition-colors duration-300 hover:bg-muted sm:p-7">
+                    <span className="shrink-0 text-2xl font-normal text-secondary-foreground">→</span>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       <span className="text-foreground font-medium">{card.lead}</span>{" "}
                       {card.body}
@@ -338,17 +367,17 @@ export default function App() {
           </div>
 
           {/* Why Activa exists */}
-          <div className="mt-16 sm:mt-20 lg:mt-28 grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
-            <div className="lg:col-span-2 bg-muted overflow-hidden min-h-72">
+          <div className="mt-20 grid items-center gap-14 sm:mt-28 lg:mt-40 lg:grid-cols-2 lg:gap-20">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border bg-muted sm:aspect-[3/2] lg:aspect-[4/5]">
               <img
-                src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&h=900&fit=crop&auto=format"
-                alt="Person practicing yoga in a studio"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                src={meditation}
+                alt="Woman meditating in a bright studio"
+                className="h-full w-full object-cover object-[64%_center] transition-transform duration-700 ease-out hover:scale-[1.025]"
               />
             </div>
-            <div className="lg:col-span-3 flex flex-col justify-center">
+            <div className="flex max-w-2xl flex-col justify-center">
               <SectionLabel>{t.what.whyLabel}</SectionLabel>
-              <h3 className="font-['Quicksand',sans-serif] text-2xl sm:text-3xl lg:text-4xl font-light leading-[1.15] mb-6">
+              <h3 className="mb-7 text-[32px] font-normal leading-[1.1] tracking-[-0.04em] lg:text-[54px]">
                 {t.what.whyTitleTop}<br />
                 <em className="not-italic">{t.what.whyTitleEm}</em>
               </h3>
@@ -364,20 +393,20 @@ export default function App() {
       </section>
 
       {/* ── 3. HOW IT WORKS ────────────────────────────────────── */}
-      <section id="how" className="py-16 sm:py-24 lg:py-32 bg-card">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="how" className="bg-card py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.how.label}</SectionLabel>
-          <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-12">
+          <h2 className="mb-12 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
             {t.how.title}
           </h2>
 
           {/* Tabs */}
-          <div className="flex gap-0 border border-border mb-12 w-full sm:w-fit overflow-hidden">
+          <div className="mb-12 flex w-full gap-1 rounded-full border border-border bg-background p-1 sm:w-fit">
             {howTabs.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setHowTab(tab.key)}
-                className={`flex-1 sm:flex-none px-3 sm:px-6 py-3 text-xs sm:text-sm tracking-wide transition-colors ${
+                className={`h-11 flex-1 rounded-full px-3 text-xs font-medium tracking-[-0.02em] transition-colors sm:flex-none sm:px-6 sm:text-sm ${
                   howTab === tab.key
                     ? "bg-primary text-primary-foreground"
                     : "bg-background text-muted-foreground hover:text-foreground"
@@ -388,11 +417,11 @@ export default function App() {
             ))}
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid gap-4 sm:grid-cols-3">
             {t.how.steps[howTab].map((item) => (
-              <div key={item.step} className="flex flex-col">
-                <span className="font-['Quicksand',sans-serif] text-5xl font-light text-secondary mb-4">{item.step}</span>
-                <h4 className="font-['Quicksand',sans-serif] text-xl font-medium mb-3 text-foreground">{item.title}</h4>
+              <div key={item.step} className="flex min-h-72 flex-col rounded-[2rem] border border-border bg-background p-8 transition-colors duration-300 hover:bg-muted sm:p-10">
+                <span className="mb-10 flex size-12 items-center justify-center rounded-full border border-border bg-card text-sm font-medium text-muted-foreground">{item.step}</span>
+                <h4 className="mb-3 text-[22px] font-normal leading-[1.2] tracking-[-0.035em] text-foreground">{item.title}</h4>
                 <p className="text-muted-foreground text-sm leading-relaxed">{item.body}</p>
               </div>
             ))}
@@ -401,23 +430,23 @@ export default function App() {
       </section>
 
       {/* ── 3b. THE EVIDENCE ───────────────────────────────────── */}
-      <section id="evidence" className="py-16 sm:py-24 lg:py-32 bg-primary text-primary-foreground">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <p className="text-xs tracking-[0.2em] uppercase text-secondary mb-4">{t.evidence.label}</p>
-          <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-6">
+      <section id="evidence" className="m-2 rounded-[2rem] bg-primary py-24 text-primary-foreground sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
+          <p className="eyebrow mb-6 !text-secondary">{t.evidence.label}</p>
+          <h2 className="mb-7 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
             {t.evidence.titleTop}<br />
             <em className="not-italic">{t.evidence.titleEm}</em>
           </h2>
-          <p className="text-primary-foreground/70 max-w-2xl leading-relaxed mb-12 sm:mb-16">
+          <p className="mb-12 max-w-2xl text-lg leading-[1.5] text-primary-foreground/70 sm:mb-16">
             {t.evidence.intro}
           </p>
-          <div className="grid sm:grid-cols-3 gap-0 border border-white/15">
+          <div className="grid gap-4 sm:grid-cols-3">
             {t.evidence.stats.map((st) => (
               <div
                 key={st.n}
-                className="p-8 lg:p-10 border-b sm:border-b-0 sm:border-r border-white/15 last:border-0 flex flex-col"
+                className="flex min-h-72 flex-col rounded-[2rem] border border-white/15 bg-white/[0.04] p-8 lg:p-10"
               >
-                <span className="font-['Quicksand',sans-serif] text-5xl lg:text-6xl font-light text-secondary mb-4">
+                <span className="mb-5 text-5xl font-normal tracking-[-0.04em] text-secondary lg:text-6xl">
                   {st.n}
                 </span>
                 <p className="text-primary-foreground/80 text-sm leading-relaxed mb-6 flex-1">{st.d}</p>
@@ -428,7 +457,7 @@ export default function App() {
           <div className="mt-10 flex flex-col sm:flex-row sm:items-start gap-6 justify-between">
             <button
               onClick={() => scrollTo("#contact")}
-              className="inline-flex items-center gap-2 px-6 py-3 border border-secondary text-secondary text-sm tracking-wide hover:bg-secondary hover:text-secondary-foreground transition-colors group w-fit shrink-0"
+              className="motion-control group inline-flex h-13 w-fit shrink-0 items-center gap-2 rounded-full bg-secondary px-7 text-sm font-medium tracking-[-0.02em] text-secondary-foreground hover:bg-white"
             >
               {t.evidence.cta}
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -448,20 +477,20 @@ export default function App() {
       </section>
 
       {/* ── 4–6. BENEFITS ──────────────────────────────────────── */}
-      <section id="benefits" className="py-16 sm:py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="benefits" className="py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.benefits.label}</SectionLabel>
-          <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-10 sm:mb-16">
+          <h2 className="mb-14 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:mb-20 lg:text-[66px]">
             {t.benefits.titleTop}<br />
             <em className="not-italic">{t.benefits.titleEm}</em>
           </h2>
 
           {/* Companies */}
-          <div className="grid lg:grid-cols-2 gap-0 border border-border overflow-hidden mb-8">
+          <div className="mb-4 grid overflow-hidden rounded-[2rem] border border-border lg:grid-cols-2">
             <div className="bg-primary text-primary-foreground p-8 sm:p-10 lg:p-14 flex flex-col justify-between">
               <div>
-                <p className="text-xs tracking-[0.2em] uppercase text-secondary mb-4">{t.benefits.companies.eyebrow}</p>
-                <h3 className="font-['Quicksand',sans-serif] text-2xl sm:text-3xl lg:text-4xl font-light leading-tight mb-4">
+                <p className="eyebrow mb-5 !text-secondary">{t.benefits.companies.eyebrow}</p>
+                <h3 className="mb-4 text-[30px] font-normal leading-[1.1] tracking-[-0.04em] lg:text-[46px]">
                   {t.benefits.companies.title}
                 </h3>
                 <p className="text-primary-foreground/70 leading-relaxed mb-8">
@@ -473,7 +502,7 @@ export default function App() {
               </div>
               <button
                 onClick={() => scrollTo("#contact")}
-                className="inline-flex items-center gap-2 px-6 py-3 border border-secondary text-secondary text-sm tracking-wide hover:bg-secondary hover:text-secondary-foreground transition-colors group w-fit"
+                className="motion-control group inline-flex h-13 w-fit items-center gap-2 rounded-full bg-secondary px-7 text-sm font-medium tracking-[-0.02em] text-secondary-foreground hover:bg-white"
               >
                 {t.benefits.companies.btn}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -481,26 +510,26 @@ export default function App() {
             </div>
             <div className="bg-muted overflow-hidden min-h-80">
               <img
-                src={SabanaAbove}
-                alt="Companies in Costa Rica"
-                className="w-full h-full object-cover"
+                src={companyWellness}
+                alt="Group wellness session beside the water"
+                className="h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-[1.025]"
               />
             </div>
           </div>
 
           {/* Gyms */}
-          <div className="grid lg:grid-cols-2 gap-0 border border-border overflow-hidden mb-8">
+          <div className="mb-4 grid overflow-hidden rounded-[2rem] border border-border lg:grid-cols-2">
             <div className="bg-muted overflow-hidden min-h-80 order-2 lg:order-1">
               <img
-                src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=800&h=700&fit=crop&auto=format"
-                alt="Interior of a modern gym"
-                className="w-full h-full object-cover"
+                src={strengthTraining}
+                alt="Athlete preparing a barbell lift"
+                className="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.025]"
               />
             </div>
             <div className="bg-card p-8 sm:p-10 lg:p-14 flex flex-col justify-between order-1 lg:order-2">
               <div>
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">{t.benefits.gyms.eyebrow}</p>
-                <h3 className="font-['Quicksand',sans-serif] text-2xl sm:text-3xl lg:text-4xl font-light leading-tight mb-4">
+                <p className="eyebrow mb-5">{t.benefits.gyms.eyebrow}</p>
+                <h3 className="mb-4 text-[30px] font-normal leading-[1.1] tracking-[-0.04em] lg:text-[46px]">
                   {t.benefits.gyms.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
@@ -515,7 +544,7 @@ export default function App() {
               </div>
               <button
                 onClick={() => scrollTo("#contact")}
-                className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm tracking-wide hover:bg-foreground/80 transition-colors group w-fit"
+                className="motion-control group mt-8 inline-flex h-13 w-fit items-center gap-2 rounded-full bg-primary px-7 text-sm font-medium tracking-[-0.02em] text-primary-foreground hover:brightness-110"
               >
                 {t.benefits.gyms.btn}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -524,11 +553,11 @@ export default function App() {
           </div>
 
           {/* Users */}
-          <div className="grid lg:grid-cols-2 gap-0 border border-border overflow-hidden">
+          <div className="grid overflow-hidden rounded-[2rem] border border-border lg:grid-cols-2">
             <div className="bg-card p-8 sm:p-10 lg:p-14 flex flex-col justify-between">
               <div>
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">{t.benefits.users.eyebrow}</p>
-                <h3 className="font-['Quicksand',sans-serif] text-2xl sm:text-3xl lg:text-4xl font-light leading-tight mb-4">
+                <p className="eyebrow mb-5">{t.benefits.users.eyebrow}</p>
+                <h3 className="mb-4 text-[30px] font-normal leading-[1.1] tracking-[-0.04em] lg:text-[46px]">
                   {t.benefits.users.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-6">
@@ -540,7 +569,7 @@ export default function App() {
               </div>
               <button
                 onClick={() => scrollTo("#contact")}
-                className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm tracking-wide hover:bg-foreground/80 transition-colors group w-fit"
+                className="motion-control group mt-8 inline-flex h-13 w-fit items-center gap-2 rounded-full bg-primary px-7 text-sm font-medium tracking-[-0.02em] text-primary-foreground hover:brightness-110"
               >
                 {t.benefits.users.btn}
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -548,9 +577,9 @@ export default function App() {
             </div>
             <div className="bg-muted overflow-hidden min-h-80">
               <img
-                src={PilatesCR}
-                alt="Pilates in Costa Rica"
-                className="w-full h-full object-cover"
+                src={boxing}
+                alt="Woman practicing boxing"
+                className="h-full w-full object-cover object-[62%_center] transition-transform duration-700 ease-out hover:scale-[1.025]"
               />
             </div>
           </div>
@@ -558,12 +587,12 @@ export default function App() {
       </section>
 
       {/* ── 7. CURATED & CONTROLLED NETWORK ────────────────────── */}
-      <section id="safety" className="py-16 sm:py-24 lg:py-32 bg-primary text-primary-foreground">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+      <section id="safety" className="bg-primary py-24 text-primary-foreground sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
+          <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
-              <p className="text-xs tracking-[0.25em] uppercase text-secondary mb-6">{t.safety.eyebrow}</p>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-6">
+              <p className="eyebrow mb-6 !text-secondary">{t.safety.eyebrow}</p>
+              <h2 className="mb-7 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.safety.titleTop}<br />
                 <em className="not-italic">{t.safety.titleEm}</em>
               </h2>
@@ -571,20 +600,24 @@ export default function App() {
                 {t.safety.paragraph}
               </p>
             </div>
-            <div className="flex flex-col gap-4 lg:pt-16">
-              {t.safety.bullets.map((b) => <BulletItem key={b} text={b} dark />)}
+            <div className="grid gap-3 sm:grid-cols-2 lg:pt-16">
+              {t.safety.bullets.map((b) => (
+                <div key={b} className="rounded-2xl border border-white/15 bg-white/[0.04] p-5">
+                  <BulletItem text={b} dark />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* ── 8. COSTA RICA PILOT ────────────────────────────────── */}
-      <section id="pilot" className="py-16 sm:py-24 lg:py-32 bg-card">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+      <section id="pilot" className="bg-card py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
+          <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
               <SectionLabel>{t.pilot.label}</SectionLabel>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-6">
+              <h2 className="mb-7 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.pilot.titleTop}<br />
                 <em className="not-italic">{t.pilot.titleEm}</em>
               </h2>
@@ -599,12 +632,12 @@ export default function App() {
                   <button
                     key={label}
                     onClick={() => scrollTo("#contact")}
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 border border-border text-foreground text-sm tracking-wide hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors group"
+                    className="motion-control group inline-flex h-13 w-full items-center justify-center gap-2 rounded-full border border-foreground/70 px-7 text-sm font-medium tracking-[-0.02em] text-foreground hover:border-foreground hover:bg-background sm:w-auto"
                   >
                     {label}
                     <ArrowRight
                       size={14}
-                      className="w-0 ml-0 opacity-0 group-hover:w-[14px] group-hover:ml-2 group-hover:opacity-100 transition-all duration-200 shrink-0"
+                      className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
                     />
                   </button>
                 ))}
@@ -612,12 +645,12 @@ export default function App() {
             </div>
 
             <div>
-              <div className="bg-background border border-border p-8">
-                <p className="text-xs tracking-widest uppercase text-muted-foreground mb-6">{t.pilot.zonesLabel}</p>
+              <div className="rounded-[2rem] border border-border bg-background p-8 sm:p-10">
+                <p className="eyebrow mb-8">{t.pilot.zonesLabel}</p>
                 <div className="grid grid-cols-2 gap-3">
                   {LAUNCH_ZONES.map((zona) => (
-                    <div key={zona} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin size={12} className="text-secondary shrink-0" />
+                    <div key={zona} className="flex items-center gap-3 rounded-full border border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+                      <MapPin size={13} className="shrink-0 text-secondary-foreground" />
                       {zona}
                     </div>
                   ))}
@@ -634,11 +667,11 @@ export default function App() {
       </section>
 
       {/* ── 9. CATEGORIES ──────────────────────────────────────── */}
-      <section id="categories" className="py-16 sm:py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="categories" className="py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.categories.label}</SectionLabel>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
-            <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1]">
+            <h2 className="text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
               {t.categories.titleTop}<br />
               <em className="not-italic">{t.categories.titleEm}</em>
             </h2>
@@ -646,13 +679,13 @@ export default function App() {
               {t.categories.intro}
             </p>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 gap-px bg-border">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-9">
             {t.categories.items.map((label, i) => {
               const Icon = CATEGORY_ICONS[i];
               return (
                 <div
                   key={label}
-                  className="bg-background flex flex-col items-center justify-center py-10 px-4 gap-3 hover:bg-card transition-colors group"
+                  className="group flex min-h-40 flex-col items-center justify-center gap-4 rounded-[2rem] border border-border bg-card px-4 py-8 transition-colors hover:bg-muted"
                 >
                   {Icon && (
                     <Icon className="w-8 h-8 text-secondary group-hover:scale-110 transition-transform" strokeWidth={1.5} />
@@ -666,25 +699,25 @@ export default function App() {
       </section>
 
       {/* ── 10. FAQs ───────────────────────────────────────────── */}
-      <section id="faq" className="py-16 sm:py-24 lg:py-32 bg-card">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="faq" className="bg-card py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.faq.label}</SectionLabel>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
+          <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1]">
+              <h2 className="text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.faq.titleTop}<br />
                 <em className="not-italic">{t.faq.titleEm}</em>
               </h2>
             </div>
-            <Accordion.Root type="single" collapsible className="flex flex-col divide-y divide-border">
+            <Accordion.Root type="single" collapsible className="flex flex-col gap-3">
               {t.faq.items.map((faq, i) => (
-                <Accordion.Item key={i} value={`faq-${i}`}>
-                  <Accordion.Trigger className="w-full flex items-center justify-between py-5 text-left text-sm font-medium text-foreground hover:text-foreground/80 transition-colors group [&[data-state=open]>svg]:rotate-180">
+                <Accordion.Item key={i} value={`faq-${i}`} className="rounded-2xl border border-border bg-background px-6 transition-colors hover:bg-muted">
+                  <Accordion.Trigger className="group flex w-full items-center justify-between py-6 text-left text-sm font-medium text-foreground transition-colors hover:text-foreground/80 [&[data-state=open]>svg]:rotate-180">
                     {faq.q}
                     <ChevronDown size={16} className="text-muted-foreground shrink-0 ml-4 transition-transform duration-200" />
                   </Accordion.Trigger>
                   <Accordion.Content className="overflow-hidden data-[state=open]:animate-[accordion-down_200ms_ease] data-[state=closed]:animate-[accordion-up_200ms_ease]">
-                    <p className="text-muted-foreground text-sm leading-relaxed pb-5">{faq.a}</p>
+                    <p className="pb-6 text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
                   </Accordion.Content>
                 </Accordion.Item>
               ))}
@@ -694,12 +727,12 @@ export default function App() {
       </section>
 
       {/* ── 11. CONTACT — direct emails ────────────────────────── */}
-      <section id="contact" className="py-16 sm:py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <section id="contact" className="py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
           <SectionLabel>{t.contact.label}</SectionLabel>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+          <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-6">
+              <h2 className="mb-7 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.contact.titleTop}<br />
                 <em className="not-italic">{t.contact.titleEm}</em>
               </h2>
@@ -707,17 +740,17 @@ export default function App() {
                 {t.contact.intro}
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 border border-border flex items-center justify-center">
+                <div className="flex size-11 items-center justify-center rounded-full border border-border bg-card">
                   <MapPin size={15} className="text-muted-foreground" />
                 </div>
                 <span className="text-sm text-muted-foreground">{t.contact.location}</span>
               </div>
             </div>
 
-            <div className="flex flex-col justify-center gap-4 w-full max-w-md">
+            <div className="flex w-full max-w-xl flex-col justify-center gap-4">
               <button
                 onClick={() => setContactOpen(true)}
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground text-sm tracking-wide hover:bg-foreground/80 transition-colors group w-full"
+                className="motion-control group inline-flex h-13 w-full items-center justify-center gap-3 rounded-full bg-primary px-8 text-sm font-medium tracking-[-0.02em] text-primary-foreground hover:brightness-110"
               >
                 {t.contact.ctaForm}
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
@@ -725,10 +758,10 @@ export default function App() {
 
               <a
                 href="mailto:estebanbaltodano@4ctiva.com"
-                className="flex items-center justify-between gap-4 border border-border p-5 hover:border-foreground transition-colors group"
+                className="motion-control group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-foreground/20 hover:bg-muted"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 border border-border flex items-center justify-center group-hover:bg-secondary group-hover:border-secondary transition-colors shrink-0">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-background transition-colors group-hover:border-secondary group-hover:bg-secondary">
                     <Mail size={15} className="text-muted-foreground group-hover:text-secondary-foreground transition-colors" />
                   </div>
                   <div className="flex flex-col">
@@ -743,10 +776,10 @@ export default function App() {
                 href="https://wa.me/16073196214"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-4 border border-border p-5 hover:border-foreground transition-colors group"
+                className="motion-control group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-foreground/20 hover:bg-muted"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 border border-border flex items-center justify-center group-hover:bg-secondary group-hover:border-secondary transition-colors shrink-0">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-background transition-colors group-hover:border-secondary group-hover:bg-secondary">
                     <WhatsAppIcon size={16} className="text-muted-foreground group-hover:text-secondary-foreground transition-colors" />
                   </div>
                   <div className="flex flex-col">
@@ -762,19 +795,19 @@ export default function App() {
       </section>
 
       {/* ── 12. ABOUT US ───────────────────────────────────────── */}
-      <section id="about" className="py-16 sm:py-24 lg:py-32 bg-card">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-stretch">
-            <div className="bg-muted overflow-hidden min-h-96 h-full">
+      <section id="about" className="bg-card py-24 sm:py-32 lg:py-40">
+        <div className="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
+          <div className="grid items-stretch gap-14 lg:grid-cols-2 lg:gap-20">
+            <div className="h-full min-h-96 overflow-hidden rounded-[2rem] border border-border bg-muted">
               <img
-                src={yogaCR}
-                alt="Yoga in Costa Rica"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                src={poolRecovery}
+                alt="Swimmer recovering beside an outdoor pool"
+                className="h-full w-full object-cover object-[75%_center] transition-transform duration-700 ease-out hover:scale-[1.025]"
               />
             </div>
             <div className="flex flex-col justify-center">
               <SectionLabel>{t.about.label}</SectionLabel>
-              <h2 className="font-['Quicksand',sans-serif] text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.1] mb-6">
+              <h2 className="mb-7 text-[36px] font-normal leading-[1.08] tracking-[-0.04em] lg:text-[66px]">
                 {t.about.titleTop}<br />
                 <em className="not-italic">{t.about.titleEm}</em>
               </h2>
@@ -794,29 +827,29 @@ export default function App() {
 
       {/* ── FOOTER ─────────────────────────────────────────────── */}
       <footer className="bg-primary text-primary-foreground">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-14">
-          <div className="grid lg:grid-cols-4 gap-10 mb-10">
+        <div className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-10 lg:py-20">
+          <div className="mb-10 grid gap-10 border-b border-white/10 pb-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="lg:col-span-2">
               {/* LOGO */}
               <div className="flex items-center mb-4">
-                <img src={activaLogo} alt="Activa" className="h-14 w-auto brightness-0 invert" />
+                <BrandLogo inverse />
               </div>
               <p className="text-primary-foreground/60 text-sm leading-relaxed max-w-xs">
                 {t.footer.tagline}
               </p>
             </div>
             <div>
-              <p className="text-xs tracking-widest uppercase text-secondary mb-4">{t.footer.navLabel}</p>
-              <nav className="flex flex-col gap-2">
+              <p className="eyebrow mb-4 !text-secondary">{t.footer.navLabel}</p>
+              <nav className="flex flex-col items-start gap-1">
                 {NAV_LINKS.map((link) => (
-                  <button key={link.href} onClick={() => scrollTo(link.href)} className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors text-left">
+                  <button key={link.href} onClick={() => scrollTo(link.href)} className="inline-flex min-h-11 items-center rounded-full text-left text-sm text-primary-foreground/60 transition-colors hover:text-primary-foreground">
                     {link.label}
                   </button>
                 ))}
               </nav>
             </div>
             <div>
-              <p className="text-xs tracking-widest uppercase text-secondary mb-4">{t.footer.contactLabel}</p>
+              <p className="eyebrow mb-4 !text-secondary">{t.footer.contactLabel}</p>
               <div className="flex flex-col gap-3 text-sm text-primary-foreground/60">
                 <a href={`mailto:${PRIMARY_EMAIL}`} className="flex items-center gap-2.5 hover:text-primary-foreground transition-colors">
                   <Mail size={15} className="shrink-0" />
@@ -830,7 +863,7 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="border-t border-primary-foreground/10 pt-8 flex flex-col sm:flex-row justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 pt-7 sm:flex-row">
             <p className="text-xs text-primary-foreground/40">{t.footer.rights}</p>
             <div className="flex gap-6">
               <a href="#" className="text-xs text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors">{t.footer.privacy}</a>
