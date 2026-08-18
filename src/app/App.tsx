@@ -16,6 +16,8 @@ import strengthTraining from "../../assets/strength-training.webp";
 import boxing from "../../assets/boxing.webp";
 import poolRecovery from "../../assets/pool-recovery.webp";
 
+const APP_ORIGIN = import.meta.env.DEV ? "http://localhost:3000" : "https://app.4ctiva.com";
+
 // ── HELPERS ─────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -141,6 +143,13 @@ export default function App() {
     { label: t.nav.about, href: "#about" },
     { label: t.nav.memberships, href: "#benefits" },
     { label: t.nav.contact, href: "#contact" },
+  ];
+
+  const LEGAL_LINKS = [
+    { label: t.footer.memberTerms, href: `${APP_ORIGIN}/legal/terms` },
+    { label: t.footer.partnerTerms, href: `${APP_ORIGIN}/legal/partner-terms` },
+    { label: t.footer.privacyNotice, href: `${APP_ORIGIN}/legal/privacy` },
+    { label: t.footer.photoConsent, href: `${APP_ORIGIN}/legal/photo-consent` },
   ];
 
   useEffect(() => {
@@ -829,7 +838,7 @@ export default function App() {
       <footer className="bg-primary text-primary-foreground">
         <div className="mx-auto w-full max-w-[90rem] px-6 py-16 lg:px-10 lg:py-20">
           <div className="mb-10 grid gap-10 border-b border-white/10 pb-10 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="lg:col-span-2">
+            <div>
               {/* LOGO */}
               <div className="flex items-center mb-4">
                 <BrandLogo inverse />
@@ -837,6 +846,20 @@ export default function App() {
               <p className="text-primary-foreground/60 text-sm leading-relaxed max-w-xs">
                 {t.footer.tagline}
               </p>
+            </div>
+            <div>
+              <p className="eyebrow mb-4 !text-secondary">{t.footer.legalLabel}</p>
+              <nav aria-label={t.footer.legalLabel} className="flex flex-col items-start gap-1">
+                {LEGAL_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="inline-flex min-h-11 items-center text-left text-sm text-primary-foreground/60 transition-colors hover:text-primary-foreground"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
             </div>
             <div>
               <p className="eyebrow mb-4 !text-secondary">{t.footer.navLabel}</p>
@@ -863,12 +886,8 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col justify-between gap-4 pt-7 sm:flex-row">
+          <div className="pt-7">
             <p className="text-xs text-primary-foreground/40">{t.footer.rights}</p>
-            <div className="flex gap-6">
-              <a href="#" className="text-xs text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors">{t.footer.privacy}</a>
-              <a href="#" className="text-xs text-primary-foreground/40 hover:text-primary-foreground/70 transition-colors">{t.footer.terms}</a>
-            </div>
           </div>
         </div>
       </footer>
