@@ -333,8 +333,12 @@ export default function App() {
             >
               {t.evidence.cta} →
             </a>
-            <details className="max-w-[640px] text-[11.5px] text-[#8f887d]">
-              <summary className="cursor-pointer">{t.evidence.refsLabel}</summary>
+            <details className="group max-w-[640px] text-[11.5px] text-[#8f887d]">
+              {/* custom marker: iOS renders the native one as a blue emoji */}
+              <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <span className="details-caret mr-1.5 inline-block transition-transform duration-200">{"▸"}</span>
+                {t.evidence.refsLabel}
+              </summary>
               <ul className="m-0 mt-3 flex list-disc flex-col gap-2 pl-[18px]">
                 {t.evidence.refs.map((r) => (
                   <li key={r} className="leading-[1.6]">

@@ -191,6 +191,11 @@
   text-transform: uppercase;
 }
 
+/* Custom <details> marker (iOS renders the native one as a blue emoji) */
+details[open] > summary .details-caret {
+  transform: rotate(90deg);
+}
+
 /* Floating "Activa para Todos" logo in the hero (scales up on hover while the page dims) */
 .apt-hero-logo {
   transform-origin: top right;
