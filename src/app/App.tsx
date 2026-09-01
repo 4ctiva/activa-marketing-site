@@ -210,8 +210,11 @@ export default function App() {
             <span className="font-mono text-[11px] uppercase tracking-[.24em] text-[#8a8172]">
               Coming soon on
             </span>
-            <img src={badgeAppStore} alt="Download on the App Store" className="h-[42px] w-auto opacity-85" />
-            <img src={badgeGooglePlay} alt="Get it on Google Play" className="h-[42px] w-auto opacity-85" />
+            {/* badges stay side by side; only the label wraps on narrow screens */}
+            <span className="flex flex-nowrap items-center gap-[18px]">
+              <img src={badgeAppStore} alt="Download on the App Store" className="h-[42px] w-auto opacity-85" />
+              <img src={badgeGooglePlay} alt="Get it on Google Play" className="h-[42px] w-auto opacity-85" />
+            </span>
           </div>
         </div>
       </section>
