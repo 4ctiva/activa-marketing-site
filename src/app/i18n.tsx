@@ -470,9 +470,15 @@ export const translations = {
       rights: "© 2026 Activa. Todos los derechos reservados.",
     },
   },
-} satisfies Record<Lang, unknown> as Record<Lang, Translation>;
+} satisfies Record<Lang, unknown>;
 
 const STORAGE_KEY = "activa-lang";
+
+/**
+ * Optional full-screen language picker on first visit.
+ * Off by default per the design handoff (`languagePicker` config flag).
+ */
+const LANGUAGE_PICKER = false;
 
 type LangContextValue = {
   lang: Lang;
@@ -489,12 +495,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [showPicker, setShowPicker] = useState(false);
 
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
+    let stored: string | null = null;
+    try {
+      stored = window.localStorage.getItem(STORAGE_KEY);
+    } catch {
+      // ignore storage failures (e.g. blocked cookies, private mode)
+    }
     if (stored === "en" || stored === "es") {
       setLangState(stored);
+    } else if (LANGUAGE_PICKER) {
+      setShowPicker(true);
     }
-    // Always show the picker on every visit, preselecting any stored language.
-    setShowPicker(true);
   }, []);
 
   useEffect(() => {

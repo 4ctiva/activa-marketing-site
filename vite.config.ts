@@ -32,6 +32,16 @@ export default defineConfig({
     },
   },
 
+  build: {
+    rollupOptions: {
+      // Multi-page build: main site + Activa para Todos (served at /para-todos/)
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        paraTodos: path.resolve(__dirname, 'para-todos/index.html'),
+      },
+    },
+  },
+
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
 })
