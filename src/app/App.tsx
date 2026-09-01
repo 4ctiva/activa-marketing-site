@@ -185,7 +185,7 @@ export default function App() {
           href="/para-todos/"
           onMouseEnter={() => setMapHover(true)}
           onMouseLeave={() => setMapHover(false)}
-          className="absolute right-10 top-5 z-[61] block"
+          className="absolute right-10 top-5 z-[61] hidden md:block"
         >
           <img
             src={aptLogo}
