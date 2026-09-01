@@ -135,11 +135,11 @@ export default function App() {
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
       <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.92)] backdrop-blur-[12px]">
-        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5">
+        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-3 max-md:px-3">
           <a href="#home" className="flex items-center">
-            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto" />
+            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[13px]" />
           </a>
-          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf">
+          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-1.5 max-md:text-[10.5px]">
             <a href="#home" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
               {t.nav.home}
             </a>
@@ -153,21 +153,21 @@ export default function App() {
               href="/para-todos/"
               className="inline-flex items-center transition-transform duration-200 hover:-translate-y-[3px]"
             >
-              <img src={aptLogo} alt="Activa para Todos" className="block h-[38px] w-auto" />
+              <img src={aptLogo} alt="Activa para Todos" className="block h-[38px] w-auto max-md:h-5" />
             </a>
           </div>
           <div className="flex items-center gap-3.5">
             <button
               onClick={() => setLang(nextLang)}
               aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
-              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61]"
+              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-2 max-md:py-1.5 max-md:text-[10px]"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
               <span className="opacity-45"> / {nextLang.toUpperCase()}</span>
             </button>
             <a
               href="#contact"
-              className="rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground"
+              className="rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground max-md:hidden"
             >
               {t.nav.cta}
             </a>
@@ -193,7 +193,7 @@ export default function App() {
             className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)]"
           />
         </a>
-        <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center">
+        <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-8">
           <div className="eyebrow mb-6">{t.hero.eyebrow}</div>
           <h1 className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em]">
             {t.hero.titleTop}

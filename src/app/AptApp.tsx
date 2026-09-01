@@ -17,12 +17,14 @@ export default function AptApp() {
           <a href="/" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto" />
           </a>
-          <span className="font-mono text-[11px] uppercase tracking-[.24em] text-leaf">Activa para Todos</span>
+          <span className="font-mono text-[11px] uppercase tracking-[.24em] text-leaf max-md:mx-auto">
+            Activa para Todos
+          </span>
           <a
             href="https://cepiacostarica.org/es/"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-leaf px-6 py-[11px] text-[13px] font-semibold text-light"
+            className="rounded-full bg-leaf px-6 py-[11px] text-[13px] font-semibold text-light max-md:hidden"
           >
             Conocé a CEPIA
           </a>
