@@ -185,12 +185,12 @@ export default function App() {
           href="/para-todos/"
           onMouseEnter={() => setMapHover(true)}
           onMouseLeave={() => setMapHover(false)}
-          className="absolute right-10 top-5 z-[61] block max-md:right-3 max-md:top-[30px]"
+          className="absolute right-10 top-5 z-[61] hidden md:block"
         >
           <img
             src={aptLogo}
             alt="Activa para Todos"
-            className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)] max-md:w-11"
+            className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)]"
           />
         </a>
         <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-8">
