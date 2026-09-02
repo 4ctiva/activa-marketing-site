@@ -195,7 +195,7 @@ export default function App() {
         </a>
         <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-8">
           <div className="eyebrow mb-6">{t.hero.eyebrow}</div>
-          <h1 className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em]">
+          <h1 className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em] max-md:text-[31px]">
             {t.hero.titleTop}
             <br />
             <span className="font-semibold">{t.hero.titleEm}</span>
