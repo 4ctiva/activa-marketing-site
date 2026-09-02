@@ -137,9 +137,9 @@ export default function App() {
       <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.92)] backdrop-blur-[12px]">
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-1.5 max-md:px-1.5">
           <a href="#home" className="flex items-center">
-            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[12px]" />
+            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[11px]" />
           </a>
-          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-1 max-md:text-[11px]">
+          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-[clamp(6px,2.2vw,12px)] max-md:text-[11px]">
             <a href="#home" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
               {t.nav.home}
             </a>
@@ -160,7 +160,7 @@ export default function App() {
             <button
               onClick={() => setLang(nextLang)}
               aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
-              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-[7px] max-md:py-[5px] max-md:text-[9px]"
+              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-1.5 max-md:py-[5px] max-md:text-[9px]"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
               <span className="opacity-45"> / {nextLang.toUpperCase()}</span>
