@@ -30,7 +30,7 @@ function LanguagePicker() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(15,22,36,.85)] backdrop-blur-[8px]">
-      <div className="box-content w-[min(400px,92vw)] rounded-2xl bg-background px-10 py-11 text-center">
+      <div className="box-content w-[min(400px,92%)] rounded-2xl bg-background px-10 py-11 text-center">
         <img src={mark} alt="Activa" className="inline-block size-10 object-contain" />
         <div className="mb-1 mt-[22px] font-mono text-[11px] tracking-[.24em] text-[#8a8172]">
           CHOOSE YOUR LANGUAGE
@@ -104,7 +104,7 @@ export default function App() {
             aria-modal="true"
             aria-labelledby="contact-modal-title"
             tabIndex={-1}
-            className="flex h-[86vh] w-[min(620px,94vw)] flex-col overflow-hidden rounded-2xl bg-background outline-none"
+            className="flex h-[86vh] w-[min(620px,94%)] flex-col overflow-hidden rounded-2xl bg-background outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-border px-[26px] py-[18px]">
@@ -135,11 +135,11 @@ export default function App() {
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
       <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.92)] backdrop-blur-[12px]">
-        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-3 max-md:px-3">
+        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-2.5 max-md:px-2.5">
           <a href="#home" className="flex items-center">
-            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[13px]" />
+            <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[12px]" />
           </a>
-          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-1.5 max-md:text-[10.5px]">
+          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-[5px] max-md:text-[9.5px]">
             <a href="#home" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
               {t.nav.home}
             </a>
@@ -153,14 +153,14 @@ export default function App() {
               href="/para-todos/"
               className="inline-flex items-center transition-transform duration-200 hover:-translate-y-[3px]"
             >
-              <img src={aptLogo} alt="Activa para Todos" className="block h-[38px] w-auto max-md:h-5" />
+              <img src={aptLogo} alt="Activa para Todos" className="block h-[38px] w-auto max-md:h-[18px]" />
             </a>
           </div>
           <div className="flex items-center gap-3.5">
             <button
               onClick={() => setLang(nextLang)}
               aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
-              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-2 max-md:py-1.5 max-md:text-[10px]"
+              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-[7px] max-md:py-[5px] max-md:text-[9px]"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
               <span className="opacity-45"> / {nextLang.toUpperCase()}</span>

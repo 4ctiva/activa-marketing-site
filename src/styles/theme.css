@@ -156,6 +156,8 @@
     font-size: var(--font-size);
     font-weight: 400;
     line-height: normal;
+    /* Uniform 10% scale-up of the whole layout (real reflow, keeps proportions) */
+    zoom: 1.1;
   }
 
   ::selection {
