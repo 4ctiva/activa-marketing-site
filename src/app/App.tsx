@@ -185,16 +185,20 @@ export default function App() {
           href="/para-todos/"
           onMouseEnter={() => setMapHover(true)}
           onMouseLeave={() => setMapHover(false)}
-          className="absolute right-10 top-5 z-[61] block max-md:right-3 max-md:top-2.5"
+          className="absolute right-10 top-5 z-[61] hidden md:block"
         >
           <img
             src={aptLogo}
             alt="Activa para Todos"
-            className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)] max-md:w-[84px]"
+            className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)]"
           />
         </a>
-        <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-[52px]">
+        <div className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-8">
           <div className="eyebrow mb-6">{t.hero.eyebrow}</div>
+          {/* mobile-only: small Activa para Todos badge between the eyebrow and the headline */}
+          <a href="/para-todos/" className="mb-4 inline-block md:hidden">
+            <img src={aptLogo} alt="Activa para Todos" className="mx-auto block h-auto w-[52px]" />
+          </a>
           <h1 className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em] max-md:text-[31px]">
             {t.hero.titleTop}
             <br />
