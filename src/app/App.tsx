@@ -154,7 +154,7 @@ export default function App() {
       )}
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.92)] backdrop-blur-[12px]">
+      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.72)] backdrop-blur-[16px]">
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-1.5 max-md:px-1.5">
           <a href="#home" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[11px]" />
@@ -218,20 +218,6 @@ export default function App() {
           >
             {t.hero.subtitle}
           </p>
-          <div data-reveal className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-            <a
-              href="#contact"
-              className="rounded-full bg-ink px-8 py-3.5 text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
-            >
-              {t.hero.ctaUser}
-            </a>
-            <a
-              href="#evidence"
-              className="text-[13.5px] font-semibold text-muted-foreground transition-colors duration-200 hover:text-ink"
-            >
-              {t.hero.proofLink} ↓
-            </a>
-          </div>
         </div>
         <PhoneMockups />
         <div className="flex flex-col items-center gap-[26px] px-12 pb-[88px] pt-12">
@@ -264,7 +250,7 @@ export default function App() {
               </p>
               <div data-reveal-group className="flex flex-col gap-3">
                 {t.what.cards.map((card, i) => (
-                  <div key={i} data-reveal className="glass-quiet flex gap-4 px-6 py-[22px]">
+                  <div key={i} data-reveal className="glass-quiet glass-frost flex gap-4 px-6 py-[22px]">
                     <span className="font-display text-[20px] text-ink/35">→</span>
                     <p className="m-0 text-sm leading-[1.65] text-muted-foreground">
                       <span className="font-bold text-ink">{card.lead}</span> {card.body}
@@ -301,14 +287,14 @@ export default function App() {
       </section>
 
       {/* ── 3. HOW IT WORKS ────────────────────────────────────── */}
-      <section id="how" className="border-t border-border bg-card">
+      <section id="how" className="border-t border-border bg-card/55">
         <div className={`${CONTAINER} ${SECTION_Y}`}>
           <div data-reveal className="eyebrow mb-[22px]">{t.how.label}</div>
           {/* the design's only heading without an explicit line-height */}
           <h2 data-reveal style={D(0.1)} className="m-0 mb-10 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-normal tracking-[-.01em]">
             {t.how.title}
           </h2>
-          <div data-reveal style={D(0.2)} className="glass-quiet glass-pill mb-10 inline-flex flex-wrap gap-1 p-1">
+          <div data-reveal style={D(0.2)} className="glass-quiet glass-frost glass-pill mb-10 inline-flex flex-wrap gap-1 p-1">
             {howTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -539,7 +525,7 @@ export default function App() {
       </section>
 
       {/* ── 7. 2026 PILOT ──────────────────────────────────────── */}
-      <section id="pilot" className="bg-card">
+      <section id="pilot" className="bg-card/55">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
           <div data-reveal>
             <div className="eyebrow mb-[22px]">{t.pilot.label}</div>
@@ -562,7 +548,7 @@ export default function App() {
               ))}
             </div>
           </div>
-          <div data-reveal style={D(0.15)} className="glass-quiet p-10">
+          <div data-reveal style={D(0.15)} className="glass-quiet glass-frost p-10">
             <div className="eyebrow mb-[26px]">{t.pilot.zonesLabel}</div>
             <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
               {LAUNCH_ZONES.map((zone) => (
@@ -616,7 +602,7 @@ export default function App() {
       </section>
 
       {/* ── 9. FAQ ─────────────────────────────────────────────── */}
-      <section id="faq" className="border-t border-border bg-card">
+      <section id="faq" className="border-t border-border bg-card/55">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
           <div data-reveal>
             <div className="eyebrow mb-[22px]">{t.faq.label}</div>
@@ -684,7 +670,7 @@ export default function App() {
             <a
               href="mailto:estebanbaltodano@4ctiva.com"
               data-reveal
-              className="glass-quiet glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
+              className="glass-quiet glass-frost glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
             >
               <div className="flex items-center gap-4">
                 <span className="flex size-[42px] items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground">
@@ -702,7 +688,7 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               data-reveal
-              className="glass-quiet glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
+              className="glass-quiet glass-frost glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
             >
               <div className="flex items-center gap-4">
                 <span className="flex size-[42px] items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground">
@@ -720,7 +706,7 @@ export default function App() {
       </section>
 
       {/* ── 11. ABOUT ──────────────────────────────────────────── */}
-      <section id="about" className="border-t border-border bg-card">
+      <section id="about" className="border-t border-border bg-card/55">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-stretch`}>
           <div data-reveal="curtain" data-parallax="24" className="min-h-[460px] overflow-hidden rounded-2xl">
             <img

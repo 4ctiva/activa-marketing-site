@@ -158,6 +158,14 @@
     line-height: normal;
     /* Uniform 15% scale-up of the whole layout (real reflow, keeps proportions) */
     zoom: 1.15;
+    /* Ambient tint field: soft ink/sand washes the glass surfaces sit over —
+       painted once on the body (scrolls with content, no repaint cost) */
+    background-image:
+      radial-gradient(1000px 640px at 14% 3%, rgba(33, 43, 60, 0.055), transparent 70%),
+      radial-gradient(1200px 760px at 88% 12%, rgba(196, 176, 140, 0.22), transparent 70%),
+      radial-gradient(1100px 820px at 6% 42%, rgba(196, 176, 140, 0.18), transparent 70%),
+      radial-gradient(1000px 700px at 90% 62%, rgba(33, 43, 60, 0.05), transparent 70%),
+      radial-gradient(1100px 780px at 12% 88%, rgba(196, 176, 140, 0.16), transparent 70%);
   }
 
   ::selection {
@@ -195,17 +203,17 @@
    it never affects layout dimensions. */
 :root {
   --radius-surface: 16px;
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-quiet: rgba(255, 255, 255, 0.5);
-  --glass-border: rgba(33, 43, 60, 0.09);
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --glass-bg-quiet: rgba(255, 255, 255, 0.44);
+  --glass-border: rgba(33, 43, 60, 0.11);
   --glass-shadow:
-    0 1px 2px rgba(15, 22, 36, 0.04),
-    0 12px 32px rgba(15, 22, 36, 0.05);
+    0 1px 2px rgba(15, 22, 36, 0.05),
+    0 16px 40px rgba(15, 22, 36, 0.08);
   --glass-edge: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.95),
-    rgba(255, 255, 255, 0.35) 38%,
-    rgba(255, 255, 255, 0) 62%
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.45) 42%,
+    rgba(255, 255, 255, 0) 65%
   );
   --glass-dark-bg: rgba(255, 255, 255, 0.05);
   --glass-dark-border: rgba(245, 241, 232, 0.13);
@@ -270,6 +278,12 @@
 }
 
 /* shape/behavior modifiers for glass surfaces */
+/* frost: real blur for a handful of hero-level quiet surfaces — small areas,
+   static content behind (the ambient field scrolls with the page), never nested */
+.glass-frost {
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+}
 .glass-pill {
   border-radius: 999px;
 }

@@ -20,7 +20,7 @@ export default function AptApp() {
     <div className="min-h-screen overflow-x-clip bg-background font-sans text-foreground">
       <IntroCurtain />
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.92)] backdrop-blur-[12px]">
+      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.72)] backdrop-blur-[16px]">
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5">
           <a href="/" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto" />
