@@ -33,7 +33,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
       <div className="mx-auto box-content max-w-[1280px] px-12 pb-8 pt-[72px]">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-[clamp(28px,4vw,48px)] border-b border-[rgba(245,241,232,.12)] pb-11">
           <div>
-            <img src={logoFull} alt="Activa" className="block h-5 w-auto brightness-0 invert" />
+            <img src={logoFull} alt="Activa" loading="lazy" decoding="async" className="block h-5 w-auto brightness-0 invert" />
           </div>
           <div>
             <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-sand">

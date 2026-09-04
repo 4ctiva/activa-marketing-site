@@ -258,11 +258,15 @@ function MembershipPhone() {
 
 export default function PhoneMockups() {
   return (
-    <div className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10">
-      <div className="animate-[phoneFloat_6s_ease-in-out_infinite]">
+    <div
+      data-reveal-group
+      data-reveal-stagger="160"
+      className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
+    >
+      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
         <NetworkPhone />
       </div>
-      <div className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
+      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
         <MembershipPhone />
       </div>
     </div>
