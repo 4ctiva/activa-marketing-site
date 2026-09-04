@@ -161,11 +161,11 @@
     /* Ambient tint field: soft ink/sand washes the glass surfaces sit over —
        painted once on the body (scrolls with content, no repaint cost) */
     background-image:
-      radial-gradient(1000px 640px at 14% 3%, rgba(33, 43, 60, 0.055), transparent 70%),
-      radial-gradient(1200px 760px at 88% 12%, rgba(196, 176, 140, 0.22), transparent 70%),
-      radial-gradient(1100px 820px at 6% 42%, rgba(196, 176, 140, 0.18), transparent 70%),
-      radial-gradient(1000px 700px at 90% 62%, rgba(33, 43, 60, 0.05), transparent 70%),
-      radial-gradient(1100px 780px at 12% 88%, rgba(196, 176, 140, 0.16), transparent 70%);
+      radial-gradient(1000px 640px at 14% 3%, rgba(33, 43, 60, 0.08), transparent 70%),
+      radial-gradient(1200px 760px at 88% 12%, rgba(196, 176, 140, 0.32), transparent 70%),
+      radial-gradient(1100px 820px at 6% 42%, rgba(196, 176, 140, 0.28), transparent 70%),
+      radial-gradient(1000px 700px at 90% 62%, rgba(33, 43, 60, 0.07), transparent 70%),
+      radial-gradient(1100px 780px at 12% 88%, rgba(196, 176, 140, 0.26), transparent 70%);
   }
 
   ::selection {
@@ -281,8 +281,14 @@
 /* frost: real blur for a handful of hero-level quiet surfaces — small areas,
    static content behind (the ambient field scrolls with the page), never nested */
 .glass-frost {
-  -webkit-backdrop-filter: blur(10px) saturate(1.2);
-  backdrop-filter: blur(10px) saturate(1.2);
+  background: rgba(255, 255, 255, 0.34);
+  -webkit-backdrop-filter: blur(18px) saturate(1.35);
+  backdrop-filter: blur(18px) saturate(1.35);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-frost {
+    background: rgba(253, 252, 249, 0.94);
+  }
 }
 .glass-pill {
   border-radius: 999px;
