@@ -198,19 +198,6 @@ details[open] > summary .details-caret {
   transform: rotate(90deg);
 }
 
-/* Floating "Activa para Todos" logo in the hero (scales up on hover while the page dims) */
-.apt-hero-logo {
-  transform-origin: top right;
-  transition:
-    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
-    filter 0.6s ease;
-  will-change: transform;
-}
-.apt-hero-logo:hover {
-  transform: scale(1.9);
-  filter: drop-shadow(0 30px 60px rgba(15, 22, 36, 0.4));
-}
-
 /* Watercolor equipment illustration fades into the page (Activa para Todos) */
 .apt-equipo-mask {
   -webkit-mask-image: radial-gradient(ellipse 72% 68% at center, #000 55%, transparent 98%);

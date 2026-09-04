@@ -66,7 +66,6 @@ export default function App() {
   const [howTab, setHowTab] = useState<"users" | "companies" | "gyms">("users");
   const [faqOpen, setFaqOpen] = useState(-1);
   const [contactOpen, setContactOpen] = useState(false);
-  const [mapHover, setMapHover] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const nextLang: Lang = lang === "en" ? "es" : "en";
@@ -198,22 +197,6 @@ export default function App() {
 
       {/* ── 1. HERO ────────────────────────────────────────────── */}
       <section id="home" className="relative">
-        <div
-          className="pointer-events-none fixed inset-0 z-[60] bg-navy transition-opacity duration-500"
-          style={{ opacity: mapHover ? 0.45 : 0 }}
-        />
-        <a
-          href="/para-todos/"
-          onMouseEnter={() => setMapHover(true)}
-          onMouseLeave={() => setMapHover(false)}
-          className="absolute right-10 top-5 z-[61] hidden md:block"
-        >
-          <img
-            src={aptLogo}
-            alt="Activa para Todos"
-            className="apt-hero-logo block h-auto w-[clamp(180px,16vw,260px)]"
-          />
-        </a>
         <div
           data-reveal-group
           className="mx-auto box-content max-w-[1280px] px-12 pb-6 pt-20 text-center max-md:pt-8"
