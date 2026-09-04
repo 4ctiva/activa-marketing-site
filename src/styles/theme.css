@@ -183,6 +183,103 @@
   }
 }
 
+/* ── Liquid Glass system ──────────────────────────────────────────
+   One accent (Activa deep blue --color-ink); everything else neutral.
+   Three surfaces:
+     .glass       real backdrop blur — ONLY where content moves behind it
+                  (sticky header, modal overlay, on-image panels). Never nested.
+     .glass-quiet translucent fill + hairline, no blur — the everyday surface.
+     .glass-dark  translucent light-on-ink fill for dark sections, no blur.
+   Every surface carries a fine directional edge: strongest top-left,
+   fading to nothing at bottom-right; drawn in a masked pseudo-element so
+   it never affects layout dimensions. */
+:root {
+  --radius-surface: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-quiet: rgba(255, 255, 255, 0.5);
+  --glass-border: rgba(33, 43, 60, 0.09);
+  --glass-shadow:
+    0 1px 2px rgba(15, 22, 36, 0.04),
+    0 12px 32px rgba(15, 22, 36, 0.05);
+  --glass-edge: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.35) 38%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  --glass-dark-bg: rgba(255, 255, 255, 0.05);
+  --glass-dark-border: rgba(245, 241, 232, 0.13);
+  --glass-dark-edge: linear-gradient(
+    135deg,
+    rgba(245, 241, 232, 0.38),
+    rgba(245, 241, 232, 0.1) 38%,
+    rgba(245, 241, 232, 0) 62%
+  );
+}
+
+.glass,
+.glass-quiet,
+.glass-dark {
+  position: relative;
+  border-radius: var(--radius-surface);
+  border: 1px solid var(--glass-border);
+}
+.glass::before,
+.glass-quiet::before,
+.glass-dark::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--glass-edge);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  backdrop-filter: blur(14px) saturate(1.25);
+  box-shadow: var(--glass-shadow);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgba(253, 252, 249, 0.96);
+  }
+}
+
+.glass-quiet {
+  background: var(--glass-bg-quiet);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-dark {
+  background: var(--glass-dark-bg);
+  border-color: var(--glass-dark-border);
+}
+.glass-dark::before {
+  background: var(--glass-dark-edge);
+}
+
+/* shape/behavior modifiers for glass surfaces */
+.glass-pill {
+  border-radius: 999px;
+}
+.glass-hover {
+  transition: background-color 0.25s ease;
+}
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
 /* Space Mono section label (color overridden with !text-* on dark sections) */
 .eyebrow {
   font-family: 'Space Mono', monospace;

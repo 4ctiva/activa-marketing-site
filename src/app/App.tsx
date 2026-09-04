@@ -159,14 +159,14 @@ export default function App() {
           <a href="#home" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[11px]" />
           </a>
-          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-leaf max-md:gap-x-[clamp(6px,2.2vw,12px)] max-md:text-[11px]">
-            <a href="#home" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
+          <div className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-ink/70 max-md:gap-x-[clamp(6px,2.2vw,12px)] max-md:text-[11px]">
+            <a href="#home" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
               {t.nav.home}
             </a>
-            <a href="#about" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
+            <a href="#about" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
               {t.nav.about}
             </a>
-            <a href="#contact" className="inline-flex text-leaf transition-transform duration-200 hover:-translate-y-[3px]">
+            <a href="#contact" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
               {t.nav.contact}
             </a>
             <a
@@ -218,6 +218,20 @@ export default function App() {
           >
             {t.hero.subtitle}
           </p>
+          <div data-reveal className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
+            <a
+              href="#contact"
+              className="rounded-full bg-ink px-8 py-3.5 text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
+            >
+              {t.hero.ctaUser}
+            </a>
+            <a
+              href="#evidence"
+              className="text-[13.5px] font-semibold text-muted-foreground transition-colors duration-200 hover:text-ink"
+            >
+              {t.hero.proofLink} ↓
+            </a>
+          </div>
         </div>
         <PhoneMockups />
         <div className="flex flex-col items-center gap-[26px] px-12 pb-[88px] pt-12">
@@ -250,8 +264,8 @@ export default function App() {
               </p>
               <div data-reveal-group className="flex flex-col gap-3">
                 {t.what.cards.map((card, i) => (
-                  <div key={i} data-reveal className="flex gap-4 rounded-lg bg-card px-6 py-[22px]">
-                    <span className="font-display text-[20px] text-sand-deep">→</span>
+                  <div key={i} data-reveal className="glass-quiet flex gap-4 px-6 py-[22px]">
+                    <span className="font-display text-[20px] text-ink/35">→</span>
                     <p className="m-0 text-sm leading-[1.65] text-muted-foreground">
                       <span className="font-bold text-ink">{card.lead}</span> {card.body}
                     </p>
@@ -261,7 +275,7 @@ export default function App() {
             </div>
           </div>
           <div className={`${GRID_2COL} mt-[110px] items-center`}>
-            <div data-reveal="curtain" data-parallax="24" className="h-[520px] overflow-hidden rounded-lg">
+            <div data-reveal="curtain" data-parallax="24" className="h-[520px] overflow-hidden rounded-2xl">
               <img
                 src={meditation}
                 alt="Woman meditating in a bright studio"
@@ -294,7 +308,7 @@ export default function App() {
           <h2 data-reveal style={D(0.1)} className="m-0 mb-10 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-normal tracking-[-.01em]">
             {t.how.title}
           </h2>
-          <div data-reveal style={D(0.2)} className="mb-10 inline-flex flex-wrap gap-1 rounded-3xl border border-[rgba(33,43,60,.15)] bg-background p-1">
+          <div data-reveal style={D(0.2)} className="glass-quiet glass-pill mb-10 inline-flex flex-wrap gap-1 p-1">
             {howTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -309,7 +323,7 @@ export default function App() {
           </div>
           <div key={howTab} data-reveal-group className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-4">
             {t.how.steps[howTab].map((item) => (
-              <div key={item.step} data-reveal className="box-content min-h-[230px] rounded-lg border border-border bg-background p-9">
+              <div key={item.step} data-reveal className="glass-quiet box-content min-h-[230px] p-9">
                 <div className="mb-[34px] font-mono text-[11px] text-[#8a8172]">{item.step}</div>
                 <div className="mb-2.5 font-display text-[22px] font-medium leading-[1.25]">{item.title}</div>
                 <p className="m-0 text-sm leading-[1.65] text-muted-foreground text-pretty">{item.body}</p>
@@ -322,7 +336,7 @@ export default function App() {
       {/* ── 4. EVIDENCE ────────────────────────────────────────── */}
       <section id="evidence" className="bg-ink text-light">
         <div className={`${CONTAINER} ${SECTION_Y}`}>
-          <div data-reveal className="eyebrow mb-[22px] !text-sand">{t.evidence.label}</div>
+          <div data-reveal className="eyebrow mb-[22px] !text-[#a89f8c]">{t.evidence.label}</div>
           <h2 data-reveal style={D(0.1)} className={`${H2} mb-5`}>
             {t.evidence.titleTop}
             <br />
@@ -336,9 +350,9 @@ export default function App() {
               <div
                 key={st.n}
                 data-reveal
-                className="box-content flex min-h-[250px] flex-col rounded-lg border border-[rgba(245,241,232,.15)] bg-[rgba(255,255,255,.04)] p-9"
+                className="glass-dark box-content flex min-h-[250px] flex-col p-9"
               >
-                <div className="mb-4 font-display text-[clamp(40px,5vw,54px)] font-normal text-sand">
+                <div className="mb-4 font-display text-[clamp(40px,5vw,54px)] font-normal text-light">
                   <span className="sr-only">{st.n}</span>
                   <span aria-hidden="true" data-count={st.n}>
                     {st.n}
@@ -352,7 +366,7 @@ export default function App() {
           <div data-reveal className="mt-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-6">
             <a
               href="#contact"
-              className="flex-none rounded-full bg-sand px-[30px] py-3.5 text-[13.5px] font-bold text-ink"
+              className="flex-none rounded-full bg-light px-[30px] py-3.5 text-[13.5px] font-bold text-ink transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
             >
               {t.evidence.cta} →
             </a>
@@ -385,9 +399,9 @@ export default function App() {
           </h2>
 
           {/* Companies */}
-          <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-lg border border-border">
+          <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
             <div data-reveal className="flex flex-col bg-ink p-[52px] text-light">
-              <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-sand">
+              <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#a89f8c]">
                 {t.benefits.companies.eyebrow}
               </div>
               <div className="mb-3.5 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
@@ -397,7 +411,7 @@ export default function App() {
               <div className="mb-8 flex flex-col gap-3">
                 {t.benefits.companies.bullets.map((b) => (
                   <div key={b} className="flex items-start gap-3">
-                    <span className="text-[13px] text-sand">✓</span>
+                    <span className="text-[13px] text-[#a89f8c]">✓</span>
                     <span className="text-sm leading-[1.6] text-[#d8d2c5]">{b}</span>
                   </div>
                 ))}
@@ -405,7 +419,7 @@ export default function App() {
               <div className="mt-auto">
                 <a
                   href="#contact"
-                  className="inline-block rounded-full bg-sand px-7 py-[13px] text-[13.5px] font-bold text-ink"
+                  className="inline-block rounded-full bg-light px-7 py-[13px] text-[13.5px] font-bold text-ink"
                 >
                   {t.benefits.companies.btn} →
                 </a>
@@ -423,7 +437,7 @@ export default function App() {
           </div>
 
           {/* Gyms / Studios */}
-          <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-lg border border-border">
+          <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
             <div data-reveal="curtain" data-parallax="22" className="min-h-[480px] overflow-hidden">
               <img src={strengthTraining} alt="Athlete preparing a barbell lift" loading="lazy" decoding="async" className="h-full w-full object-cover" />
             </div>
@@ -438,12 +452,12 @@ export default function App() {
               <div className="mb-[22px] flex flex-col gap-3">
                 {t.benefits.gyms.bullets.map((b) => (
                   <div key={b} className="flex items-start gap-3">
-                    <span className="text-[13px] text-sand-deep">✓</span>
+                    <span className="text-[13px] text-ink/30">✓</span>
                     <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
                   </div>
                 ))}
               </div>
-              <p className="mb-7 mt-0 border-l-2 border-sand pl-4 text-[12.5px] italic leading-[1.65] text-[#8a8172]">
+              <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#8a8172]">
                 {t.benefits.gyms.note}
               </p>
               <div className="mt-auto">
@@ -458,7 +472,7 @@ export default function App() {
           </div>
 
           {/* Users */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-lg border border-border">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
             <div data-reveal className="flex flex-col bg-card p-[52px]">
               <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#8a8172]">
                 {t.benefits.users.eyebrow}
@@ -470,7 +484,7 @@ export default function App() {
               <div className="mb-8 flex flex-col gap-3">
                 {t.benefits.users.bullets.map((b) => (
                   <div key={b} className="flex items-start gap-3">
-                    <span className="text-[13px] text-sand-deep">✓</span>
+                    <span className="text-[13px] text-ink/30">✓</span>
                     <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
                   </div>
                 ))}
@@ -501,7 +515,7 @@ export default function App() {
       <section id="safety" className="bg-ink text-light">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
           <div data-reveal>
-            <div className="eyebrow mb-[22px] !text-sand">{t.safety.eyebrow}</div>
+            <div className="eyebrow mb-[22px] !text-[#a89f8c]">{t.safety.eyebrow}</div>
             <h2 className={`${H2} mb-6`}>
               {t.safety.titleTop}
               <br />
@@ -514,9 +528,9 @@ export default function App() {
               <div
                 key={i}
                 data-reveal
-                className="flex items-start gap-3 rounded-lg border border-[rgba(245,241,232,.15)] bg-[rgba(255,255,255,.04)] p-5"
+                className="glass-dark flex items-start gap-3 p-5"
               >
-                <span className="text-[13px] text-sand">✓</span>
+                <span className="text-[13px] text-[#a89f8c]">✓</span>
                 <span className="text-[13.5px] leading-[1.55] text-[#d8d2c5]">{b}</span>
               </div>
             ))}
@@ -548,7 +562,7 @@ export default function App() {
               ))}
             </div>
           </div>
-          <div data-reveal style={D(0.15)} className="rounded-lg border border-border bg-background p-10">
+          <div data-reveal style={D(0.15)} className="glass-quiet p-10">
             <div className="eyebrow mb-[26px]">{t.pilot.zonesLabel}</div>
             <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
               {LAUNCH_ZONES.map((zone) => (
@@ -557,7 +571,7 @@ export default function App() {
                   data-reveal
                   className="flex items-center gap-2.5 rounded-full border border-[rgba(33,43,60,.15)] px-[18px] py-[11px] text-[13.5px] text-muted-foreground"
                 >
-                  <span className="text-sand-deep">◉</span>
+                  <span className="text-ink/35">◉</span>
                   {zone}
                 </div>
               ))}
@@ -590,9 +604,9 @@ export default function App() {
                 <div
                   key={i}
                   data-reveal
-                  className="flex h-[150px] flex-col items-center justify-center gap-3.5 rounded-lg bg-card px-2 transition-colors duration-[250ms] hover:bg-muted"
+                  className="group flex h-[150px] flex-col items-center justify-center gap-3.5 rounded-2xl border border-border/70 bg-white/40 px-2 transition-colors duration-[250ms] hover:bg-white/75"
                 >
-                  <Icon className="text-sand-deep" />
+                  <Icon className="text-ink/45 transition-colors duration-[250ms] group-hover:text-ink" />
                   <span className="text-center text-[11.5px] font-semibold text-muted-foreground">{label}</span>
                 </div>
               );
@@ -612,7 +626,7 @@ export default function App() {
               <span className="font-semibold">{t.faq.titleEm}</span>
             </h2>
           </div>
-          <div data-reveal-group data-reveal-stagger="80" className="flex flex-col gap-2.5">
+          <div data-reveal-group data-reveal-stagger="80" className="flex flex-col border-t border-border">
             {t.faq.items.map((f, i) => {
               const open = faqOpen === i;
               return (
@@ -620,7 +634,7 @@ export default function App() {
                   key={i}
                   data-reveal
                   onClick={() => setFaqOpen(open ? -1 : i)}
-                  className="cursor-pointer rounded-lg border border-border bg-background px-6"
+                  className="cursor-pointer border-b border-border px-1"
                 >
                   {/* click bubbles to the card; the button carries keyboard/AT semantics */}
                   <button aria-expanded={open} className="flex w-full items-center justify-between gap-4 py-5 text-left">
@@ -653,7 +667,7 @@ export default function App() {
               {t.contact.intro}
             </p>
             <div className="flex items-center gap-3 text-[13.5px] text-muted-foreground">
-              <span className="flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-sand-deep">
+              <span className="flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-ink/35">
                 ◉
               </span>
               {t.contact.location}
@@ -663,14 +677,14 @@ export default function App() {
             <button
               onClick={() => setContactOpen(true)}
               data-reveal
-              className="rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground"
+              className="rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
             >
               {t.contact.ctaForm} →
             </button>
             <a
               href="mailto:estebanbaltodano@4ctiva.com"
               data-reveal
-              className="flex items-center justify-between gap-4 rounded-xl border border-[rgba(33,43,60,.15)] px-[22px] py-[18px] transition-colors duration-200 hover:bg-card hover:text-[#3d4a61]"
+              className="glass-quiet glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
             >
               <div className="flex items-center gap-4">
                 <span className="flex size-[42px] items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground">
@@ -688,7 +702,7 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               data-reveal
-              className="flex items-center justify-between gap-4 rounded-xl border border-[rgba(33,43,60,.15)] px-[22px] py-[18px] transition-colors duration-200 hover:bg-card hover:text-[#3d4a61]"
+              className="glass-quiet glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
             >
               <div className="flex items-center gap-4">
                 <span className="flex size-[42px] items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground">
@@ -708,7 +722,7 @@ export default function App() {
       {/* ── 11. ABOUT ──────────────────────────────────────────── */}
       <section id="about" className="border-t border-border bg-card">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-stretch`}>
-          <div data-reveal="curtain" data-parallax="24" className="min-h-[460px] overflow-hidden rounded-lg">
+          <div data-reveal="curtain" data-parallax="24" className="min-h-[460px] overflow-hidden rounded-2xl">
             <img
               src={poolRecovery}
               alt="Swimmer recovering beside an outdoor pool"

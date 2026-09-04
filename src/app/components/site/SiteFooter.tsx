@@ -36,7 +36,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             <img src={logoFull} alt="Activa" loading="lazy" decoding="async" className="block h-5 w-auto brightness-0 invert" />
           </div>
           <div>
-            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-sand">
+            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.legalLabel}
             </div>
             <div className="flex flex-col gap-2.5 text-[13.5px]">
@@ -48,7 +48,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             </div>
           </div>
           <div>
-            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-sand">
+            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.navLabel}
             </div>
             <div className="flex flex-col gap-2.5 text-[13.5px]">
@@ -60,7 +60,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             </div>
           </div>
           <div>
-            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-sand">
+            <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.contactLabel}
             </div>
             <div className="flex flex-col gap-2.5 text-[13.5px] text-[#a89f8c]">
