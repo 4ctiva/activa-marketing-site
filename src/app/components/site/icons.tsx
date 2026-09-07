@@ -28,6 +28,27 @@ export function MailIcon({ size = 15, ...props }: SVGProps<SVGSVGElement> & { si
   );
 }
 
+export function InstagramIcon({ size = 15, ...props }: SVGProps<SVGSVGElement> & { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.6" cy="6.4" r="0.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export function SearchIcon({ size = 11, ...props }: SVGProps<SVGSVGElement> & { size?: number }) {
   return (
     <svg

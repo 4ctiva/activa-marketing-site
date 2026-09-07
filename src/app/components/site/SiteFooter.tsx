@@ -1,5 +1,5 @@
 import { translations, type Lang, PRIMARY_EMAIL } from "../../i18n";
-import { MailIcon, WhatsAppIcon } from "./icons";
+import { InstagramIcon, MailIcon, WhatsAppIcon } from "./icons";
 import logoFull from "../../../../assets/logo-full.png";
 
 const APP_ORIGIN = import.meta.env.DEV ? "http://localhost:3000" : "https://app.4ctiva.com";
@@ -76,6 +76,15 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
               >
                 <WhatsAppIcon size={15} className="shrink-0" />
                 +1 (607) 319-6214
+              </a>
+              <a
+                href="https://www.instagram.com/activawellnesscr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-[9px] ${linkCls}`}
+              >
+                <InstagramIcon size={15} className="shrink-0" />
+                Instagram
               </a>
               <span>{t.footer.location}</span>
             </div>

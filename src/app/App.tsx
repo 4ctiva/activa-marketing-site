@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { useLang, type Lang, LAUNCH_ZONES } from "./i18n";
 import { CATEGORY_ICONS } from "./category-icons";
-import { MailIcon, WhatsAppIcon } from "./components/site/icons";
+import { InstagramIcon, MailIcon, WhatsAppIcon } from "./components/site/icons";
 import PhoneMockups from "./components/site/PhoneMockups";
 import SiteFooter from "./components/site/SiteFooter";
 import IntroCurtain from "./components/site/IntroCurtain";
@@ -697,6 +697,24 @@ export default function App() {
                 <span className="flex flex-col">
                   <span className="text-sm font-bold">WhatsApp</span>
                   <span className="text-xs text-[#8a8172]">+1 (607) 319-6214</span>
+                </span>
+              </div>
+              <span className="text-[#8a8172]">→</span>
+            </a>
+            <a
+              href="https://www.instagram.com/activawellnesscr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-reveal
+              className="glass-quiet glass-frost glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]"
+            >
+              <div className="flex items-center gap-4">
+                <span className="flex size-[42px] items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground">
+                  <InstagramIcon size={17} />
+                </span>
+                <span className="flex flex-col">
+                  <span className="text-sm font-bold">Instagram</span>
+                  <span className="text-xs text-[#8a8172]">@activawellnesscr</span>
                 </span>
               </div>
               <span className="text-[#8a8172]">→</span>
