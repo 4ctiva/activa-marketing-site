@@ -1,5 +1,6 @@
 import { useEffect, type CSSProperties } from "react";
 import SiteFooter from "./components/site/SiteFooter";
+import { InstagramIcon } from "./components/site/icons";
 import IntroCurtain from "./components/site/IntroCurtain";
 import { initMotion } from "./lib/motion";
 import logoFull from "../../assets/logo-full.png";
@@ -77,6 +78,15 @@ export default function AptApp() {
                 className="rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]"
               >
                 Conocé a CEPIA
+              </a>
+              <a
+                href="https://www.instagram.com/activawellnesscr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]"
+              >
+                <InstagramIcon size={15} />
+                Instagram
               </a>
             </div>
             <div data-reveal className="mt-16 font-display text-[clamp(22px,3vw,30px)] font-light italic text-ink">
