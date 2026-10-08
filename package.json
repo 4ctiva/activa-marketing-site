@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "test:motion": "node scripts/motion-test.mjs"
+    "test:motion": "node scripts/motion-test.mjs",
+    "test:legal": "node scripts/legal-test.mjs"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

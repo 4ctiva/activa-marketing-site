@@ -29,6 +29,8 @@
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: #d4c5a9;
+  /* keyboard focus ring — a real runtime value (the @theme inline colors are not variables) */
+  --focus-ring: #212b3c;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -183,6 +185,21 @@
     cursor: pointer;
   }
 
+  /* Keyboard focus: a solid ring in Activa ink (light inside .surface-dark),
+     offset so it reads on filled pills and follows each control's radius.
+     :focus-visible only, so mouse clicks never show it. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* When Tab scrolls to a control, keep it (and its ring) clear of the sticky
+     header and the bottom edge. Controls only, so section jumps are unchanged.
+     --header-clearance is the measured header height (lib/stickyHeader.ts). */
+  :is(a[href], button, summary, input, select, textarea, iframe, [tabindex]) {
+    scroll-margin-block: var(--header-clearance, 84px) 16px;
+  }
+
   /* The design prototype has no CSS reset, so images keep their intrinsic
      sizing behavior (this affects auto-fit grid column distribution). */
   img,
@@ -275,6 +292,11 @@
 }
 .glass-dark::before {
   background: var(--glass-dark-edge);
+}
+
+/* dark sections and cards (ink / navy fills): focus rings inside them turn light */
+.surface-dark {
+  --focus-ring: #f5f1e8;
 }
 
 /* shape/behavior modifiers for glass surfaces */

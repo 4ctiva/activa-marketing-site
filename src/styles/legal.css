@@ -1,0 +1,185 @@
+/* ── Legal documents (/legal/terminos/, /legal/reglas-de-negocio/) ──────────
+   Imported by the legal entry only (src/legal.tsx), so none of this reaches the
+   other pages. Anchors clear the sticky header; linked clauses and headings
+   light up briefly (classes toggled by useHashTargets); pending placeholders
+   read as highlighted brackets; the print layout keeps only the document. */
+
+:root {
+  --legal-header-clearance: 92px;
+  /* own tokens: the Tailwind theme colors (@theme inline) are not runtime variables */
+  --legal-ink: #212b3c;
+  --legal-light: #f5f1e8;
+}
+@media (max-width: 767px) {
+  :root {
+    --legal-header-clearance: 72px;
+  }
+}
+
+.legal-anchor {
+  scroll-margin-top: var(--legal-header-clearance);
+}
+
+/* below lg, tabbing also keeps focused controls clear of the floating "Contenido" button */
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-bottom: 72px;
+  }
+}
+
+/* body has zoom: 1.15, which also scales vh — divide it back out */
+.legal-toc {
+  top: var(--legal-header-clearance);
+  max-height: calc(100vh / 1.15 - var(--legal-header-clearance) - 12px);
+}
+
+/* focus rings come from theme.css (:focus-visible); the index scrolls and its
+   overflow would clip an outside ring, so its entries draw theirs inside (the
+   index's 4px left padding leaves room for the "Ver también" link's ring) */
+.legal-toc ol a:focus-visible {
+  outline-offset: -2px;
+}
+/* jump targets get focus only to move the Tab starting point; the highlight marks them */
+.legal-page .legal-anchor:focus,
+.legal-page h1:focus {
+  outline: none;
+}
+
+.legal-skip {
+  position: fixed;
+  left: 12px;
+  top: 10px;
+  z-index: 60;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--legal-ink);
+  color: var(--legal-light);
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+.legal-skip:focus-visible {
+  transform: none;
+}
+
+/* in-text links (cross-references, contact): underlined, never bolder than the text */
+.legal-link {
+  color: var(--legal-ink);
+  font-weight: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(33, 43, 60, 0.4);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+.legal-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* [pending] placeholders — values still to be confirmed */
+.legal-pending {
+  color: inherit;
+  font-weight: 600;
+  background: rgba(212, 197, 169, 0.5);
+  border-bottom: 1.5px dashed #8a7650;
+  border-radius: 4px;
+  padding: 0 0.28em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.legal-pending-bracket {
+  font-weight: 400;
+}
+
+/* linked clause / clause range: a soft band with an ink edge (opaque, so
+   adjacent rows of a range never show a double-alpha seam between them) */
+.legal-clause {
+  transition:
+    background-color 0.7s ease,
+    box-shadow 0.7s ease;
+}
+.legal-clause.is-targeted {
+  background-color: #ede6d8;
+  box-shadow: inset 2px 0 0 var(--legal-ink);
+  border-radius: 0;
+}
+.legal-clause.is-targeted.is-target-first {
+  border-top-right-radius: 10px;
+}
+.legal-clause.is-targeted.is-target-last {
+  border-bottom-right-radius: 10px;
+}
+
+/* linked section / rule topic / document header: a marker stroke drawn under
+   the heading's text, line by line, that sweeps in and fades out */
+.legal-mark {
+  background-image: linear-gradient(rgba(212, 197, 169, 0.6), rgba(212, 197, 169, 0.6));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 0% 0.38em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.6s ease;
+}
+.legal-anchor.is-targeted > :is(h1, h2, h3) .legal-mark {
+  background-size: 100% 0.38em;
+}
+
+@media print {
+  @page {
+    margin: 18mm 16mm;
+  }
+  body {
+    zoom: 1;
+    background: #fff !important;
+    background-image: none !important;
+  }
+  .legal-noprint,
+  .legal-skip {
+    display: none !important;
+  }
+  .legal-page .glass,
+  .legal-page .glass-quiet {
+    background: none !important;
+    box-shadow: none !important;
+    border-color: #d8d2c4 !important;
+  }
+  .legal-page .glass::before,
+  .legal-page .glass-quiet::before {
+    display: none;
+  }
+  .legal-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .legal-pending {
+    background: none;
+  }
+  .legal-mark {
+    background: none;
+  }
+  .legal-dot {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  /* keep a rule's code, title and references with its first clause */
+  .legal-topic-head {
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  .legal-last-section {
+    break-inside: avoid;
+  }
+  .legal-endmark {
+    margin-top: 16px !important;
+  }
+  .legal-clause,
+  .legal-page dl > div,
+  .legal-page tr {
+    break-inside: avoid;
+  }
+  .legal-page :is(h1, h2, h3) {
+    break-after: avoid;
+  }
+}
