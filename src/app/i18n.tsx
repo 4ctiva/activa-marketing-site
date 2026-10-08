@@ -232,14 +232,35 @@ export const translations = {
     footer: {
       tagline: "One membership. Many ways to move. A wellness platform in Costa Rica.",
       legalLabel: "Legal",
-      memberTerms: "Member Terms",
-      partnerTerms: "Partner Staff Terms",
-      privacyNotice: "Privacy Notice",
-      photoConsent: "Photo Consent",
+      terms: "Terms & Conditions",
+      rules: "Business Rules",
       navLabel: "Navigation",
       contactLabel: "Contact",
       location: "Costa Rica",
       rights: "© 2026 Activa. All rights reserved.",
+    },
+    legal: {
+      eyebrow: "Legal",
+      docsLabel: "Legal documents",
+      termsShort: "Terms",
+      rulesShort: "Rules",
+      skipToDoc: "Skip to document",
+      versionsTitle: "Version history",
+      versionCurrent: "In force",
+      archivedTitle: "Earlier version",
+      archivedBody: "You are reading a version that is no longer in force.",
+      archivedLink: "See the current version",
+      version: "Version",
+      effective: "Effective",
+      print: "Print",
+      contents: "Contents",
+      backToTop: "Back to top",
+      spanishOnlyTitle: "Available in Spanish only",
+      spanishOnlyBody: "This document is published in Spanish, which is its binding version.",
+      pendingLegend: "Highlighted values are pending confirmation.",
+      relatedRules: "More detail in the Business Rules",
+      relatedTerms: "Related in the Terms & Conditions",
+      seeAlso: "See also",
     },
   },
 
@@ -460,19 +481,40 @@ export const translations = {
     footer: {
       tagline: "Una membresía. Muchas formas de moverte. Plataforma de bienestar en Costa Rica.",
       legalLabel: "Legal",
-      memberTerms: "Términos para miembros",
-      partnerTerms: "Términos para aliados",
-      privacyNotice: "Aviso de Privacidad",
-      photoConsent: "Consentimiento de foto",
+      terms: "Términos y Condiciones",
+      rules: "Reglas de Negocio",
       navLabel: "Navegación",
       contactLabel: "Contacto",
       location: "Costa Rica",
       rights: "© 2026 Activa. Todos los derechos reservados.",
     },
+    legal: {
+      eyebrow: "Legal",
+      docsLabel: "Documentos legales",
+      termsShort: "Términos",
+      rulesShort: "Reglas",
+      skipToDoc: "Saltar al documento",
+      versionsTitle: "Historial de versiones",
+      versionCurrent: "Vigente",
+      archivedTitle: "Versión anterior",
+      archivedBody: "Está consultando una versión que ya no está vigente.",
+      archivedLink: "Ver la versión vigente",
+      version: "Versión",
+      effective: "Entrada en vigor",
+      print: "Imprimir",
+      contents: "Contenido",
+      backToTop: "Volver arriba",
+      spanishOnlyTitle: "Disponible solo en español",
+      spanishOnlyBody: "Este documento se publica en español, que es su versión vinculante.",
+      pendingLegend: "Los valores resaltados están pendientes de confirmación.",
+      relatedRules: "Más detalle en las Reglas de Negocio",
+      relatedTerms: "Relacionado en los Términos y Condiciones",
+      seeAlso: "Ver también",
+    },
   },
 } satisfies Record<Lang, unknown>;
 
-const STORAGE_KEY = "activa-lang";
+export const STORAGE_KEY = "activa-lang";
 
 /**
  * Optional full-screen language picker on first visit.
@@ -490,22 +532,24 @@ type LangContextValue = {
 
 const LangContext = createContext<LangContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+function readStoredLang(): Lang | null {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored === "en" || stored === "es" ? stored : null;
+  } catch {
+    // ignore storage failures (e.g. blocked cookies, private mode)
+    return null;
+  }
+}
+
+/** `defaultLang` applies until the visitor picks a language (stored choice wins). */
+export function LanguageProvider({ children, defaultLang = "en" }: { children: ReactNode; defaultLang?: Lang }) {
+  // read the stored choice up front so the first render is already in the right language
+  const [lang, setLangState] = useState<Lang>(() => readStoredLang() ?? defaultLang);
   const [showPicker, setShowPicker] = useState(false);
 
   useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = window.localStorage.getItem(STORAGE_KEY);
-    } catch {
-      // ignore storage failures (e.g. blocked cookies, private mode)
-    }
-    if (stored === "en" || stored === "es") {
-      setLangState(stored);
-    } else if (LANGUAGE_PICKER) {
-      setShowPicker(true);
-    }
+    if (!readStoredLang() && LANGUAGE_PICKER) setShowPicker(true);
   }, []);
 
   useEffect(() => {

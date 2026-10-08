@@ -6,6 +6,7 @@ import PhoneMockups from "./components/site/PhoneMockups";
 import SiteFooter from "./components/site/SiteFooter";
 import IntroCurtain from "./components/site/IntroCurtain";
 import { initMotion, scanReveals } from "./lib/motion";
+import { trackStickyHeader } from "./lib/stickyHeader";
 import logoFull from "../../assets/logo-full.png";
 import mark from "../../assets/mark.png";
 import aptLogo from "../../assets/apt-logo.png";
@@ -74,6 +75,8 @@ export default function App() {
     initMotion({ revealAfterMs: document.querySelector(".intro-curtain") ? 1150 : 0 });
   }, []);
 
+  useEffect(() => trackStickyHeader(), []);
+
   // initMotion covers the mount scan (choreographed with the intro curtain);
   // this effect only handles content swapped in by tab/language changes
   const firstScan = useRef(true);
@@ -91,12 +94,18 @@ export default function App() {
       if (e.key === "Escape") setContactOpen(false);
     };
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    // keep keyboard focus in the dialog: everything behind the backdrop goes inert
+    // (setAttribute: React 18 does not render the inert prop)
+    const overlay = dialogRef.current?.parentElement;
+    const behind = [...(overlay?.parentElement?.children ?? [])].filter((el) => el !== overlay);
+    behind.forEach((el) => el.setAttribute("inert", ""));
     dialogRef.current?.focus();
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      behind.forEach((el) => el.removeAttribute("inert"));
       opener?.focus();
     };
   }, [contactOpen]);
@@ -154,7 +163,7 @@ export default function App() {
       )}
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px]">
+      <div data-sticky-header className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px]">
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-1.5 max-md:px-1.5">
           <a href="#home" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto max-md:h-[11px]" />
@@ -320,7 +329,7 @@ export default function App() {
       </section>
 
       {/* ── 4. EVIDENCE ────────────────────────────────────────── */}
-      <section id="evidence" className="bg-ink text-light">
+      <section id="evidence" className="surface-dark bg-ink text-light">
         <div className={`${CONTAINER} ${SECTION_Y}`}>
           <div data-reveal className="eyebrow mb-[22px] !text-[#a89f8c]">{t.evidence.label}</div>
           <h2 data-reveal style={D(0.1)} className={`${H2} mb-5`}>
@@ -352,7 +361,7 @@ export default function App() {
           <div data-reveal className="mt-10 flex flex-wrap items-start justify-between gap-x-10 gap-y-6">
             <a
               href="#contact"
-              className="flex-none rounded-full bg-light px-[30px] py-3.5 text-[13.5px] font-bold text-ink transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
+              className="max-w-full rounded-full bg-light px-[30px] py-3.5 text-center text-[13.5px] font-bold text-ink transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
             >
               {t.evidence.cta} →
             </a>
@@ -386,7 +395,7 @@ export default function App() {
 
           {/* Companies */}
           <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
-            <div data-reveal className="flex flex-col bg-ink p-[52px] text-light">
+            <div data-reveal className="surface-dark flex flex-col bg-ink p-[52px] text-light">
               <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#a89f8c]">
                 {t.benefits.companies.eyebrow}
               </div>
@@ -498,7 +507,7 @@ export default function App() {
       </section>
 
       {/* ── 6. CONTROL & SAFETY ────────────────────────────────── */}
-      <section id="safety" className="bg-ink text-light">
+      <section id="safety" className="surface-dark bg-ink text-light">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
           <div data-reveal>
             <div className="eyebrow mb-[22px] !text-[#a89f8c]">{t.safety.eyebrow}</div>

@@ -3,6 +3,7 @@ import SiteFooter from "./components/site/SiteFooter";
 import { InstagramIcon } from "./components/site/icons";
 import IntroCurtain from "./components/site/IntroCurtain";
 import { initMotion } from "./lib/motion";
+import { trackStickyHeader } from "./lib/stickyHeader";
 import logoFull from "../../assets/logo-full.png";
 import aptLogo from "../../assets/apt-logo.png";
 import aptHero from "../../assets/apt-hero.jpg";
@@ -17,11 +18,13 @@ export default function AptApp() {
     initMotion({ revealAfterMs: document.querySelector(".intro-curtain") ? 1150 : 0 });
   }, []);
 
+  useEffect(() => trackStickyHeader(), []);
+
   return (
     <div className="min-h-screen overflow-x-clip bg-background font-sans text-foreground">
       <IntroCurtain />
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px]">
+      <div data-sticky-header className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px]">
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5">
           <a href="/" className="flex items-center">
             <img src={logoFull} alt="Activa" className="block h-[19px] w-auto" />

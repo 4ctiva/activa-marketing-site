@@ -34,10 +34,13 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
-      // Multi-page build: main site + Activa para Todos (served at /para-todos/)
+      // Multi-page build: main site, Activa para Todos (/para-todos/) and the
+      // legal documents (/legal/terminos/, /legal/reglas-de-negocio/)
       input: {
         main: path.resolve(__dirname, 'index.html'),
         paraTodos: path.resolve(__dirname, 'para-todos/index.html'),
+        legalTerminos: path.resolve(__dirname, 'legal/terminos/index.html'),
+        legalReglas: path.resolve(__dirname, 'legal/reglas-de-negocio/index.html'),
       },
     },
   },
