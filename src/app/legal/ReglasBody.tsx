@@ -4,7 +4,7 @@ import { ClauseList, KeyValueCard, MiniLabel } from "./parts";
 import { rulesIds, termsRefHref, termsRefLabel, termsRefSourceLabel, type RulesDoc } from "./model";
 
 /** Reglas de Negocio — public version: introduction, operator and the 13 rule topics. */
-export default function ReglasBody({ doc }: { doc: RulesDoc }) {
+export default function ReglasBody({ doc, linkVersion }: { doc: RulesDoc; linkVersion?: string }) {
   const { t, lang } = useLang();
 
   return (
@@ -40,8 +40,8 @@ export default function ReglasBody({ doc }: { doc: RulesDoc }) {
               <div className="flex flex-wrap gap-2">
                 {topic.termsRefs.map((ref) => (
                   <a
-                    key={termsRefHref(ref)}
-                    href={termsRefHref(ref)}
+                    key={termsRefHref(ref, linkVersion)}
+                    href={termsRefHref(ref, linkVersion)}
                     className="glass-quiet glass-pill glass-hover px-3 py-[5px] font-mono text-[11.5px] tracking-[.04em] text-ink/80 shadow-none hover:text-ink"
                   >
                     {termsRefLabel(ref)}

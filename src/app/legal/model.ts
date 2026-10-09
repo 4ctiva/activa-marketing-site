@@ -21,6 +21,8 @@ export type TermsDoc = {
   subtitle: string;
   version: string;
   effective: Rich;
+  /** Visible review status; present only while this version awaits final approval. */
+  reviewNotice?: Rich;
   essentials: { title: string; items: { lead: string; text: Rich }[]; note: string };
   keyData: {
     title: string;
@@ -47,6 +49,8 @@ export type RulesDoc = {
   title: string;
   version: string;
   effective: Rich;
+  /** Visible review status; present only while this version awaits final approval. */
+  reviewNotice?: Rich;
   intro: Rich;
   operator: { title: string; rows: [string, Rich][] };
   topics: RuleTopic[];
@@ -58,6 +62,19 @@ export const LEGAL_PATHS: Record<LegalDocId, string> = {
   terminos: "/legal/terminos/",
   reglas: "/legal/reglas-de-negocio/",
 };
+
+/** Keep companion legal links on the explicitly selected version without changing snapshots. */
+export function legalVersionHref(href: string, version?: string): string {
+  if (!version || !/^\/legal\/(terminos|reglas-de-negocio)\/(?:[?#]|$)/.test(href)) return href;
+  const hashAt = href.indexOf("#");
+  const hash = hashAt < 0 ? "" : href.slice(hashAt);
+  const beforeHash = hashAt < 0 ? href : href.slice(0, hashAt);
+  const queryAt = beforeHash.indexOf("?");
+  const path = queryAt < 0 ? beforeHash : beforeHash.slice(0, queryAt);
+  const query = new URLSearchParams(queryAt < 0 ? "" : beforeHash.slice(queryAt + 1));
+  if (!query.has("version")) query.set("version", version);
+  return `${path}?${query.toString()}${hash}`;
+}
 
 // ── anchor ids ──────────────────────────────────────────────────
 const dashed = (num: string) => num.replace(".", "-");
@@ -96,8 +113,8 @@ export function termsRefLabel(ref: TermsRef): string {
   }
 }
 
-export function termsRefHref(ref: TermsRef): string {
-  const base = LEGAL_PATHS.terminos;
+export function termsRefHref(ref: TermsRef, version?: string): string {
+  const base = legalVersionHref(LEGAL_PATHS.terminos, version);
   switch (ref.kind) {
     case "header":
       return `${base}#${termsIds.header}`;
@@ -146,6 +163,6 @@ export function rulesByTermsTarget(rules: RulesDoc) {
   return map;
 }
 
-export function ruleTopicHref(topic: RuleTopic): string {
-  return `${LEGAL_PATHS.reglas}#${rulesIds.topic(topic.code)}`;
+export function ruleTopicHref(topic: RuleTopic, version?: string): string {
+  return `${legalVersionHref(LEGAL_PATHS.reglas, version)}#${rulesIds.topic(topic.code)}`;
 }

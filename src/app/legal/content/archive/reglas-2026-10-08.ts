@@ -2,12 +2,11 @@
 // document: the internal working layer is omitted (draft notes, Control codes, "Pendientes", references to the
 // non-public Aliados/ASDECITI contracts, internal files) and the open items were closed by ACTIVA on 2026-10-08
 // (renewal notice, refund formula, retracto, versions). Inline markup: see RichText.tsx.
-import type { RulesDoc } from "../model";
+import type { RulesDoc } from "../../model";
 
 export const REGLAS: RulesDoc = {
   title: "Reglas de Negocio de ACTIVA",
-  version: "2026-10-09",
-  reviewNotice: "Borrador para revisión. Esta versión incorpora la fotografía opcional y debe aprobarse junto con los Términos y sus anexos de privacidad antes de utilizarse para recabar aceptaciones. La fecha de entrada en vigor está sujeta a esa aprobación.",
+  version: "2026-10-08",
   effective: "1 de noviembre de 2026",
   intro: "Estas Reglas de Negocio desarrollan las materias operativas de los [Términos y Condiciones](/legal/terminos/), del contrato de Centros Afiliados y del convenio de empresa o asociación, y forman parte de ellos.",
   operator: { title: "Operador", rows: [
@@ -67,10 +66,10 @@ export const REGLAS: RulesDoc = {
       title: "Fotografía, identidad y medios de ingreso",
       termsRefs: [{ kind: "clauses", from: "13.1", to: "13.5" }, { kind: "section", section: 18 }, { kind: "clauses", from: "20.2", to: "20.2" }],
       clauses: [
-        { num: "5.1", text: "La fotografía de perfil es opcional. El ingreso utiliza un QR o código temporal personal vigente y verificación humana de identidad. Con fotografía autorizada, el personal del Centro la compara visualmente con el miembro. Sin fotografía, el miembro muestra su identificación en recepción; no se fotografía, escanea ni guarda copia del documento dentro de este procedimiento." },
-        { num: "5.2", text: "No tener fotografía o retirarla no impide registrarse, comprar, reservar, generar un QR o código temporal, ingresar ni renovar, siempre que se cumplan las demás condiciones del servicio. La alternativa con identificación a la vista no tiene costo adicional ni reduce los servicios del plan." },
-        { num: "5.3", text: "Agregar, sustituir o retirar la foto no cambia la preferencia de renovación: no la suspende ni la reactiva. Se respetan las cancelaciones expresas y las restricciones válidas por reembolso, inelegibilidad u otras causas independientes de la fotografía. La foto retirada o sustituida deja de mostrarse de inmediato y se elimina del almacenamiento activo en un máximo de cinco días hábiles, conforme a los anexos de privacidad." },
-        { num: "5.4", text: "La fotografía se utiliza solo con [autorización voluntaria y específica](/legal/terminos/#consentimiento-de-fotografia), separada de los Términos, para la verificación visual descrita en el [Aviso de Privacidad](/legal/terminos/#aviso-de-privacidad). ACTIVA no realiza reconocimiento facial automatizado ni genera plantillas biométricas. El Centro consulta la foto solo dentro del flujo autorizado; no la copia ni reutiliza." },
+        { num: "5.1", text: "La fotografía de perfil es necesaria para registrarse y para verificar la identidad al ingresar a los Centros. La validación de ingreso puede utilizar un QR o un código temporal personal vigente. Ambos requieren fotografía." },
+        { num: "5.2", text: "Antes de retirar la foto se advierte que, sin ella, se bloquea la generación de QR y código temporal y se suspende la renovación y su cobro." },
+        { num: "5.3", text: "Al incorporar otra foto se levanta automáticamente la restricción de renovación causada por su ausencia, sin una nueva autorización por ese único motivo. Ello no anula una cancelación expresa ni un bloqueo por reembolso válido, inelegibilidad u otra causa aplicable." },
+        { num: "5.4", text: "El uso de la foto se limita a la verificación de identidad autorizada y se regula en el [consentimiento específico](/legal/terminos/#consentimiento-de-fotografia) y el [Aviso de Privacidad](/legal/terminos/#aviso-de-privacidad). El Centro la consulta dentro del flujo autorizado; no la copia ni reutiliza para otros fines." },
       ],
     },
     {
@@ -149,8 +148,8 @@ export const REGLAS: RulesDoc = {
       clauses: [
         { num: "12.1", text: "Los datos se utilizan conforme a las finalidades y autorizaciones informadas. Para verificar la elegibilidad se contempla el intercambio de nombre completo y cédula entre la asociación y ACTIVA, a través del canal seguro y con la base jurídica que establece el convenio." },
         { num: "12.2", text: "No se solicitan certificados médicos ni pruebas de mudanza para el reembolso voluntario. Ello no define el tratamiento independiente de datos de salud que un Centro pudiera requerir para sus propios servicios." },
-        { num: "12.3", text: "La fotografía es opcional y su autorización no habilita publicidad. La empresa o asociación no recibe fotografías ni historial individual de visitas; el Centro accede solo a los datos necesarios dentro del flujo autorizado. Si ACTIVA desea utilizar la imagen de una persona en publicidad, solicita una autorización independiente para la campaña o evento identificado, cuando corresponda." },
-        { num: "12.4", text: "La conservación se define por finalidad. Los cinco años previstos para documentación fiscal no se extienden automáticamente a fotografías ni a todos los datos personales. El [Aviso de Privacidad](/legal/terminos/#aviso-de-privacidad) distingue almacenamiento activo, respaldos, evidencias de autorización y demás categorías. La foto retirada o sustituida deja de mostrarse de inmediato y se elimina del almacenamiento activo en un máximo de cinco días hábiles; conservar la evidencia de la autorización no permite conservar indefinidamente la imagen." },
+        { num: "12.3", text: "La fotografía se utiliza para la verificación de identidad y requiere su consentimiento específico. La empresa o asociación no recibe fotografías ni historial individual de visitas; el Centro accede solo a lo necesario dentro del flujo autorizado." },
+        { num: "12.4", text: "La conservación de documentación fiscal y la conservación de información personal se definen por finalidad. La referencia de cinco años comunicada para documentos fiscales no se extiende automáticamente a fotografías ni a todos los datos personales. El [Aviso de Privacidad](/legal/terminos/#aviso-de-privacidad) indica los plazos y las excepciones aplicables." },
       ],
     },
     {

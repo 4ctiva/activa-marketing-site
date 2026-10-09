@@ -1,4 +1,8 @@
-import { Fragment, type ReactNode } from "react";
+import { createContext, Fragment, useContext, type ReactNode } from "react";
+import { legalVersionHref } from "./model";
+
+/** Version-aware links are presentation only; archived legal text stays unchanged. */
+export const LegalLinkVersionContext = createContext<string | undefined>(undefined);
 
 /** Id of the visible legend that explains pending markers (rendered by LegalPage). */
 export const PENDING_LEGEND_ID = "legal-pending-legend";
@@ -41,10 +45,11 @@ function parse(text: string): ReactNode[] {
 }
 
 function DocLink({ href, label }: { href: string; label: string }) {
+  const version = useContext(LegalLinkVersionContext);
   const external = /^https?:/.test(href);
   return (
     <a
-      href={href}
+      href={legalVersionHref(href, version)}
       className="legal-link"
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >

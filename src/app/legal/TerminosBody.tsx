@@ -1,16 +1,15 @@
 import { useLang } from "../i18n";
 import RichText from "./RichText";
 import { ArrowLink, ClauseList, KeyValueCard, MiniLabel } from "./parts";
-import { REGLAS } from "./content/reglas";
-import { ruleTopicHref, rulesByTermsTarget, termsIds, type RuleTopic, type TermsDoc } from "./model";
+import { ruleTopicHref, rulesByTermsTarget, termsIds, type RuleTopic, type RulesDoc, type TermsDoc } from "./model";
 
-const RELATED = rulesByTermsTarget(REGLAS);
 
 const H2 = "m-0 font-display text-[clamp(25px,3vw,32px)] font-light leading-[1.15] tracking-[-.01em] text-ink";
 
 /** Términos y Condiciones — Lo esencial, Datos clave and the 20 numbered sections. */
-export default function TerminosBody({ doc }: { doc: TermsDoc }) {
+export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDoc; rules: RulesDoc; linkVersion?: string }) {
   const { essentials, keyData } = doc;
+  const related = rulesByTermsTarget(rules);
 
   return (
     <>
@@ -31,7 +30,7 @@ export default function TerminosBody({ doc }: { doc: TermsDoc }) {
           {essentials.note}
         </p>
         {/* the Reglas' "Encabezado" refs (RN 13) also surface here, right under the header */}
-        <Related topics={[...new Set([...(RELATED.get("header") ?? []), ...(RELATED.get("essentials") ?? [])])].sort((a, b) => a.code.localeCompare(b.code))} />
+        <Related linkVersion={linkVersion} topics={[...new Set([...(related.get("header") ?? []), ...(related.get("essentials") ?? [])])].sort((a, b) => a.code.localeCompare(b.code))} />
       </section>
 
       {/* ── DATOS CLAVE ───────────────────────────────────────── */}
@@ -69,7 +68,7 @@ export default function TerminosBody({ doc }: { doc: TermsDoc }) {
               </span>
             </h3>
             <ClauseList clauses={s.clauses} idFor={termsIds.clause} />
-            <Related topics={RELATED.get(s.num)} />
+            <Related linkVersion={linkVersion} topics={related.get(s.num)} />
             {/* inside the last block, so print never leaves it alone on a page */}
             {!doc.annexes.length && i === doc.sections.length - 1 && <EndMark text={doc.endMark} />}
           </section>
@@ -112,7 +111,7 @@ function EndMark({ text }: { text: string }) {
 }
 
 /** "Más detalle en las Reglas de Negocio" — reverse of the Reglas' "Referencias". */
-function Related({ topics }: { topics?: RuleTopic[] }) {
+function Related({ topics, linkVersion }: { topics?: RuleTopic[]; linkVersion?: string }) {
   const { t, lang } = useLang();
   if (!topics?.length) return null;
   return (
@@ -121,7 +120,7 @@ function Related({ topics }: { topics?: RuleTopic[] }) {
         <span lang={lang}>{t.legal.relatedRules}</span>
       </MiniLabel>
       {topics.map((topic) => (
-        <ArrowLink key={topic.code} href={ruleTopicHref(topic)} code={topic.code} title={topic.title} />
+        <ArrowLink key={topic.code} href={ruleTopicHref(topic, linkVersion)} code={topic.code} title={topic.title} />
       ))}
     </aside>
   );

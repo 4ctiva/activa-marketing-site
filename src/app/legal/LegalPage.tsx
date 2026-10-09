@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLang, type Lang } from "../i18n";
 import SiteFooter from "../components/site/SiteFooter";
-import RichText, { PENDING_LEGEND_ID, Pending } from "./RichText";
+import RichText, { LegalLinkVersionContext, PENDING_LEGEND_ID, Pending } from "./RichText";
 import TerminosBody from "./TerminosBody";
 import ReglasBody from "./ReglasBody";
 import { REGLAS_VERSIONS, TERMINOS_VERSIONS } from "./content/versions";
-import { LEGAL_PATHS, rulesIds, termsIds, type LegalDocId } from "./model";
+import { LEGAL_PATHS, legalVersionHref, rulesIds, termsIds, type LegalDocId } from "./model";
 import { reducedMotion, useHashTargets, useScrollSpy } from "./useLegalNav";
 import { trackStickyHeader } from "../lib/stickyHeader";
 import logoFull from "../../../assets/logo-full.png";
@@ -19,28 +19,39 @@ type DocMeta = {
   subtitle?: string;
   version: string;
   effective: string;
+  reviewNotice?: string;
+  linkVersion?: string;
   hasPending: boolean;
   toc: TocItem[];
   body: ReactNode;
-  /** every version of this document, newest (in force) first */
-  versions: { version: string; effective: string }[];
+  /** Every version of this document, latest first; review status is independent. */
+  versions: { version: string; effective: string; reviewNotice?: string }[];
 };
 
-/** The requested version (?version=<fecha>), or the one in force. */
+/** The requested version (?version=<fecha>), or the latest published/review version. */
 function pick<T extends { version: string }>(versions: T[]): T {
   const wanted = new URLSearchParams(window.location.search).get("version");
   return versions.find((v) => v.version === wanted) ?? versions[0];
 }
 
+/** Plain latest URLs stay simple; explicit version URLs retain their companion version. */
+function explicitVersion(version: string): string | undefined {
+  return new URLSearchParams(window.location.search).get("version") === version ? version : undefined;
+}
+
 function docMeta(id: LegalDocId): DocMeta {
   if (id === "terminos") {
     const { doc } = pick(TERMINOS_VERSIONS);
+    const linkVersion = explicitVersion(doc.version);
+    const rules = REGLAS_VERSIONS.find((v) => v.version === doc.version)?.doc ?? REGLAS_VERSIONS[0].doc;
     return {
       titleTop: "Términos y Condiciones",
       titleEm: "de ACTIVA",
       subtitle: doc.subtitle,
       version: doc.version,
       effective: doc.effective,
+      reviewNotice: doc.reviewNotice,
+      linkVersion,
       hasPending: JSON.stringify(doc).includes("{{"),
       toc: [
         { id: termsIds.essentials, label: doc.essentials.title },
@@ -48,19 +59,22 @@ function docMeta(id: LegalDocId): DocMeta {
         ...doc.sections.map((s) => ({ id: termsIds.section(s.num), num: String(s.num), label: s.title })),
         ...doc.annexes.map((a) => ({ id: a.id, num: a.letter, label: a.title })),
       ],
-      body: <TerminosBody doc={doc} />,
+      body: <TerminosBody doc={doc} rules={rules} linkVersion={linkVersion} />,
       versions: TERMINOS_VERSIONS,
     };
   }
   const { doc } = pick(REGLAS_VERSIONS);
+  const linkVersion = explicitVersion(doc.version);
   return {
     titleTop: "Reglas de Negocio",
     titleEm: "de ACTIVA",
     version: doc.version,
     effective: doc.effective,
+    reviewNotice: doc.reviewNotice,
+    linkVersion,
     hasPending: JSON.stringify(doc).includes("{{"),
     toc: doc.topics.map((topic) => ({ id: rulesIds.topic(topic.code), num: topic.code.split(" ")[1], label: topic.title })),
-    body: <ReglasBody doc={doc} />,
+    body: <ReglasBody doc={doc} linkVersion={linkVersion} />,
     versions: REGLAS_VERSIONS,
   };
 }
@@ -88,11 +102,12 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
   const active = useScrollSpy(meta.toc.map((i) => i.id));
 
   return (
+    <LegalLinkVersionContext.Provider value={meta.linkVersion}>
     <div className="legal-page min-h-screen overflow-x-clip bg-background font-sans text-foreground print:bg-white">
       <a href="#documento" className="legal-skip">
         {L.skipToDoc}
       </a>
-      <LegalHeader doc={doc} />
+      <LegalHeader doc={doc} linkVersion={meta.linkVersion} />
 
       <main className={CONTAINER}>
         <article lang="es">
@@ -123,8 +138,13 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                 <span lang={lang}>{L.version}</span> {meta.version}
               </span>
               <span className="glass-quiet glass-pill px-4 py-2 font-mono text-[11.5px] tracking-[.04em] text-ink/80 shadow-none">
-                <span lang={lang}>{L.effective}</span>: <RichText text={meta.effective} />
+                <span lang={meta.reviewNotice ? "es" : lang}>{meta.reviewNotice ? "Fecha prevista, sujeta a aprobación" : L.effective}</span>: <RichText text={meta.effective} />
               </span>
+              {meta.reviewNotice && (
+                <span lang="es" className="rounded-full border border-[#8a4b16] bg-[#fff2df] px-4 py-2 font-mono text-[11.5px] font-bold text-[#754016] print:bg-transparent print:text-black">
+                  Borrador en revisión
+                </span>
+              )}
               <button
                 type="button"
                 onClick={() => window.print()}
@@ -135,6 +155,13 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                 {L.print}
               </button>
             </div>
+
+            {meta.reviewNotice && (
+              <aside lang="es" aria-label="Estado de revisión" className="legal-review-notice mt-6 max-w-[700px] rounded-[var(--radius-surface)] border-2 border-[#8a4b16] bg-[#fff2df] px-5 py-4 text-[14px] leading-[1.65] text-[#603710] print:break-inside-avoid print:bg-transparent print:text-black">
+                <strong className="mb-1 block font-semibold">Borrador para revisión · Aún no habilitado para aceptación</strong>
+                <RichText text={meta.reviewNotice} />
+              </aside>
+            )}
 
             {(lang === "en" || meta.hasPending || archived) && (
               <div lang={lang} className="legal-noprint mt-6 flex flex-col gap-2.5">
@@ -180,7 +207,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                     {L.seeAlso}
                   </div>
                   <a
-                    href={LEGAL_PATHS[other]}
+                    href={legalVersionHref(LEGAL_PATHS[other], meta.linkVersion)}
                     className="group flex items-baseline justify-between gap-3 text-[13.5px] font-medium text-ink/80 transition-colors duration-200 hover:text-ink"
                   >
                     {otherTitle(other)}
@@ -200,7 +227,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
               {/* ── END: other document + back to top ──────────── */}
               <div id="legal-end" lang={lang} className="legal-noprint mt-14 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
                 <a
-                  href={LEGAL_PATHS[other]}
+                  href={legalVersionHref(LEGAL_PATHS[other], meta.linkVersion)}
                   className="glass-quiet glass-hover group flex items-center justify-between gap-4 px-6 py-5"
                 >
                   <span>
@@ -235,6 +262,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
         <SiteFooter lang={lang} anchorPrefix="/" />
       </div>
     </div>
+    </LegalLinkVersionContext.Provider>
   );
 }
 
@@ -253,15 +281,20 @@ function VersionHistory({ meta, path, lang }: { meta: DocMeta; path: string; lan
           return (
             <li key={v.version} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-border py-2.5 text-[14px] first:border-t-0">
               <a
-                href={i === 0 ? path : `${path}?version=${v.version}`}
+                href={legalVersionHref(path, v.version)}
                 aria-current={shown ? "page" : undefined}
                 className={`font-mono text-[13px] ${shown ? "font-bold text-ink" : "text-ink/80 underline underline-offset-[3px]"}`}
               >
                 {L.version} {v.version}
               </a>
               <span className="text-ink/75">
-                {L.effective}: <span lang="es">{v.effective}</span>
+                <span lang={v.reviewNotice ? "es" : lang}>{v.reviewNotice ? "Fecha prevista" : L.effective}</span>: <span lang="es">{v.effective}</span>
               </span>
+              {v.reviewNotice && (
+                <span lang="es" className="rounded-full border border-[#8a4b16] px-2 py-[2px] font-mono text-[10px] font-bold uppercase tracking-[.08em] text-[#754016] print:text-black">
+                  Borrador en revisión
+                </span>
+              )}
               {i === 0 && (
                 <span className="rounded-full bg-ink px-2 py-[2px] font-mono text-[10px] font-bold uppercase tracking-[.12em] text-light">
                   {L.versionCurrent}
@@ -276,7 +309,7 @@ function VersionHistory({ meta, path, lang }: { meta: DocMeta; path: string; lan
 }
 
 // ── HEADER ──────────────────────────────────────────────────────
-function LegalHeader({ doc }: { doc: LegalDocId }) {
+function LegalHeader({ doc, linkVersion }: { doc: LegalDocId; linkVersion?: string }) {
   const { t, lang, setLang } = useLang();
   const nextLang: Lang = lang === "en" ? "es" : "en";
 
@@ -295,7 +328,7 @@ function LegalHeader({ doc }: { doc: LegalDocId }) {
             return (
               <a
                 key={d}
-                href={LEGAL_PATHS[d]}
+                href={legalVersionHref(LEGAL_PATHS[d], linkVersion)}
                 aria-current={current ? "page" : undefined}
                 className={`whitespace-nowrap rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors duration-200 md:px-[18px] md:py-[7px] md:text-[13px] ${
                   current ? "bg-ink text-light" : "text-ink/75 hover:text-ink"

@@ -71,7 +71,7 @@ export const translations = {
         users: [
           { step: "01", title: "Choose your Activa plan.", body: "Pick the membership that best fits your lifestyle and wellness goals." },
           { step: "02", title: "Book or visit partner spaces.", body: "Explore the network of gyms, studios and wellness centers available in your area." },
-          { step: "03", title: "Check in and enjoy.", body: "Show your digital membership and access your workout or service hassle-free." },
+          { step: "03", title: "Check in and enjoy.", body: "Show your QR or temporary code and verify your identity at reception. Your profile photo is optional." },
         ],
         companies: [
           { step: "01", title: "Activa designs your benefit.", body: "We work with you to create a wellness plan tailored to your team's size and needs." },
@@ -204,6 +204,7 @@ export const translations = {
       titleEm: "answers.",
       items: [
         { q: "Is Activa available yet?", a: "We're preparing our first pilot in Costa Rica. You can sign up to receive information and take part when we open spots." },
+        { q: "Do I need a profile photo?", a: "No. Your photo is optional and is only used for a visual identity check by authorized staff. Without one, present your QR or temporary code and show your ID at reception; no photo or copy of your ID is kept. Removing your photo does not affect your membership or renewal preference. Activa does not use automated facial recognition." },
         { q: "Is Activa only for gyms?", a: "No. Activa includes gyms, studios, classes, wellness, recovery and other wellbeing services." },
         { q: "Is it a discount platform?", a: "No. Activa doesn't aim to devalue its partners. We work with access rules, verified users and structures designed to keep the model sustainable for both sides." },
         { q: "How does it work for companies?", a: "Companies can offer Activa as a corporate benefit for their employees. Activa centralizes access to different wellness options without the company having to negotiate with each gym separately." },
@@ -246,10 +247,10 @@ export const translations = {
       rulesShort: "Rules",
       skipToDoc: "Skip to document",
       versionsTitle: "Version history",
-      versionCurrent: "In force",
+      versionCurrent: "Latest version",
       archivedTitle: "Earlier version",
-      archivedBody: "You are reading a version that is no longer in force.",
-      archivedLink: "See the current version",
+      archivedBody: "You are reading an earlier version, preserved for reference.",
+      archivedLink: "See the latest version",
       version: "Version",
       effective: "Effective",
       print: "Print",
@@ -320,7 +321,7 @@ export const translations = {
         users: [
           { step: "01", title: "Elegí tu plan Activa.", body: "Seleccioná la membresía que mejor se adapta a tu estilo de vida y objetivos de bienestar." },
           { step: "02", title: "Reservá o visitá espacios aliados.", body: "Explorá la red de gimnasios, studios y centros wellness disponibles en tu zona." },
-          { step: "03", title: "Hacé check-in y disfrutá.", body: "Presentá tu membresía digital y accedé a tu entrenamiento o servicio sin complicaciones." },
+          { step: "03", title: "Hacé check-in y disfrutá.", body: "Presentá tu QR o código temporal y verificá tu identidad en recepción. La foto de perfil es opcional." },
         ],
         companies: [
           { step: "01", title: "Activa diseña tu beneficio.", body: "Trabajamos con vos para crear un plan wellness adaptado al tamaño y necesidades de tu equipo." },
@@ -453,6 +454,7 @@ export const translations = {
       titleEm: "claras.",
       items: [
         { q: "¿Activa ya está disponible?", a: "Estamos preparando nuestro primer piloto en Costa Rica. Podés registrarte para recibir información y participar cuando abramos cupos." },
+        { q: "¿Necesito subir una foto de perfil?", a: "No. La foto es opcional y solo se usa para que el personal autorizado verifique tu identidad de forma visual. Sin foto, presentá tu QR o código temporal y mostrá tu identificación en recepción; no se fotografía ni se guarda copia del documento. Retirar la foto no afecta tu membresía ni tu preferencia de renovación. Activa no utiliza reconocimiento facial automático." },
         { q: "¿Activa es solo para gimnasios?", a: "No. Activa incluye gimnasios, studios, clases, wellness, recovery y otros servicios de bienestar." },
         { q: "¿Es una plataforma de descuentos?", a: "No. Activa no busca devaluar a sus socios. Trabajamos con reglas de acceso, usuarios verificados y estructuras diseñadas para que el modelo sea sostenible para ambas partes." },
         { q: "¿Cómo funciona para empresas?", a: "Las empresas pueden ofrecer Activa como beneficio corporativo para sus colaboradores. Activa centraliza el acceso a diferentes opciones wellness sin que la empresa tenga que negociar con cada gimnasio por separado." },
@@ -495,10 +497,10 @@ export const translations = {
       rulesShort: "Reglas",
       skipToDoc: "Saltar al documento",
       versionsTitle: "Historial de versiones",
-      versionCurrent: "Vigente",
+      versionCurrent: "Última versión",
       archivedTitle: "Versión anterior",
-      archivedBody: "Está consultando una versión que ya no está vigente.",
-      archivedLink: "Ver la versión vigente",
+      archivedBody: "Está consultando una versión anterior, conservada para referencia.",
+      archivedLink: "Ver la última versión",
       version: "Versión",
       effective: "Entrada en vigor",
       print: "Imprimir",

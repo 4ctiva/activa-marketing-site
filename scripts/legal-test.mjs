@@ -514,13 +514,81 @@ try {
       current: !!document.querySelector('#versiones [aria-current="page"]'),
       archivedBanner: document.body.innerText.includes("Versión anterior"),
     }));
-    check(`${doc}: version history lists the version in force; unknown ?version falls back to it`, v.entries >= 1 && v.current && !v.archivedBanner, v);
+    check(`${doc}: version history lists the latest version; unknown ?version falls back to it`, v.entries >= 1 && v.current && !v.archivedBanner, v);
     await page.close();
   }
   {
     const { page } = await open(PAGES.terminos);
     const a = await page.evaluate(() => ["aviso-de-privacidad", "consentimiento-de-fotografia"].map((id) => !!document.getElementById(id) && !!document.querySelector(`.legal-toc a[href="#${id}"]`)));
     check("terminos: privacy and photo-consent annexes exist and are in the index", a.every(Boolean), a);
+    await page.close();
+  }
+
+  // ── 12d. Privacy policy, review status and immutable companions ─
+  {
+    const { page } = await open(PAGES.terminos);
+    const privacy = await page.evaluate(() => ({
+      review: document.querySelector('.legal-review-notice')?.textContent,
+      a: document.getElementById('aviso-de-privacidad').innerText,
+      b: document.getElementById('consentimiento-de-fotografia').innerText,
+      policy: document.getElementById('seccion-13').innerText,
+      latestLink: document.querySelector('#versiones a').getAttribute('href'),
+    }));
+    check('privacy: optional photo, ID alternative and unchanged renewal are explicit',
+      privacy.policy.includes('La fotografía de perfil es opcional') &&
+      privacy.policy.includes('no impide registrarse, comprar, reservar') &&
+      privacy.b.includes('no se fotografía, escanea ni conserva una copia') &&
+      privacy.b.includes('no activa, cancela, suspende ni reactiva'), privacy.policy);
+    check('privacy: complete annexes cover providers, deletion, independent consent and campaign permissions',
+      privacy.a.includes('Odoo') && privacy.a.includes('Resend') && !privacy.a.includes('Google Forms') &&
+      !privacy.a.includes('GitHub Pages') && privacy.a.includes('No tiene configuradas réplicas de lectura en otras regiones.') &&
+      privacy.a.includes('Supabase') && privacy.a.includes('Upstash') && privacy.a.includes('Sentry') &&
+      privacy.b.includes('cinco días hábiles') && privacy.b.includes('desmarcada por defecto') &&
+      privacy.b.includes('autorización independiente y específica') && !privacy.a.includes('Texto pendiente:'), privacy.b);
+    check('privacy: draft is clearly labeled and latest has a fixed-version URL',
+      privacy.review?.includes('Aún no habilitado para aceptación') && privacy.latestLink.includes('?version=2026-10-09'));
+    await page.evaluate(() => document.getElementById('aviso-de-privacidad').scrollIntoView({ behavior: 'instant' }));
+    await pump(page, 300);
+    await shot(page, 'privacy-annex-a-desktop');
+    await page.emulateMediaType('print');
+    check('privacy: review status remains visible in print', await page.evaluate(() => getComputedStyle(document.querySelector('.legal-review-notice')).display !== 'none'));
+    await page.close();
+  }
+  {
+    const { page } = await open(`${PAGES.terminos}?version=2026-10-08`);
+    check('archive: previous photo policy and placeholder text are preserved', await page.evaluate(() =>
+      document.getElementById('clausula-13-4').innerText.includes('se bloquean los nuevos ingresos') &&
+      document.getElementById('aviso-de-privacidad').innerText.includes('Texto pendiente:') &&
+      !document.querySelector('.legal-review-notice')));
+    const oldRules = await page.$('#seccion-13 a[href="/legal/reglas-de-negocio/?version=2026-10-08#rn-05"]');
+    check('archive: related rules link retains the historical version', !!oldRules);
+    if (oldRules) {
+      await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle0' }), oldRules.click()]);
+      check('archive: historical companion opens its original policy and links back to its terms', await page.evaluate(() =>
+        document.getElementById('regla-5-1').innerText.includes('Ambos requieren fotografía') &&
+        document.querySelector('#regla-5-4 a.legal-link').getAttribute('href').includes('?version=2026-10-08#')));
+    }
+    await page.close();
+  }
+  {
+    const { page } = await open(`${PAGES.reglas}?version=2026-10-09`);
+    check('latest fixed version: references retain version and optional-photo policy', await page.evaluate(() =>
+      document.getElementById('regla-5-1').innerText.includes('fotografía de perfil es opcional') &&
+      document.querySelector('#rn-05 a[href*="clausulas-13-1-a-13-5"]').getAttribute('href').includes('?version=2026-10-09#')));
+    await page.close();
+  }
+  {
+    const { page } = await open(PAGES.terminos, { width: 375, height: 812 });
+    await page.evaluate(() => document.getElementById('consentimiento-de-fotografia').scrollIntoView({ behavior: 'instant' }));
+    await pump(page, 300);
+    check('privacy: long mobile annex has no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await shot(page, 'privacy-annex-b-mobile');
+    await page.close();
+  }
+  for (const lang of ['es', 'en']) {
+    const { page } = await open('/', { lang });
+    check(`homepage (${lang}): optional-photo FAQ is available`, await page.evaluate((lang) =>
+      document.body.innerText.includes(lang === 'es' ? '¿Necesito subir una foto de perfil?' : 'Do I need a profile photo?'), lang));
     await page.close();
   }
 
