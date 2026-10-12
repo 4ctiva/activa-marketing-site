@@ -546,7 +546,7 @@ try {
       privacy.b.includes('cinco días hábiles') && privacy.b.includes('desmarcada por defecto') &&
       privacy.b.includes('autorización independiente y específica') && !privacy.a.includes('Texto pendiente:'), privacy.b);
     check('privacy: draft is clearly labeled and latest has a fixed-version URL',
-      privacy.review?.includes('Aún no habilitado para aceptación') && privacy.latestLink.includes('?version=2026-10-09'));
+      privacy.review?.includes('Aún no habilitado para aceptación') && privacy.latestLink.includes('?version=2026-10-12'));
     await page.evaluate(() => document.getElementById('aviso-de-privacidad').scrollIntoView({ behavior: 'instant' }));
     await pump(page, 300);
     await shot(page, 'privacy-annex-a-desktop');

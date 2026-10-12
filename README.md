@@ -30,9 +30,30 @@ npm run test:legal   # with the dev server running: browser checks of the legal 
 
 Design source: `design_handoff_activa_site` bundle (high-fidelity HTML prototypes; the prototype lays out in content-box, which the implementation mirrors with `box-content` utilities where explicit dimensions and padding combine).
 
-## Privacy review — 2026-10-09
+## ONVO drafting decision — 2026-10-12
 
-The latest terms/rules are a **draft for review**, with full Annex A (privacy notice) and Annex B (optional visual profile-photo authorization). The published 2026-10-08 texts remain preserved under `content/archive/`; they retain the former policy and must not be rewritten. The planned November 1 effective date is subject to approval of the new draft.
+ACTIVA instructed us to use only ONVO's direct reply below, omit outstanding ONVO annex questions, and proceed on that basis. ACTIVA reports that its lawyer agrees. This closes the ONVO information requests for drafting; it is not an independent verification of a location, deletion schedule, certification scope or legal status.
+
+Only ONVO source used for this revision (as relayed by ACTIVA):
+
+> 1. Se almacenan en bóvedas de AWS, se procesan en CR.
+> 2. Utilizamos Cybersource que es el procesador de VISA para procesar los pagos.
+> 3. No se borran los datos, ninguna información sensible queda expuesta, somos PCI certified.
+
+- A.8/A.9 identify Cybersource, AWS, processing in Costa Rica and ONVO's stated PCI certification. Do not infer an AWS country or guarantee that data can never be exposed.
+- A.10/A.14 transparently describe ONVO's statement that it does not delete the data it retains. ACTIVA does not promise ONVO deletion deadlines. ACTIVA-held payment records/copies, photos, other provider commitments and A.16 rights are preserved; no legal exemption or waiver is inferred.
+- Do not reopen ONVO location, retention or provider-document questions as annex drafting blockers. Accountant/Odoo blanks were subsequently omitted for now at ACTIVA’s instruction below; they are not current annex drafting blockers. This decision does not resolve ONVO recurring-payment integration or approve the entire legal package.
+- The updated local pair is version **2026-10-12**, still a review draft. The previously published **2026-10-09** terms/rules are archived with their original text and review notice; 2026-10-08 remains unchanged. The Rules text changes only its paired version label. No publication is performed by this edit.
+
+## Accountant/Odoo drafting scope — 2026-10-12
+
+ACTIVA reports that its lawyer instructed it to omit the outstanding Odoo information for now. Remove the accountant/Odoo placeholders from A.8/A.9 and the paragraph whose sole purpose was to explain the unconfirmed hosting location. Retain only the confirmed statement that the accountant uses Odoo for accounting and invoicing coordinated with ACTIVA.
+
+This is a temporary drafting omission, not confirmation of the accountant’s identity, hosting location, API integration or backup settings. Do not reopen these as drafting questions in this revision. Preserve technical follow-up for the later app/invoicing review; no facts or completion status are invented. The unpublished 2026-10-12 draft is refined in place; published archived versions are unchanged. With no factual placeholders remaining in the current text, remove the highlighted-fields notice while retaining final approval, technical validation and draft status. No publication is performed.
+
+## Privacy review — 2026-10-09 (updated by the decisions above)
+
+The latest terms/rules are a **draft for review**, with full Annex A (privacy notice) and Annex B (optional visual profile-photo authorization). The published 2026-10-08 and 2026-10-09 texts remain preserved under `content/archive/`; they must not be rewritten. The planned November 1 effective date is subject to approval of the new draft.
 
 Approved by ACTIVA in this review:
 
@@ -44,19 +65,19 @@ Approved by ACTIVA in this review:
 
 ### Resolve before final approval and acceptance
 
-- [ ] **Accountant / ACTIVA:** identify accountant or firm, Odoo instance operator, hosting model, country and invoicing integration. Using Odoo does not prove the app is already integrated.
-- [ ] **ONVO:** confirm countries of production storage, processing, backups and payment/antifraud subprocessors. Its public AWS statement does not identify a country.
+- [x] **Accountant/Odoo — omitted from the current draft 2026-10-12:** at ACTIVA’s instruction on counsel’s advice, omit the missing details for now. This closes the request to show those blanks in the annex; it does not mark identity, hosting or integration as verified.
+- [x] **ONVO — drafting scope closed 2026-10-12:** use its direct AWS/CR/Cybersource/non-deletion/PCI reply above. At ACTIVA’s instruction and reported counsel agreement, omit additional ONVO fact requests from the annex; do not infer missing facts.
 - [x] **ACTIVA confirmation — 2026-10-09:** Upstash has no additional read replicas in other regions. This closes that question for the app documents; it does not establish absence of all technical backups.
 - [x] **Document scope — 2026-10-09:** at the user's request, exclude the informational website's interest form from these app/member documents. Google Forms has no region policy configured according to the user; this is no longer a blocker for this annex. Remove website-only GitHub Pages/browser-preference disclosures as part of the same scope correction; the actual website form remains unchanged.
-- [ ] **Counsel + ACTIVA:** review provider contracts, processor/controller roles, subprocessors and international treatment. A region lookup or a vendor's EU transfer framework alone does not establish Costa Rican legal compliance.
+- [ ] **Counsel + ACTIVA:** review the remaining provider arrangements and the overall package. The ONVO drafting scope is settled by the 2026-10-12 instruction above; do not reopen the omitted ONVO fact requests. A region lookup alone does not establish legal compliance.
 - [x] **Draft policy selected at ACTIVA's request:** fill A.12 retention periods and starting points, with a separate minimal commercial/fiscal archive under A.13. These are proposed contractual commitments for legal review, not claims that deletion jobs already exist.
 - [ ] **Counsel + accountant:** validate the selected retention periods, start dates, commercial correspondence scope and statutory extensions before acceptance.
 - [x] **Draft policy selected at ACTIVA's request:** A.14 specifies 30 calendar days for ACTIVA-managed residual recovery copies and 90 calendar days for provider residual copies, measured from active deletion; no additional photo backups or deadline resets.
-- [ ] **Developer + providers:** prove the contracted services and restoration process meet A.14. Do not publish these caps as effective until validated; Odoo Cloud's public backup policy can exceed them and is an explicit unresolved compatibility check under the pending Odoo hosting selection.
+- [ ] **Developer + relevant providers:** prove the contracted services and restoration process meet A.14 within its disclosed scope; do not apply the ACTIVA deletion promise to data retained in ONVO systems. Do not publish these caps as effective until validated; Compatibility of the eventual invoicing service remains a later technical check, not an Odoo field to complete in this draft.
 - [ ] **Counsel — after remaining document information is complete:** ACTIVA will send the full set to its lawyer and report approval or requested changes here. Review both annexes and related clauses together and confirm the effective date. Do not treat the draft as approved or send it on ACTIVA's behalf.
 - [ ] **Developer / ACTIVA — explicitly deferred by the user on 2026-10-09:** after reviewing the documents, implement/verify optional-photo signup, purchase and both entry methods in `activa-app`; arrange reception identity checks; verify removal/replacement deletion, restricted photo access, legacy signed URLs, retention and backup restoration; update actual consent documents/version ledger. Keep this open for the later app review, without starting implementation now. It is not missing wording that must be completed before sending the draft to counsel; verification is still required before the policy takes effect. These website edits do not implement those app changes.
 
-Annex A now marks two remaining factual groups explicitly: A.8 and A.9. A.12–A.14 are drafted policy decisions, still subject to legal review and technical validation. Implementation tasks remain here rather than becoming contractual instructions. Do not remove `reviewNotice` or pending markers until the corresponding facts and legal review are complete. A future publication must use a new version if this draft has already been shared as a fixed version.
+The current Annex A contains no factual placeholders: ONVO disclosures use its reply and outstanding accountant/Odoo details are omitted for now, as instructed above. A.12–A.14 are drafted policy decisions, still subject to legal review and technical validation. Implementation tasks remain here rather than becoming contractual instructions. Keep `reviewNotice` until final legal approval. Placeholder removal follows the explicit drafting-scope decisions above and is not verification of the omitted facts. A future publication must use a new version if this draft has already been shared as a fixed version.
 
 Source basis: [Ley 8968, arts. 5–9](https://formatos.inamu.go.cr/SIDOC/DOCS/ley_8968.pdf), [Reglamento 37554-JP](https://formatos.inamu.go.cr/SIDOC/DOCS/decreto_37554jp.pdf), [reform 40008-JP](https://formatos.inamu.go.cr/SIDOC/archivosPeriodicosOficiales/decreto_40008-jp_636171313480169877.pdf); lawyer's October 9 photography draft and ACTIVA decisions in this review. Provider evidence comes from the app's architecture, mailer, rate-limit and monitoring code; the website embeds Google Forms and deploys via GitHub Pages.
 
@@ -74,21 +95,20 @@ This matrix distinguishes ACTIVA configuration evidence from the vendor's genera
 | Sentry | User reports US / Iowa for ACTIVA. | [Storage documentation](https://docs.sentry.io/organization/data-storage-location/) ([official source](https://github.com/getsentry/sentry-docs/blob/master/docs/organization/data-storage-location/index.mdx)): US event-data storage is Iowa; region selection is not a guarantee about all access/processing. No independent account-console verification was performed. |
 | GitHub Pages — website only, outside this app annex | Website deployment uses Pages; disclosure removed from the app annex at ACTIVA's scope clarification on 2026-10-09. | [Pages data collection](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection) confirms visitor IP logging; [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement#international-data-transfers) allows international processing, including USA and other operating countries. No single-country guarantee is claimed. |
 | Google Forms — website only, outside this app annex | ACTIVA reports no configured data region on 2026-10-09 and requests removal from the app documents. Embedded form inspected without entering data: footer identifies the Activa organization. Only public form content was viewed, not responses. | [Covered data](https://knowledge.workspace.google.com/admin/compliance/data-covered-by-data-regions?hl=en) and [Workspace service terms](https://workspace.google.com/intl/en/terms/service-terms/): eligible editions support US/Europe storage for Forms content and responses, not Forms processing. Organization ownership does not prove a regional setting. [Subprocessors](https://workspace.google.com/terms/subprocessors/) describe possible locations, not the actual location of this form. |
-| ONVO | User reports AWS; vendor confirms AWS publicly. | [ONVO developers](https://www.onvopay.com/devs), [Costa Rica privacy policy](https://onvopay.com/en/CR/documents/politica-de-privacidad.pdf): no applicable AWS country/region found. The policy's Costa Rican corporate address is not a hosting location. |
+| ONVO | Direct reply relayed by ACTIVA: AWS vaults, processing in Costa Rica, Cybersource/Visa, no deletion, PCI certified. | Sole source for the 2026-10-12 revision. Statements are attributed to ONVO; AWS country, deletion deadline and certification scope are not inferred. Additional annex questions are closed at ACTIVA’s instruction. |
 | Odoo / accountant | User confirms accountant uses Odoo. Instance URL, operator, hosting mode and effective region have not been supplied; no app integration was established by this review. | [Hosting options](https://www.odoo.com/page/hosting-types), [privacy policy](https://www.odoo.com/privacy): Online, Odoo.sh and independently hosted installations differ. Odoo's Cloud policy lists Americas production in USA/Canada and backup locations in France/Netherlands/Canada; these are conditional vendor facts, not ACTIVA's confirmed locations. |
 
-Targeted remaining evidence:
+Deferred technical follow-up, outside this draft’s open questions:
 
-1. **ONVO:** countries for ACTIVA client data in production, backups and payment/antifraud services, plus current processing documentation. Public AWS use is insufficient.
-2. **Accountant:** instance URL, operator, Odoo Online/Odoo.sh/independent hosting, effective region and backup countries. Also identify the accountant/firm and invoicing integration scope for A.8.
+- **Accountant / developer:** actual invoicing instance, operator, hosting configuration, integration and backups remain to be implemented or verified during the later operational review. Do not reinsert these as A.8/A.9 placeholders without a new instruction.
 Closed/scoped out on 2026-10-09: Upstash additional-region replicas (ACTIVA confirms none); Google Forms region (no regional policy configured according to ACTIVA; website intake is outside this app annex). These are not remaining document questions.
 
-A.12 retention and A.14 backups were subsequently filled at ACTIVA's express request with the policy below. Their technical implementation remains unverified. Vendor retention limits must be checked against the contracted plan and ACTIVA's own copies before this policy becomes effective or is used to collect acceptances; database backup retention must not be assumed to cover profile-photo files.
+A.12 retention and A.14 backups were subsequently filled at ACTIVA's express request with the policy below. Their technical implementation remains unverified. Within the A.14 scope stated in the updated annex, vendor retention limits must be checked against the contracted plan and ACTIVA's own copies before this policy becomes effective or is used to collect acceptances; database backup retention must not be assumed to cover profile-photo files.
 
 
 ### Retention policy drafted at ACTIVA's request — 2026-10-09
 
-The user asked for the safest recommendation and authorized inserting it in the documents. The schedule balances minimization with recoverability and necessary commercial proof. It is not a claim that Costa Rican law prescribes every operational period below. Archived 2026-10-08 texts were not changed; the current 2026-10-09 text remains a review draft.
+The user asked for the safest recommendation and authorized inserting it in the documents. The schedule balances minimization with recoverability and necessary commercial proof. It is not a claim that Costa Rican law prescribes every operational period below. Archived 2026-10-08 texts were not changed; the 2026-10-09 text is also preserved as a review draft in the archive. The current pair is 2026-10-12.
 
 | Category | Selected maximum / start |
 | --- | --- |
@@ -102,7 +122,7 @@ The user asked for the safest recommendation and authorized inserting it in the 
 | Consent and acceptance evidence | While effective plus five years from the last applicable service or photo withdrawal/account closure, as specified in A.12.7. Historical legal text can remain without personal links. |
 | Commercial/fiscal records | Five years from their dates, subject to actual statutory computation/extensions; never extend this automatically to photos or complete profiles. |
 | ACTIVA-managed residual recovery backups | 30 calendar days from active deletion. |
-| Provider residual recovery backups | 90 calendar days from active deletion, subject to mandatory proof/configuration before effectiveness or acceptance. |
+| Provider residual recovery backups within A.14 scope | 90 calendar days from active deletion, subject to proof/configuration before effectiveness or acceptance. The separately disclosed data retained in ONVO systems are not represented as subject to this ACTIVA deletion commitment. |
 | Photos | Existing approved immediate display withdrawal + active deletion within five business days; no extra photo backups/history; any provider residue isolated and subject to the provider recovery cap. |
 
 Exceptions require a specific legal obligation, audit, dispute or process; restricted access, review at least every six months, and deletion within five business days once the reason and any other applicable period end. A hypothetical future claim is not a blanket hold. Rights requests remain independent of routine maximum periods.
@@ -113,7 +133,7 @@ Technical evidence and launch gates (read-only app review; app not modified):
 
 - `activa-app/docs/runbooks/backup-restore-drill.md` and launch docs plan seven-day Supabase backups/PITR; they do not prove the production configuration or a successful restore drill. [Supabase](https://supabase.com/docs/guides/platform/backups) documents plan-dependent database backup periods and expressly excludes Storage binaries.
 - [Sentry](https://www.sentry.help/en/articles/13965019-how-frequently-is-data-backed-up) reports recovery backups expiring 30/90 days from creation; [Resend](https://resend.com/security) reports seven-day backups. Hence the draft does not promise every provider's recovery copy disappears in 30 days.
-- Odoo's public Cloud policy can retain deleted data in backups for up to 12 months. The pending accountant's hosting choice must be checked against the selected 90-day residual cap; configuration/contract/provider changes or an expressly disclosed and reviewed exception are required if it cannot comply. A.8/A.9 cannot be marked complete by merely learning the hosting country.
+- Odoo's public Cloud policy can retain deleted data in backups for up to 12 months. The pending accountant's hosting choice must be checked against the selected 90-day residual cap; configuration/contract/provider changes or an expressly disclosed and reviewed exception are required if it cannot comply. This is retained as a technical integration note; A.8/A.9 blanks are omitted at ACTIVA’s express instruction, not marked technically verified.
 - `activa-app/docs/06-data-model.md` contains older inconsistent planning periods (including permanent ledger/check-in data, seven-year audit and 90-day photos). Reconcile these with the selected policy; they are not implementation proof or authority to overwrite this decision.
 - `activa-app/src/lib/photos/actions.ts` currently retains old objects on replacement and uses best-effort deletion on removal. Build a verified retrying deletion process for replacement, withdrawal, closure and orphan files; invalidate access/caches. Signed-URL expiry alone is not proof of withdrawal; [Supabase Smart CDN](https://supabase.com/docs/guides/storage/cdn/smart-cdn) has separate cache behavior.
 - Acceptance-ledger immutability must permit controlled expiry/anonymization once the lawful retention period ends, while preserving integrity during that period. No general completed member-anonymization implementation was found in this targeted review.
@@ -129,11 +149,36 @@ This section records the latest chat instructions for continuity:
 2. **Website scope:** ACTIVA reports no selected region for Google Forms and instructs removing it from these documents because it belongs to the informational website. The annex now covers the app, membership and related service communications; it expressly excludes website interest forms. Website-only GitHub Pages/browser-preference text is also removed for consistency. The actual form and website behavior are unchanged. A website/form privacy notice is a separate scope and has not been authored or represented as complete by this change.
 3. **App review — deferred, not completed:** the user wants implementation and verification later, after reviewing the documents. Preserve all technical findings and launch gates above. Do not reopen this as an immediate drafting question, start app work now or mark the task complete. This includes optional photos, QR/temporary-code plus ID entry, consent logs, deletion, retention and backup restoration.
 4. **Lawyer handoff — later:** once remaining document information is complete, ACTIVA will send the documents to its lawyer and return with approval or edits. Do not contact counsel. The user's later explicit request on 2026-10-09 authorizes publishing this version as a review draft; it does not approve the legal text or start the deferred app work.
-5. **Current drafting inputs still missing:** accountant/Odoo identity, hosting, processing scope and backup compatibility; ONVO locations, provider/processing documentation and relevant backup details. A.8/A.9 retain only these factual blanks. Legal/contract review and the effective date remain part of the later approval stage.
+5. **Current drafting scope (updated 2026-10-12):** no factual placeholders remain in the annexes. ONVO uses its direct reply; accountant/Odoo details are omitted for now on counsel’s advice relayed by ACTIVA. This is not technical verification. Final legal review, effective date and deferred implementation checks remain separate.
 
 
-### Public review publication — requested 2026-10-09
+### Historical public review publication — requested 2026-10-09
 
 ACTIVA explicitly requested publication of the current version on 4ctiva.com. Publish through the existing main-branch GitHub Pages workflow while preserving the visible draft status, accountant/ONVO placeholders and archived 2026-10-08 texts. The intended 2026-11-01 effective date remains subject to approval. This publication does not start or complete the deferred app implementation/verification and does not authorize collecting acceptance of the draft.
 
 Preflight: restored the exact latest work from GitHub Desktop's saved changes without deleting the saved copy; production build, JavaScript syntax check and diff whitespace check passed. Verify the public current and historical legal routes after deployment; GitHub Actions provides the deployment result for the commit.
+
+
+## Consolidated refund and retracto wording — 2026-10-12
+
+ACTIVA authorized incorporating the remaining decisions and drafting concrete retracto recommendations as operative contract clauses, without unresolved placeholders. The user will submit the entire package to counsel; this does not record counsel approval or implementation in the app. The current unpublished 2026-10-12 pair is refined in place. Previously published archives stay unchanged. No deployment is included in this edit.
+
+- T&C 7.6 / RN 06.6: courtesy credits first when eligible and available; retained credits keep their origin on consumption/release.
+- T&C 15.7 / RN 09.6: rejected/withdrawn refund releases the frozen balance; no automatic rebooking, support for credits expiring during review, no automatic restart of a canceled renewal.
+- T&C 15.4–15.8 / RN 04.4 and 09: voluntary cycle-closing refunds are distinguished from duplicate-charge corrections and legal refunds; no wiping unrelated legitimate cycles.
+- T&C 17.1: no reason required for renewal cancellation, voluntary refund or retracto.
+- T&C 13.1 / RN 05.1: attendance recorded from a list also requires the member's QR/temporary code.
+- T&C 9 / RN 10: concrete retracto terms. Eight business days to exercise, counted Monday–Friday excluding Costa Rican official holidays; later access activation receives the same window as a contractual extension, without narrowing legal rights. Refund within eight CALENDAR days from the day after the notice, replacing the prior seven-business-day formulation for retracto only. Same payment method/currency; original VAT and credit note. Voluntary refund remains seven business days.
+- Retracto valuation proposed for counsel: B − (0.90 × B × U/C), with B the actual pretax cycle price, C its original paid credits and U paid credits for actual visits before notice, after courtesy-first allocation. Return the full activation10% component; no absence/late-cancellation/reserved-credit/time-elapsed deductions. This commercial calculation is not claimed to be a statutory formula. It deliberately differs from the voluntary-refund calculation, which remains unchanged.
+- Retracto notice stops future renewals, suspends affected-cycle use and cancels its future bookings without new penalties. Confirmation closes that cycle. Rejection/withdrawal restores the frozen balance per RN09.6 without silently reactivating renewals.
+- Full legal review and technical implementation/validation remain separate from complete clause wording. General review notices are retained because this change is not legal approval or authorization to collect acceptances. Planned effective date remains 2026-11-01 subject to that review.
+
+Research basis for counsel: official consolidated Decreto 37899-MEIC, arts72 (exercise),73 (proportion for services actually received),75 (eight-calendar-day repayment and original payment method). Current numbering follows Decreto44400; older MEIC presentations use130,131,133.
+https://www.micitt.go.cr/sites/default/files/marco_juridico_legal/03.%20Decreto%20Ejecutivo%20n.%C2%B0%2037899-MEIC%20Reglamento%20a%20la%20Ley%20de%20Promoci%C3%B3n%20de%20la%20Competencia%20y%20Defensa%20Efectiva%20del%20Consumidor%20n.%C2%B0%207472..pdf#page=29
+
+The implementation audit and prompts dated 2026-10-09 are historical. Their retracto prompts reference the older seven-business-day wording and do not include the explicit 90%-access valuation or expanded clauses added here; reconcile them against this current pair before implementation. This revision does not change app code or mark those prompts implemented.
+
+
+## Public review publication — requested 2026-10-12
+
+ACTIVA explicitly authorized publishing the consolidated 2026-10-12 T&C and business rules on 4ctiva.com to share their updated links with counsel. Publish the current local pair, including the ONVO disclosures, Odoo drafting omissions and consolidated refund/retracto wording, through the existing main-branch GitHub Pages workflow. Preserve the review notices, the approval-dependent effective date and the unchanged 2026-10-08/2026-10-09 archives. This supersedes the earlier no-publication scope for these edits; it does not record legal approval, enable consumer acceptance or complete the deferred app implementation. Share fixed-version links with counsel so the reviewed text remains identifiable.

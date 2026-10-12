@@ -11,6 +11,8 @@
 import type { RulesDoc, TermsDoc } from "../model";
 import { TERMINOS } from "./terminos";
 import { REGLAS } from "./reglas";
+import { TERMINOS as TERMINOS_2026_10_09 } from "./archive/terminos-2026-10-09";
+import { REGLAS as REGLAS_2026_10_09 } from "./archive/reglas-2026-10-09";
 import { TERMINOS as TERMINOS_2026_10_08 } from "./archive/terminos-2026-10-08";
 import { REGLAS as REGLAS_2026_10_08 } from "./archive/reglas-2026-10-08";
 
@@ -18,10 +20,12 @@ export type Versioned<T> = { version: string; effective: string; reviewNotice?: 
 
 export const TERMINOS_VERSIONS: Versioned<TermsDoc>[] = [
   { version: TERMINOS.version, effective: TERMINOS.effective, reviewNotice: TERMINOS.reviewNotice, doc: TERMINOS },
+  { version: TERMINOS_2026_10_09.version, effective: TERMINOS_2026_10_09.effective, reviewNotice: TERMINOS_2026_10_09.reviewNotice, doc: TERMINOS_2026_10_09 },
   { version: TERMINOS_2026_10_08.version, effective: TERMINOS_2026_10_08.effective, doc: TERMINOS_2026_10_08 },
 ];
 
 export const REGLAS_VERSIONS: Versioned<RulesDoc>[] = [
   { version: REGLAS.version, effective: REGLAS.effective, reviewNotice: REGLAS.reviewNotice, doc: REGLAS },
+  { version: REGLAS_2026_10_09.version, effective: REGLAS_2026_10_09.effective, reviewNotice: REGLAS_2026_10_09.reviewNotice, doc: REGLAS_2026_10_09 },
   { version: REGLAS_2026_10_08.version, effective: REGLAS_2026_10_08.effective, doc: REGLAS_2026_10_08 },
 ];
