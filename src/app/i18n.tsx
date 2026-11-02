@@ -178,6 +178,18 @@ export const translations = {
         "Respect for each space's community.",
       ],
     },
+    digital: {
+      badge: "In development",
+      titleTop: "Wellbeing",
+      titleEm: "beyond the gym.",
+      desc: "We're exploring partnerships with wellness apps to complement your Activa experience. We want to bring you more ways to care for your daily habits, wherever you are.",
+      areasLabel: "Areas we're evaluating",
+      areas: ["Meditation and mindful breaks", "Rest and sleep", "Movement at home", "Nutrition and healthy habits"],
+      note: "This initiative is being explored. No premium apps are currently included through this initiative, and no launch date has been confirmed. Providers, access and terms will be announced once they are defined.",
+      partnerText:
+        "We're interested in products with a clear user experience, quality content and availability for people in Costa Rica.",
+      partnerCta: "Have a wellness app? Let's talk.",
+    },
     pilot: {
       label: "2026 Pilot",
       titleTop: "We're building our pilot",
@@ -206,6 +218,7 @@ export const translations = {
         { q: "Is Activa available yet?", a: "We're preparing our first pilot in Costa Rica. You can sign up to receive information and take part when we open spots." },
         { q: "Do I need a profile photo?", a: "No. Your photo is optional and is only used for a visual identity check by authorized staff. Without one, present your QR or temporary code and show your ID at reception; no photo or copy of your ID is kept. Removing your photo does not affect your membership or renewal preference. Activa does not use automated facial recognition." },
         { q: "Is Activa only for gyms?", a: "No. Activa includes gyms, studios, classes, wellness, recovery and other wellbeing services." },
+        { q: "Does Activa include premium apps yet?", a: "This new initiative is being explored. No premium apps are currently included through this initiative, and no launch date has been confirmed. We'll announce providers and terms once they are defined." },
         { q: "Is it a discount platform?", a: "No. Activa doesn't aim to devalue its partners. We work with access rules, verified users and structures designed to keep the model sustainable for both sides." },
         { q: "How does it work for companies?", a: "Companies can offer Activa as a corporate benefit for their employees. Activa centralizes access to different wellness options without the company having to negotiate with each gym separately." },
         { q: "How does it work for gyms and studios?", a: "Partners can take part under agreed terms: schedules, capacity, bookings, usage limits and payment per verified visit or agreed structure." },
@@ -428,6 +441,18 @@ export const translations = {
         "Respeto por la comunidad de cada espacio.",
       ],
     },
+    digital: {
+      badge: "En desarrollo",
+      titleTop: "Tu bienestar,",
+      titleEm: "también fuera del gimnasio.",
+      desc: "Estamos explorando alianzas con apps de bienestar para complementar tu experiencia con Activa. Queremos acercarte más opciones para cuidar tus hábitos, desde donde estés.",
+      areasLabel: "Áreas que estamos evaluando",
+      areas: ["Meditación y pausas conscientes", "Descanso y sueño", "Movimiento en casa", "Nutrición y hábitos"],
+      note: "Esta iniciativa está en exploración. Todavía no hay apps premium incluidas por esta iniciativa ni una fecha de lanzamiento confirmada. Los proveedores, el acceso y las condiciones se comunicarán cuando estén definidos.",
+      partnerText:
+        "Buscamos conocer productos con una experiencia clara, contenido de calidad y disponibilidad para personas en Costa Rica.",
+      partnerCta: "¿Tenés una app de bienestar? Conversemos.",
+    },
     pilot: {
       label: "Piloto 2026",
       titleTop: "Estamos construyendo nuestro piloto",
@@ -456,6 +481,7 @@ export const translations = {
         { q: "¿Activa ya está disponible?", a: "Estamos preparando nuestro primer piloto en Costa Rica. Podés registrarte para recibir información y participar cuando abramos cupos." },
         { q: "¿Necesito subir una foto de perfil?", a: "No. La foto es opcional y solo se usa para que el personal autorizado verifique tu identidad de forma visual. Sin foto, presentá tu QR o código temporal y mostrá tu identificación en recepción; no se fotografía ni se guarda copia del documento. Retirar la foto no afecta tu membresía ni tu preferencia de renovación. Activa no utiliza reconocimiento facial automático." },
         { q: "¿Activa es solo para gimnasios?", a: "No. Activa incluye gimnasios, studios, clases, wellness, recovery y otros servicios de bienestar." },
+        { q: "¿Activa ya incluye apps premium?", a: "Esta nueva iniciativa está en exploración. Todavía no hay apps premium incluidas por esta iniciativa ni una fecha de lanzamiento confirmada. Comunicaremos los proveedores y las condiciones cuando estén definidos." },
         { q: "¿Es una plataforma de descuentos?", a: "No. Activa no busca devaluar a sus socios. Trabajamos con reglas de acceso, usuarios verificados y estructuras diseñadas para que el modelo sea sostenible para ambas partes." },
         { q: "¿Cómo funciona para empresas?", a: "Las empresas pueden ofrecer Activa como beneficio corporativo para sus colaboradores. Activa centraliza el acceso a diferentes opciones wellness sin que la empresa tenga que negociar con cada gimnasio por separado." },
         { q: "¿Cómo funciona para gimnasios y studios?", a: "Los socios pueden participar bajo condiciones acordadas: horarios, cupos, reservas, límites de uso y pago por visita verificada o estructura acordada." },
