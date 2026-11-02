@@ -533,6 +533,64 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── 6b. DIGITAL WELLBEING (exploration only) ───────────── */}
+      {/* public status is "in exploration" only: no providers, logos, prices or
+          activation CTAs until the commercial terms are validated */}
+      <section id="digital" aria-labelledby="digital-title">
+        <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
+          <div data-reveal>
+            <span className="eyebrow mb-[22px] inline-flex items-center gap-2 rounded-full border border-[rgba(33,43,60,.15)] px-3.5 py-1.5 !text-muted-foreground">
+              <span aria-hidden="true" className="text-ink/35">◉</span>
+              {t.digital.badge}
+            </span>
+            <h2 id="digital-title" className={`${H2} mb-6`}>
+              {t.digital.titleTop}
+              <br />
+              <span className="font-semibold">{t.digital.titleEm}</span>
+            </h2>
+            <p className="mb-7 mt-0 max-w-[560px] text-[15px] leading-[1.7] text-muted-foreground text-pretty">
+              {t.digital.desc}
+            </p>
+            <p className="m-0 max-w-[560px] border-l-2 border-ink/20 pl-4 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty">
+              {t.digital.note}
+            </p>
+          </div>
+          <div data-reveal style={D(0.15)} className="glass-quiet glass-frost p-[clamp(24px,4vw,40px)]">
+            <h3 id="digital-areas" className="eyebrow mb-[26px] mt-0 !text-muted-foreground">
+              {t.digital.areasLabel}
+            </h3>
+            <ul
+              aria-labelledby="digital-areas"
+              data-reveal-group
+              data-reveal-stagger="70"
+              className="m-0 flex list-none flex-col gap-2.5 p-0"
+            >
+              {t.digital.areas.map((area) => (
+                <li
+                  key={area}
+                  data-reveal
+                  className="flex items-center gap-2.5 rounded-full border border-[rgba(33,43,60,.15)] px-[18px] py-[11px] text-[13.5px] text-muted-foreground"
+                >
+                  <span aria-hidden="true" className="text-ink/35">◉</span>
+                  {area}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 border-t border-border pt-7">
+              <p className="mb-5 mt-0 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty">
+                {t.digital.partnerText}
+              </p>
+              <a
+                href="#contact"
+                className="inline-block max-w-full rounded-full border-[1.5px] border-ink px-6 py-3 text-[13px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]"
+              >
+                {t.digital.partnerCta} →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── 7. 2026 PILOT ──────────────────────────────────────── */}
       <section id="pilot" className="bg-card/55">
         <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
