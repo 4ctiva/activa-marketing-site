@@ -363,3 +363,93 @@ details[open] > summary .details-caret {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Skip link: off-screen until focused ──────────────────────── */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 300;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #212b3c;
+  color: #f5f1e8;
+  font-size: 13px;
+  font-weight: 600;
+  translate: 0 -200%;
+}
+.skip-link:focus {
+  translate: none;
+  --focus-ring: #f5f1e8;
+}
+
+/* ── Choice pills: native radio/checkbox (visually hidden) + styled label.
+   The input keeps keyboard, checked state and grouping; the ring shows on
+   the pill when the input has keyboard focus. ─────────────────────────── */
+.pill-choice {
+  display: inline-flex;
+  cursor: pointer;
+}
+.pill-choice > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(33, 43, 60, 0.18);
+  padding: 9px 16px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.pill-choice--wide,
+.pill-choice--wide > span {
+  width: 100%;
+}
+.pill-choice--wide > span {
+  padding: 11px 18px;
+  font-size: 13.5px;
+}
+.pill-choice:hover > span {
+  border-color: rgba(33, 43, 60, 0.4);
+  color: #212b3c;
+}
+.pill-choice > input:checked + span {
+  background: #212b3c;
+  border-color: #212b3c;
+  color: #f5f1e8;
+}
+.pill-choice > input:focus-visible + span {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.pill-dot {
+  color: rgba(33, 43, 60, 0.35);
+}
+.pill-choice > input:checked + span .pill-dot {
+  color: #a3c29a;
+}
+/* high-contrast modes drop backgrounds: keep the checked state visible */
+@media (forced-colors: active) {
+  .pill-choice > input:checked + span {
+    outline: 2px solid CanvasText;
+  }
+}
+
+/* ── Contact dialog ───────────────────────────────────────────── */
+.contact-dialog::backdrop {
+  background: rgba(15, 22, 36, 0.85);
+  backdrop-filter: blur(8px);
+}
+.form-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid rgba(33, 43, 60, 0.15);
+  border-top-color: #212b3c;
+  animation: formSpin 0.9s linear infinite;
+}
+@keyframes formSpin {
+  to {
+    rotate: 360deg;
+  }
+}

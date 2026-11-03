@@ -15,6 +15,7 @@ npm install
 npm run dev      # start the dev server
 npm run build    # production build to dist/ (all pages)
 npm run test:legal   # with the dev server running: browser checks of the legal pages (links, cross-references, mobile, print)
+npm run test:site    # with the dev server running: main-page checks (landmarks, contact dialog keyboard/focus, tabs, FAQ filter, areas, ES copy, 360–1440px and 200% zoom layout)
 ```
 
 ## Structure
@@ -22,7 +23,9 @@ npm run test:legal   # with the dev server running: browser checks of the legal 
 - `src/app/App.tsx` — the main landing page.
 - `src/app/AptApp.tsx` — the Activa para Todos page (entry: `para-todos/index.html` + `src/para-todos.tsx`).
 - `src/app/i18n.tsx` — all EN/ES copy and the language context.
-- `src/app/components/site/` — shared header-less pieces: footer, phone mockups, icons.
+- `src/app/components/site/` — shared header-less pieces: footer, phone mockups (illustrative, captioned as such), icons, the pilot-interest `ContactDialog` and the copyable `HrMessage`.
+- `src/app/lib/audience.ts` — the visitor's self-selected audience and areas (sessionStorage only), contact details, the email/WhatsApp prefill builders and `MEMBER_APP_URL` (unset until app.4ctiva.com resolves). The Google Form requires a Google sign-in and its fields are not publicly readable, so the selection is never sent to it; the dialog says so and offers the form in a new tab plus email/WhatsApp.
+- `assets/optimized/` — WebP derivatives sized for how the main site displays them (originals kept; Activa para Todos and the legal pages still use some originals).
 - `src/app/legal/` — the legal pages (entry: `legal/*/index.html` + `src/legal.tsx`). `content/terminos.ts` and `content/reglas.ts` hold the documents, adapted from counsel's Word files with ACTIVA's approved decisions, with light inline markup (`**bold**`, `[label](href)`, `{{pending}}` for values still to confirm); `model.ts` defines the stable anchor ids (`#seccion-8`, `#clausula-8-6`, `#clausulas-8-1-a-8-6`, `#rn-04`, `#regla-4-2`) and derives the Términos → Reglas links from each rule's references. `content/versions.ts` is the version archive: the newest entry is served at the plain URL and every version at `?version=<fecha>` (see the comment there for how to publish a new version). Explicit version links retain the corresponding version in companion-document references. An optional `reviewNotice` marks an unapproved draft on screen and in print; newest does not mean in force.
 - `src/app/category-icons.tsx` — partner-network tile icons (inline SVGs from the design).
 - `src/app/components/ui/` — shadcn/ui components (unused boilerplate, kept as-is).

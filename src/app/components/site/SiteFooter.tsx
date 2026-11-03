@@ -1,7 +1,7 @@
 import { translations, type Lang, PRIMARY_EMAIL } from "../../i18n";
 import { LEGAL_PATHS } from "../../legal/model";
 import { InstagramIcon, MailIcon, WhatsAppIcon } from "./icons";
-import logoFull from "../../../../assets/logo-full.png";
+import logoFull from "../../../../assets/optimized/logo-full-400w.webp";
 
 /**
  * Footer shared by the main site, the Activa para Todos page and the legal

@@ -1,16 +1,19 @@
 import { SearchIcon, HeartIcon } from "./icons";
-import appLogo from "../../../../assets/logo.png";
-import venue9Round from "../../../../assets/venue-9round.jpg";
-import venueOtf from "../../../../assets/venue-otf.jpg";
-import venueLumiere from "../../../../assets/venue-lumiere.jpg";
-import partner9Round from "../../../../assets/partner-9round.webp";
-import partnerOrangetheory from "../../../../assets/partner-orangetheory.jpg";
-import partnerLumiere from "../../../../assets/partner-lumiere.jpg";
-import partnerMukti from "../../../../assets/partner-mukti.png";
+import appLogo from "../../../../assets/optimized/logo-240w.webp";
+import venue9Round from "../../../../assets/optimized/venue-9round-720w.webp";
+import venueOtf from "../../../../assets/optimized/venue-otf-720w.webp";
+import venueLumiere from "../../../../assets/optimized/venue-lumiere-720w.webp";
+import partner9Round from "../../../../assets/optimized/partner-9round-120w.webp";
+import partnerOrangetheory from "../../../../assets/optimized/partner-orangetheory-120w.webp";
+import partnerLumiere from "../../../../assets/optimized/partner-lumiere-120w.webp";
+import partnerMukti from "../../../../assets/optimized/partner-mukti-120w.webp";
 
 /*
  * Floating iPhone mockups from the hero of the design handoff.
  * All in-app copy is Spanish by design, regardless of site language.
+ * The screens are illustrative: venue names, ratings, bookings and the member
+ * are examples, so the phones are hidden from assistive technology and the
+ * visible caption (localized) says so instead of announcing them as content.
  */
 
 // box-content: the design prototype lays out in content-box, so the bezel is 302×582 overall
@@ -256,19 +259,28 @@ function MembershipPhone() {
   );
 }
 
-export default function PhoneMockups() {
+export default function PhoneMockups({ caption }: { caption: string }) {
   return (
-    <div
-      data-reveal-group
-      data-reveal-stagger="160"
-      className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
-    >
-      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
-        <NetworkPhone />
+    <figure className="m-0">
+      <div
+        aria-hidden="true"
+        data-reveal-group
+        data-reveal-stagger="160"
+        className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
+      >
+        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
+          <NetworkPhone />
+        </div>
+        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
+          <MembershipPhone />
+        </div>
       </div>
-      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
-        <MembershipPhone />
-      </div>
-    </div>
+      <figcaption className="mx-auto mt-7 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty">
+        <span aria-hidden="true" className="mr-1.5 rounded-full border border-[rgba(33,43,60,.2)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[.16em]">
+          Demo
+        </span>
+        {caption}
+      </figcaption>
+    </figure>
   );
 }
