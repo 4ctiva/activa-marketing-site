@@ -11,8 +11,8 @@ import partnerMukti from "../../../../assets/optimized/partner-mukti-120w.webp";
 /*
  * Floating iPhone mockups from the hero of the design handoff.
  * All in-app copy is Spanish by design, regardless of site language.
- * The screens are illustrative: venue names, ratings, bookings and the member
- * are examples, so the phones are hidden from assistive technology and the
+ * Partner brands are shown with permission; ratings, bookings and the member
+ * are example data, so the phones are hidden from assistive technology and the
  * visible caption (localized) says so instead of announcing them as content.
  */
 
@@ -43,7 +43,7 @@ function TabRow({ active, tighterBottom }: { active: "Red" | "Mi plan"; tighterB
   const tabs = ["Mi panel", "Red", "Reservas", "Mi QR", "Mi plan"];
   return (
     <div
-      className={`flex items-center justify-between px-5 pt-1 text-[8.5px] font-semibold text-[#8a8172] ${
+      className={`flex items-center justify-between px-5 pt-1 text-[8.5px] font-semibold text-[#70685c] ${
         tighterBottom ? "pb-0.5" : "pb-2"
       }`}
     >
@@ -109,7 +109,7 @@ function VenueCard({
           </span>
           <span className="flex flex-col">
             <span className="text-[10.5px] font-bold">{name}</span>
-            <span className="text-[8px] text-[#8a8172]">{brand}</span>
+            <span className="text-[8px] text-[#70685c]">{brand}</span>
           </span>
         </div>
         <div className="mt-[7px] flex gap-[7px] whitespace-nowrap text-[8px] text-muted-foreground">
@@ -135,7 +135,7 @@ function NetworkPhone() {
         <AppLogo />
         <TabRow active="Red" tighterBottom />
         <div className="flex items-center gap-2 px-5 pb-0.5 pt-2">
-          <div className="flex flex-1 items-center gap-[7px] rounded-full bg-white px-3 py-2 text-[9px] text-[#8a8172]">
+          <div className="flex flex-1 items-center gap-[7px] rounded-full bg-white px-3 py-2 text-[9px] text-[#70685c]">
             <SearchIcon size={11} />
             Buscá por aliado, sede, servicio…
           </div>
@@ -194,7 +194,7 @@ function ReservationRow({ logoImg, logoAlt, title, when }: { logoImg: string; lo
         <span className="text-[10.5px] font-bold">{title}</span>
         <span className="text-[9px] text-muted-foreground">{when}</span>
       </span>
-      <span className="text-xs text-[#8a8172]">→</span>
+      <span className="text-xs text-[#70685c]">→</span>
     </div>
   );
 }
@@ -215,7 +215,7 @@ function MembershipPhone() {
             <span>●●● 4412</span>
           </div>
         </div>
-        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#8a8172]">PRÓXIMAS RESERVAS</div>
+        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#70685c]">PRÓXIMAS RESERVAS</div>
         <div className="mx-5 flex flex-col gap-1.5">
           <ReservationRow
             logoImg={partner9Round}
@@ -236,7 +236,7 @@ function MembershipPhone() {
             when="Vie · 7:00 AM · San José"
           />
         </div>
-        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#8a8172]">ESTE MES</div>
+        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#70685c]">ESTE MES</div>
         <div className="flex gap-2 px-5">
           {[
             { n: "14", label: "clases" },

@@ -33,10 +33,10 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
           </span>
           <span className="flex min-w-0 flex-col">
             <span className="text-sm font-bold">Esteban Baltodano</span>
-            <span className="break-all text-xs text-[#8a8172]">{CONTACT.email}</span>
+            <span className="break-all text-xs text-[#70685c]">{CONTACT.email}</span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#8a8172]">→</span>
+        <span aria-hidden="true" className="text-[#70685c]">→</span>
       </a>
       <a href={msg.whatsapp} target="_blank" rel="noopener noreferrer" className={ROW}>
         <span className="flex items-center gap-4">
@@ -47,10 +47,10 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <span className="text-sm font-bold">
               WhatsApp <span className="sr-only">{t.common.newTab}</span>
             </span>
-            <span className="text-xs text-[#8a8172]">{CONTACT.whatsappLabel}</span>
+            <span className="text-xs text-[#70685c]">{CONTACT.whatsappLabel}</span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#8a8172]">↗</span>
+        <span aria-hidden="true" className="text-[#70685c]">↗</span>
       </a>
       <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className={ROW}>
         <span className="flex items-center gap-4">
@@ -61,10 +61,10 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <span className="text-sm font-bold">
               Instagram <span className="sr-only">{t.common.newTab}</span>
             </span>
-            <span className="text-xs text-[#8a8172]">{CONTACT.instagramHandle}</span>
+            <span className="text-xs text-[#70685c]">{CONTACT.instagramHandle}</span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#8a8172]">↗</span>
+        <span aria-hidden="true" className="text-[#70685c]">↗</span>
       </a>
     </>
   );

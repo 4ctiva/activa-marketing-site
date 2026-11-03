@@ -80,8 +80,8 @@ try {
     check("exactly one h1", s.h1 === 1);
     check("no duplicate ids", new Set(s.ids).size === s.ids.length, s.ids.filter((id, i) => s.ids.indexOf(id) !== i));
     check("every img has an alt attribute", s.imgsNoAlt.length === 0, s.imgsNoAlt);
-    check("app mockups hidden from AT and captioned as illustrative", s.mockupsHidden && /illustrative/i.test(s.caption), s.caption);
-    check("no unverified sign-in link (app.4ctiva.com did not resolve)", !s.signIn);
+    check("app mockups hidden from AT and captioned as example data", s.mockupsHidden && /examples/i.test(s.caption), s.caption);
+    check("no sign-in link until the app is live (MEMBER_APP_LIVE)", !s.signIn);
 
     await page.keyboard.press("Tab");
     await sleep(150); // let headless Chrome restyle for :focus

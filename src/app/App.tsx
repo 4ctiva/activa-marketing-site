@@ -8,7 +8,7 @@ import ContactDialog, { AudiencePills, ContactAlternatives } from "./components/
 import HrMessage from "./components/site/HrMessage";
 import { initMotion, scanReveals } from "./lib/motion";
 import { trackStickyHeader } from "./lib/stickyHeader";
-import { AUDIENCES, MEMBER_APP_URL, useAreas, useAudience, type Audience } from "./lib/audience";
+import { AUDIENCES, MEMBER_APP_LIVE, MEMBER_APP_URL, useAreas, useAudience, type Audience } from "./lib/audience";
 import logoFull from "../../assets/optimized/logo-full-400w.webp";
 import mark from "../../assets/mark.png";
 import aptLogo from "../../assets/optimized/apt-logo-270w.webp";
@@ -58,7 +58,7 @@ function LanguagePicker() {
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(15,22,36,.85)] backdrop-blur-[8px]">
       <div className="box-content w-[min(400px,92%)] rounded-2xl bg-background px-10 py-11 text-center">
         <img src={mark} alt="Activa" className="inline-block size-10 object-contain" />
-        <div className="mb-1 mt-[22px] font-mono text-[11px] tracking-[.24em] text-[#8a8172]">
+        <div className="mb-1 mt-[22px] font-mono text-[11px] tracking-[.24em] text-[#70685c]">
           CHOOSE YOUR LANGUAGE
         </div>
         <div lang="es" className="mb-[26px] text-[13px] text-muted-foreground">Elegí tu idioma</div>
@@ -194,7 +194,7 @@ export default function App() {
             </a>
           </nav>
           <div className="flex items-center gap-3.5">
-            {MEMBER_APP_URL && (
+            {MEMBER_APP_LIVE && (
               <a href={MEMBER_APP_URL} className="text-[12.5px] font-medium text-ink/70 hover:text-ink max-md:hidden">
                 {t.nav.signIn}
               </a>
@@ -206,7 +206,7 @@ export default function App() {
               className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-1.5 max-md:py-[5px] max-md:text-[9px]"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
-              <span className="opacity-45"> / {nextLang.toUpperCase()}</span>
+              <span className="text-[#70685c]"> / {nextLang.toUpperCase()}</span>
             </button>
             <a
               href="#contact"
@@ -262,7 +262,7 @@ export default function App() {
           <PhoneMockups caption={t.hero.mockupCaption} />
           <div className="flex flex-col items-center gap-[26px] px-6 pb-[72px] pt-8">
             <div data-reveal className="flex flex-wrap items-center justify-center gap-x-[18px] gap-y-3.5">
-              <span className="font-mono text-[11px] uppercase tracking-[.24em] text-[#8a8172]">{t.hero.comingSoon}</span>
+              <span className="font-mono text-[11px] uppercase tracking-[.24em] text-[#70685c]">{t.hero.comingSoon}</span>
               {/* badges stay side by side; only the label wraps on narrow screens */}
               <span className="flex flex-nowrap items-center gap-[18px]">
                 <img src={badgeAppStore} alt={t.alts.appStore} width={125} height={42} loading="lazy" decoding="async" className="h-[42px] w-auto opacity-85" />
@@ -294,7 +294,7 @@ export default function App() {
                     <h3 className="mb-2 mt-0 font-display text-[22px] font-medium leading-[1.25]">{path.name}</h3>
                     <p className="mb-1.5 mt-0 text-[13px] text-muted-foreground">{path.who}</p>
                     <p className="mb-5 mt-0 text-sm leading-[1.65] text-muted-foreground text-pretty">{path.offer}</p>
-                    <div className="mb-2.5 font-mono text-[10.5px] uppercase tracking-[.2em] text-[#8a8172]">
+                    <div className="mb-2.5 font-mono text-[10.5px] uppercase tracking-[.2em] text-[#70685c]">
                       {t.audiences.nextLabel}
                     </div>
                     <ol className="mb-6 mt-0 flex list-decimal flex-col gap-2 pl-5 text-[13.5px] leading-[1.55] text-muted-foreground">
@@ -422,7 +422,7 @@ export default function App() {
             >
               {t.how.steps[howTab].map((item) => (
                 <div key={item.step} data-reveal className="glass-quiet box-content p-9 md:min-h-[230px] max-md:p-7">
-                  <div className="mb-[34px] font-mono text-[11px] text-[#8a8172] max-md:mb-5">{item.step}</div>
+                  <div className="mb-[34px] font-mono text-[11px] text-[#70685c] max-md:mb-5">{item.step}</div>
                   <h3 className="mb-2.5 mt-0 font-display text-[22px] font-medium leading-[1.25]">{item.title}</h3>
                   <p className="m-0 text-sm leading-[1.65] text-muted-foreground text-pretty">{item.body}</p>
                 </div>
@@ -545,7 +545,7 @@ export default function App() {
                 <img src={strengthTraining} alt={t.alts.strength} loading="lazy" decoding="async" className="h-full w-full object-cover" />
               </div>
               <div data-reveal className="flex flex-col bg-card p-[clamp(28px,5vw,52px)]">
-                <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#8a8172]">
+                <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#70685c]">
                   {t.benefits.gyms.eyebrow}
                 </div>
                 <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
@@ -560,7 +560,7 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
-                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#8a8172]">
+                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c]">
                   {t.benefits.gyms.note}
                 </p>
                 <div className="mt-auto">
@@ -574,14 +574,14 @@ export default function App() {
             {/* Users */}
             <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
               <div data-reveal className="flex flex-col bg-card p-[clamp(28px,5vw,52px)]">
-                <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#8a8172]">
+                <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#70685c]">
                   {t.benefits.users.eyebrow}
                 </div>
                 <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
                   {t.benefits.users.title}
                 </h3>
                 <p className="mb-[22px] mt-0 text-[15px] leading-[1.65] text-muted-foreground">{t.benefits.users.desc}</p>
-                <ul className="mb-8 mt-0 flex list-none flex-col gap-3 p-0">
+                <ul className="mb-[22px] mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.users.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
                       <span aria-hidden="true" className="text-[13px] text-ink/30">✓</span>
@@ -589,6 +589,9 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
+                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c]">
+                  {t.benefits.users.note}
+                </p>
                 <div className="mt-auto">
                   <button type="button" onClick={() => openContact("users")} className={BTN_INK}>
                     {t.benefits.users.btn} →
@@ -749,7 +752,7 @@ export default function App() {
                 </p>
               )}
               <div className="mt-7 border-t border-border pt-7">
-                <p className="m-0 text-xs italic leading-[1.7] text-[#8a8172]">{t.pilot.zonesNote}</p>
+                <p className="m-0 text-xs italic leading-[1.7] text-[#70685c]">{t.pilot.zonesNote}</p>
               </div>
             </div>
           </div>
@@ -822,7 +825,7 @@ export default function App() {
                         className="flex w-full items-center justify-between gap-4 py-5 text-left"
                       >
                         <span className="text-[14.5px] font-semibold">{f.q}</span>
-                        <span aria-hidden="true" className="font-display text-[20px] text-[#8a8172]">{open ? "−" : "+"}</span>
+                        <span aria-hidden="true" className="font-display text-[20px] text-[#70685c]">{open ? "−" : "+"}</span>
                       </button>
                     </h3>
                     <div

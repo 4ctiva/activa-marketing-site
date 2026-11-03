@@ -18,11 +18,13 @@ export const CONTACT = {
   form: "https://docs.google.com/forms/d/e/1FAIpQLSf4GeBCFGcsHa3XpXcrZQVP70hvqwa9TQ0XhCx8ZHf2R-Dznw/viewform",
 };
 
+/** Member app sign-in ("Already a member? Sign in" in the header). */
+export const MEMBER_APP_URL = "https://app.4ctiva.com";
 /**
- * Member app sign-in. Unset: app.4ctiva.com did not resolve in DNS when checked
- * (2026-11-03). Set it to the verified URL to show "Already a member? Sign in".
+ * The app is not in production yet (app.4ctiva.com did not resolve on
+ * 2026-11-03), so the link stays hidden. Flip to true at launch.
  */
-export const MEMBER_APP_URL: string | null = null;
+export const MEMBER_APP_LIVE = false;
 
 function useSessionState<T>(key: string, initial: T, valid: (v: unknown) => v is T) {
   const [value, setValue] = useState<T>(() => {
