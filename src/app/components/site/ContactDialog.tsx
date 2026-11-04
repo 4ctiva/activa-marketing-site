@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLang } from "../../i18n";
 import { AUDIENCES, CONTACT, mailtoHref, whatsappHref, type Audience } from "../../lib/audience";
+import { ArrowRight, ArrowUpRight, X } from "lucide-react";
 import { InstagramIcon, MailIcon, WhatsAppIcon } from "./icons";
 
 /** Builds the visitor's own email/WhatsApp message from their selections (nothing is sent by the site). */
@@ -17,7 +18,7 @@ export function useContactMessage(audience: Audience | null, areas: string[]) {
 }
 
 const ROW =
-  "glass-quiet glass-frost glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]";
+  "press glass-quiet glass-frost glass-hover flex items-center justify-between gap-4 px-[22px] py-[18px] transition-colors duration-200 hover:text-[#3d4a61]";
 const ICON = "flex size-[42px] shrink-0 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-muted-foreground";
 
 /** Email / WhatsApp / Instagram rows, shared by the contact section and the dialog. */
@@ -33,10 +34,14 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
           </span>
           <span className="flex min-w-0 flex-col">
             <span className="text-sm font-bold">Esteban Baltodano</span>
-            <span className="break-all text-xs text-[#70685c]">{CONTACT.email}</span>
+            {/* only ever break after the @, never inside the domain */}
+            <span className="text-xs text-[#70685c]">
+              {CONTACT.email.split("@")[0]}@<wbr />
+              {CONTACT.email.split("@")[1]}
+            </span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#70685c]">→</span>
+        <ArrowRight aria-hidden="true" size={16} strokeWidth={1.75} className="btn-arrow shrink-0 text-[#70685c]" />
       </a>
       <a href={msg.whatsapp} target="_blank" rel="noopener noreferrer" className={ROW}>
         <span className="flex items-center gap-4">
@@ -50,7 +55,7 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <span className="text-xs text-[#70685c]">{CONTACT.whatsappLabel}</span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#70685c]">↗</span>
+        <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.75} className="btn-arrow-out shrink-0 text-[#70685c]" />
       </a>
       <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className={ROW}>
         <span className="flex items-center gap-4">
@@ -64,7 +69,7 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <span className="text-xs text-[#70685c]">{CONTACT.instagramHandle}</span>
           </span>
         </span>
-        <span aria-hidden="true" className="text-[#70685c]">↗</span>
+        <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.75} className="btn-arrow-out shrink-0 text-[#70685c]" />
       </a>
     </>
   );
@@ -206,7 +211,7 @@ export default function ContactDialog({
               aria-label={t.common.close}
               className="flex size-9 items-center justify-center rounded-full text-[18px] text-muted-foreground hover:text-ink"
             >
-              <span aria-hidden="true">✕</span>
+              <X aria-hidden="true" size={20} strokeWidth={1.75} />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto">
@@ -227,9 +232,10 @@ export default function ContactDialog({
                 href={CONTACT.form}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-ink px-5 py-3.5 text-center text-sm font-bold text-primary-foreground"
+                className="press rounded-full bg-ink px-5 py-3.5 text-center text-sm font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52]"
               >
-                {t.contact.openForm} <span aria-hidden="true">↗</span>
+                {t.contact.openForm}
+                <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2} className="btn-arrow-out ml-1.5 inline-block align-[-3px]" />
                 <span className="sr-only"> {t.common.newTab}</span>
               </a>
               <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground">{t.contact.formHelp}</p>

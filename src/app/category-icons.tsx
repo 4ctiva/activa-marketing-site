@@ -4,7 +4,8 @@ type IconProps = SVGProps<SVGSVGElement>;
 
 /* ────────────────────────────────────────────────────────────────
  * CATEGORY ICONS — inline SVGs copied verbatim from the design
- * handoff (`Activa Site (5c).dc.html`, #categories tiles).
+ * handoff (`Activa Site (5c).dc.html`, #categories tiles), except
+ * Pilates and Boxing, redrawn in the same style on 2026-11-04.
  *
  * The array order MUST match `categories.items` in src/app/i18n.tsx:
  *   0 Gyms / Gimnasios        5 Recovery
@@ -49,23 +50,22 @@ export const CATEGORY_ICONS: ComponentType<IconProps>[] = [
       <path d="M12 22c-4.2 0-7-1.667-7-5 4.2 0 7 1.667 7 5Z" />
     </svg>
   ),
-  // 2 · Pilates — activity line
+  // 2 · Pilates — teaser (V-sit) on a mat; replaces the heartbeat line (2026-11-04)
   (props) => (
     <svg {...base(props)}>
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      <circle cx="5" cy="6.5" r="2" />
+      <path d="m6.5 10.25 3 7.75 9.5-9" />
+      <path d="m7.25 12.25 6.25-2.5" />
+      <rect x="2" y="19.5" width="20" height="2" rx="1" />
     </svg>
   ),
-  // 3 · Boxing / Boxeo — crossed swords
+  // 3 · Boxing / Boxeo — boxing glove with cuff seam; replaces crossed swords (2026-11-04)
   (props) => (
     <svg {...base(props)}>
-      <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-      <line x1="13" x2="19" y1="19" y2="13" />
-      <line x1="16" x2="20" y1="16" y2="20" />
-      <line x1="19" x2="21" y1="21" y2="19" />
-      <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 10" />
-      <line x1="5" x2="9" y1="14" y2="18" />
-      <line x1="7" x2="4" y1="17" y2="20" />
-      <line x1="3" x2="5" y1="19" y2="21" />
+      <path d="M7.5 16.75C5.25 14.75 4 12.75 4 9.75c0-4 3-7.25 7.25-7.25h2.25c3.75 0 6.5 2.75 6.5 6.5v2.25c0 3.25-2.25 5.5-5 5.5" />
+      <path d="M20 10.5h-3.5a3 3 0 0 0-3 3v.75c0 1.25.5 2 1.5 2.5" />
+      <rect x="6.5" y="16.75" width="9.5" height="5" rx="1" />
+      <path d="M6.5 19.25h9.5" />
     </svg>
   ),
   // 4 · Functional / Funcional — bolt

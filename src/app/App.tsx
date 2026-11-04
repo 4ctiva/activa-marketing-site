@@ -1,24 +1,22 @@
-import { useState, useEffect, useRef, type CSSProperties, type KeyboardEvent } from "react";
+import { useState, useEffect, useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from "react";
 import { useLang, type Lang, LAUNCH_ZONES } from "./i18n";
 import { CATEGORY_ICONS } from "./category-icons";
 import PhoneMockups from "./components/site/PhoneMockups";
 import SiteFooter from "./components/site/SiteFooter";
 import IntroCurtain from "./components/site/IntroCurtain";
 import ContactDialog, { AudiencePills, ContactAlternatives } from "./components/site/ContactDialog";
+import { ArrowRight, ArrowUpRight, Check, ChevronRight, MapPin } from "lucide-react";
 import HrMessage from "./components/site/HrMessage";
+import MobileMenu from "./components/site/MobileMenu";
 import { initMotion, scanReveals } from "./lib/motion";
-import { trackStickyHeader } from "./lib/stickyHeader";
+import { trackHeaderSurface, trackStickyHeader } from "./lib/stickyHeader";
 import { AUDIENCES, MEMBER_APP_LIVE, MEMBER_APP_URL, useAreas, useAudience, type Audience } from "./lib/audience";
 import logoFull from "../../assets/optimized/logo-full-400w.webp";
 import mark from "../../assets/mark.png";
 import aptLogo from "../../assets/optimized/apt-logo-270w.webp";
 import badgeAppStore from "../../assets/optimized/badge-appstore-380w.webp";
 import badgeGooglePlay from "../../assets/optimized/badge-googleplay-380w.webp";
-import meditation from "../../assets/optimized/meditation-1400w.webp";
-import companyWellness from "../../assets/optimized/company-wellness-1400w.webp";
-import strengthTraining from "../../assets/optimized/strength-training-1400w.webp";
-import boxing from "../../assets/optimized/boxing-1400w.webp";
-import poolRecovery from "../../assets/optimized/pool-recovery-1400w.webp";
+import { Photo, PHOTOS } from "./lib/photos";
 
 // box-content: the design prototype lays out in content-box, so 1280px is the
 // content width and the side padding sits outside it (1376px overall).
@@ -28,9 +26,34 @@ const H2 = "m-0 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-[1
 const GRID_2COL =
   "grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-[clamp(28px,4.5vw,64px)]";
 const BTN_INK =
-  "inline-block max-w-full rounded-full bg-ink px-7 py-[13px] text-center text-[13.5px] font-bold text-primary-foreground";
+  "press inline-block max-w-full rounded-full bg-ink px-7 py-[13px] text-center text-[13.5px] font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52]";
+// outline pills fill with ink on hover/focus (AA at every step)
 const BTN_OUTLINE =
-  "inline-block max-w-full rounded-full border-[1.5px] border-ink px-6 py-3 text-center text-[13px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]";
+  "press inline-block max-w-full rounded-full border-[1.5px] border-ink px-6 py-3 text-center text-[13px] font-semibold hover:bg-ink hover:text-[#f5f1e8] focus-visible:bg-ink focus-visible:text-[#f5f1e8]";
+
+/** Trailing arrow for CTAs; it nudges right on hover/press (theme.css .btn-arrow). */
+const Arrow = () => <ArrowRight aria-hidden="true" size={15} strokeWidth={2} className="btn-arrow ml-1.5 inline-block align-[-2px]" />;
+/** Glues a trailing icon to the label's last word so it never wraps onto a line alone. */
+const Trailing = ({ text, children }: { text: string; children: ReactNode }) => {
+  const i = text.lastIndexOf(" ") + 1;
+  return (
+    <>
+      {text.slice(0, i)}
+      <span className="whitespace-nowrap">
+        {text.slice(i)}
+        {children}
+      </span>
+    </>
+  );
+};
+/** CTA label with its trailing arrow. */
+const WithArrow = ({ text }: { text: string }) => (
+  <Trailing text={text}>
+    <Arrow />
+  </Trailing>
+);
+/** Status dot: a static marker, never a control. */
+const Dot = () => <span aria-hidden="true" className="inline-block size-1.5 shrink-0 rounded-full bg-[#70685c]" />;
 
 // staggered reveal delays (see motion.css / lib/motion.ts)
 const D = (s: number) => ({ "--reveal-delay": `${s}s` }) as CSSProperties;
@@ -113,6 +136,7 @@ export default function App() {
   }, []);
 
   useEffect(() => trackStickyHeader(), []);
+  useEffect(() => trackHeaderSurface(), []);
 
   // the language toggle swaps copy in place, so the tab title and description follow it
   useEffect(() => {
@@ -168,34 +192,39 @@ export default function App() {
       />
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <header data-sticky-header className="sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px]">
-        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 max-md:gap-x-1.5 max-md:px-1.5">
+      <header
+        data-sticky-header
+        className="group/header sticky top-0 z-50 border-b border-border bg-[rgba(250,248,244,.6)] backdrop-blur-[22px] transition-[background-color,border-color] duration-300 data-[over-dark=true]:border-[rgba(245,241,232,.12)] data-[over-dark=true]:bg-[rgba(19,28,43,.78)]"
+      >
+        <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 transition-[padding] duration-300 group-data-[condensed=true]/header:py-2.5 max-md:flex-nowrap max-md:py-2.5">
           <a href="#home" className="flex items-center">
-            <img src={logoFull} alt="Activa" width={94} height={19} className="block h-[19px] w-auto max-md:h-[11px]" />
+            <img src={logoFull} alt="Activa" width={94} height={19} className="block h-[19px] w-auto transition-[filter] duration-300 max-md:h-[15px] group-data-[over-dark=true]/header:brightness-0 group-data-[over-dark=true]/header:invert" />
           </a>
+          {/* phones get the Menu sheet instead (MobileMenu) */}
           <nav
             aria-label={t.nav.main}
-            className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-ink/70 max-md:gap-x-[clamp(6px,2.2vw,12px)] max-md:text-[11px]"
+            className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-ink/70 transition-colors duration-300 max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85"
           >
-            <a href="#home" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
+            <a href="#home" className="nav-link hover:text-ink group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
               {t.nav.home}
             </a>
-            <a href="#about" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
+            <a href="#about" className="nav-link hover:text-ink group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
               {t.nav.about}
             </a>
-            <a href="#contact" className="inline-flex transition-[translate,color] duration-200 hover:-translate-y-[3px] hover:text-ink">
+            <a href="#contact" className="nav-link hover:text-ink group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
               {t.nav.contact}
             </a>
             <a
               href="/para-todos/"
-              className="inline-flex items-center transition-transform duration-200 hover:-translate-y-[3px]"
+              className="-mx-2 inline-flex items-center rounded-[10px] px-2 opacity-90 transition-[opacity,background-color] duration-300 hover:opacity-100 group-data-[over-dark=true]/header:bg-[#f5f1e8]"
             >
-              <img src={aptLogo} alt="Activa para Todos" width={87} height={38} className="block h-[38px] w-auto max-md:h-[21px]" />
+              {/* separate identity: never recoloured; over dark sections it sits on a cream plate */}
+              <img src={aptLogo} alt="Activa para Todos" width={87} height={38} className="block h-[38px] w-auto" />
             </a>
           </nav>
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 max-md:gap-2">
             {MEMBER_APP_LIVE && (
-              <a href={MEMBER_APP_URL} className="text-[12.5px] font-medium text-ink/70 hover:text-ink max-md:hidden">
+              <a href={MEMBER_APP_URL} className="text-[12.5px] font-medium text-ink/70 hover:text-ink max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85 group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
                 {t.nav.signIn}
               </a>
             )}
@@ -203,17 +232,18 @@ export default function App() {
               onClick={() => setLang(nextLang)}
               aria-label={t.nav.switchLang}
               lang={nextLang}
-              className="rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:px-1.5 max-md:py-[5px] max-md:text-[9px]"
+              className="press rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:h-10 max-md:px-3.5 group-data-[over-dark=true]/header:border-[rgba(245,241,232,.3)] group-data-[over-dark=true]/header:text-[#f5f1e8] group-data-[over-dark=true]/header:hover:text-white"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
-              <span className="text-[#70685c]"> / {nextLang.toUpperCase()}</span>
+              <span className="text-[#70685c] group-data-[over-dark=true]/header:text-[#c9c1b2]"> / {nextLang.toUpperCase()}</span>
             </button>
             <a
               href="#contact"
-              className="rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground max-md:hidden"
+              className="press rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground transition-colors duration-300 hover:bg-[#2c3a52] max-md:hidden group-data-[over-dark=true]/header:bg-[#f5f1e8] group-data-[over-dark=true]/header:text-ink group-data-[over-dark=true]/header:hover:bg-white"
             >
               {t.nav.cta}
             </a>
+            <MobileMenu />
           </div>
         </div>
       </header>
@@ -246,7 +276,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => openContact()}
-                className="max-w-full rounded-full bg-ink px-7 py-3.5 text-[14px] font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
+                className="press max-w-full rounded-full bg-ink px-7 py-3.5 text-[14px] font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
               >
                 {t.hero.ctaPrimary}
               </button>
@@ -255,7 +285,7 @@ export default function App() {
               </a>
             </div>
             <p data-reveal className="mx-auto mb-0 mt-5 flex items-center justify-center gap-2 text-[12.5px] text-muted-foreground">
-              <span aria-hidden="true" className="text-ink/35">◉</span>
+              <Dot />
               {t.hero.status}
             </p>
           </div>
@@ -305,7 +335,7 @@ export default function App() {
                     {a === "users" && (
                       <details className="group mb-6 rounded-xl border border-border px-4 py-3">
                         <summary className="cursor-pointer list-none text-[13px] font-semibold [&::-webkit-details-marker]:hidden">
-                          <span aria-hidden="true" className="details-caret mr-1.5 inline-block transition-transform duration-200">▸</span>
+                          <ChevronRight aria-hidden="true" size={14} strokeWidth={2} className="details-caret mr-1 inline-block align-[-2px] transition-transform duration-200" />
                           {t.hr.title}
                         </summary>
                         <div className="mt-3">
@@ -322,7 +352,7 @@ export default function App() {
                         onClick={() => chooseAudience(a)}
                         className="text-[13px] font-semibold underline underline-offset-4 hover:text-[#3d4a61]"
                       >
-                        {t.audiences.howLink}: {path.name} <span aria-hidden="true">→</span>
+                        <WithArrow text={`${t.audiences.howLink}: ${path.name}`} />
                       </a>
                     </div>
                   </li>
@@ -351,13 +381,7 @@ export default function App() {
             </div>
             <div className={`${GRID_2COL} mt-[clamp(56px,8vw,110px)] items-center`}>
               <div data-reveal="curtain" data-parallax="24" className="h-[520px] overflow-hidden rounded-2xl max-md:h-[340px]">
-                <img
-                  src={meditation}
-                  alt={t.alts.meditation}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover object-[64%_center]"
-                />
+                <Photo photo={PHOTOS.meditation} alt={t.alts.meditation} position="64% center" />
               </div>
               <div data-reveal>
                 <div className="eyebrow mb-[22px]">{t.what.whyLabel}</div>
@@ -388,7 +412,7 @@ export default function App() {
               style={D(0.2)}
               role="tablist"
               aria-label={t.how.tabsLabel}
-              className="glass-quiet glass-frost glass-pill mb-10 inline-flex flex-wrap gap-1 p-1"
+              className="glass-quiet glass-frost glass-pill mb-10 inline-flex flex-wrap gap-1 p-1 max-md:grid max-md:w-full max-md:grid-cols-3"
             >
               {howTabs.map((tab, i) => (
                 <button
@@ -403,7 +427,7 @@ export default function App() {
                   tabIndex={howTab === tab.key ? 0 : -1}
                   onClick={() => setHowTab(tab.key)}
                   onKeyDown={(e) => onTabKey(e, i)}
-                  className={`rounded-full px-6 py-[11px] text-[13.5px] font-semibold transition-colors duration-200 ${
+                  className={`press rounded-full px-6 py-[11px] text-[13.5px] font-semibold transition-colors duration-200 max-md:px-2 max-md:text-[12.5px] max-md:leading-tight ${
                     howTab === tab.key ? "bg-ink text-light" : "text-muted-foreground"
                   }`}
                 >
@@ -432,7 +456,7 @@ export default function App() {
         </section>
 
         {/* ── 4. EVIDENCE (external research, not Activa results) ── */}
-        <section id="evidence" className="surface-dark bg-ink text-light">
+        <section id="evidence" data-dark-surface className="surface-dark bg-ink text-light">
           <div className={`${CONTAINER} ${SECTION_Y}`}>
             <div data-reveal className="eyebrow mb-[22px] !text-[#a89f8c]">{t.evidence.label}</div>
             <h2 data-reveal style={D(0.1)} className={`${H2} mb-5`}>
@@ -440,27 +464,49 @@ export default function App() {
               <br />
               <span className="font-semibold">{t.evidence.titleEm}</span>
             </h2>
-            <p data-reveal style={D(0.2)} className="mb-12 mt-0 max-w-[620px] text-base leading-[1.6] text-[#a89f8c] text-pretty">
+            <p data-reveal style={D(0.2)} className="mb-12 mt-0 max-w-[620px] text-base leading-[1.6] text-[#c9c1b2] text-pretty">
               {t.evidence.intro}
             </p>
-            <div data-reveal-group data-reveal-stagger="140" className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-4">
+            {/* editorial rows: static figures (no count-up — they are other studies'
+                findings, not Activa wins), each linked to its source */}
+            <ol data-reveal-group data-reveal-stagger="140" className="m-0 list-none border-t border-[rgba(245,241,232,.14)] p-0">
               {t.evidence.stats.map((st) => (
-                <div
+                <li
                   key={st.n}
                   data-reveal
-                  className="glass-dark box-content flex flex-col p-9 md:min-h-[250px] max-md:p-7"
+                  className="grid grid-cols-[minmax(0,260px)_minmax(0,1fr)] items-baseline gap-x-[clamp(24px,5vw,72px)] gap-y-3 border-b border-[rgba(245,241,232,.14)] py-[clamp(24px,3.5vw,40px)] max-md:grid-cols-1"
                 >
-                  <div className="mb-4 font-display text-[clamp(40px,5vw,54px)] font-normal text-light">
-                    <span className="sr-only">{st.n}</span>
-                    <span aria-hidden="true" data-count={st.n}>
-                      {st.n}
-                    </span>
+                  <div className="font-display text-[clamp(44px,6vw,76px)] font-light leading-none tracking-[-.02em] text-light [font-variant-numeric:tabular-nums]">
+                    {st.n}
                   </div>
-                  <p className="mb-5 mt-0 flex-1 text-sm leading-[1.65] text-[#d8d2c5]">{st.d}</p>
-                  <div className="text-[11.5px] italic text-[#a89f8c]">{st.s}</div>
-                </div>
+                  <div className="flex flex-col gap-3.5">
+                    <p className="m-0 max-w-[640px] text-[17px] leading-[1.6] text-[#e8e2d6] text-pretty max-md:text-[16px]">{st.d}</p>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12.5px]">
+                      <span className="rounded-full border border-[rgba(245,241,232,.25)] px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[.14em] text-[#d8d2c5]">
+                        {t.evidence.chip}
+                      </span>
+                      {st.sources.map((src) => (
+                        <a
+                          key={src.href}
+                          href={src.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#c9c1b2] underline decoration-[rgba(245,241,232,.3)] underline-offset-4 hover:text-light hover:decoration-current"
+                        >
+                          {/* only the citation is English; the new-tab hint follows the page language */}
+                          <span lang="en">
+                            <Trailing text={src.label}>
+                              <ArrowUpRight aria-hidden="true" size={13} strokeWidth={2} className="btn-arrow-out ml-1 inline-block align-[-2px]" />
+                            </Trailing>
+                          </span>
+                          <span className="sr-only"> {t.common.newTab}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ol>
             <p data-reveal className="mb-0 mt-6 text-[12.5px] leading-[1.6] text-[#a89f8c]">
               {t.evidence.disclaimer}
             </p>
@@ -468,14 +514,14 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => openContact("companies")}
-                className="max-w-full rounded-full bg-light px-[30px] py-3.5 text-center text-[13.5px] font-bold text-ink transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
+                className="press max-w-full rounded-full bg-light px-[30px] py-3.5 text-center text-[13.5px] font-bold text-ink transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
               >
-                {t.evidence.cta} →
+                <WithArrow text={t.evidence.cta} />
               </button>
               <details className="group max-w-[640px] text-[11.5px] text-[#a89f8c]">
                 {/* custom marker: iOS renders the native one as a blue emoji */}
                 <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                  <span aria-hidden="true" className="details-caret mr-1.5 inline-block transition-transform duration-200">{"▸"}</span>
+                  <ChevronRight aria-hidden="true" size={14} strokeWidth={2} className="details-caret mr-1 inline-block align-[-2px] transition-transform duration-200" />
                   {t.evidence.refsLabel}
                 </summary>
                 <ul className="m-0 mt-3 flex list-disc flex-col gap-2 pl-[18px]">
@@ -502,7 +548,7 @@ export default function App() {
 
             {/* Companies */}
             <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
-              <div data-reveal className="surface-dark flex flex-col bg-ink p-[clamp(28px,5vw,52px)] text-light">
+              <div data-reveal data-dark-surface className="surface-dark flex flex-col bg-ink p-[clamp(28px,5vw,52px)] text-light">
                 <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#a89f8c]">
                   {t.benefits.companies.eyebrow}
                 </div>
@@ -513,7 +559,7 @@ export default function App() {
                 <ul className="mb-8 mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.companies.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
-                      <span aria-hidden="true" className="text-[13px] text-[#a89f8c]">✓</span>
+                      <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-[#a89f8c]" />
                       <span className="text-sm leading-[1.6] text-[#d8d2c5]">{b}</span>
                     </li>
                   ))}
@@ -522,27 +568,21 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openContact("companies")}
-                    className="inline-block max-w-full rounded-full bg-light px-7 py-[13px] text-[13.5px] font-bold text-ink"
+                    className="press inline-block max-w-full rounded-full bg-light px-7 py-[13px] text-[13.5px] font-bold text-ink hover:bg-white focus-visible:bg-white"
                   >
-                    {t.benefits.companies.btn} →
+                    <WithArrow text={t.benefits.companies.btn} />
                   </button>
                 </div>
               </div>
               <div data-reveal="curtain" data-parallax="22" className="min-h-[480px] overflow-hidden max-md:min-h-[240px]">
-                <img
-                  src={companyWellness}
-                  alt={t.alts.companyWellness}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover"
-                />
+                <Photo photo={PHOTOS.companyWellness} alt={t.alts.companyWellness} />
               </div>
             </div>
 
             {/* Gyms / Studios */}
             <div className="mb-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] overflow-hidden rounded-2xl border border-border">
               <div data-reveal="curtain" data-parallax="22" className="min-h-[480px] overflow-hidden max-md:min-h-[240px]">
-                <img src={strengthTraining} alt={t.alts.strength} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                <Photo photo={PHOTOS.strengthTraining} alt={t.alts.strength} />
               </div>
               <div data-reveal className="flex flex-col bg-card p-[clamp(28px,5vw,52px)]">
                 <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#70685c]">
@@ -555,7 +595,7 @@ export default function App() {
                 <ul className="mb-[22px] mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.gyms.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
-                      <span aria-hidden="true" className="text-[13px] text-ink/30">✓</span>
+                      <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-ink/40" />
                       <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
                     </li>
                   ))}
@@ -565,7 +605,7 @@ export default function App() {
                 </p>
                 <div className="mt-auto">
                   <button type="button" onClick={() => openContact("gyms")} className={BTN_INK}>
-                    {t.benefits.gyms.btn} →
+                    <WithArrow text={t.benefits.gyms.btn} />
                   </button>
                 </div>
               </div>
@@ -584,7 +624,7 @@ export default function App() {
                 <ul className="mb-[22px] mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.users.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
-                      <span aria-hidden="true" className="text-[13px] text-ink/30">✓</span>
+                      <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-ink/40" />
                       <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
                     </li>
                   ))}
@@ -594,25 +634,19 @@ export default function App() {
                 </p>
                 <div className="mt-auto">
                   <button type="button" onClick={() => openContact("users")} className={BTN_INK}>
-                    {t.benefits.users.btn} →
+                    <WithArrow text={t.benefits.users.btn} />
                   </button>
                 </div>
               </div>
               <div data-reveal="curtain" data-parallax="22" className="min-h-[480px] overflow-hidden max-md:min-h-[240px]">
-                <img
-                  src={boxing}
-                  alt={t.alts.boxing}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover object-[62%_center]"
-                />
+                <Photo photo={PHOTOS.boxing} alt={t.alts.boxing} position="62% center" />
               </div>
             </div>
           </div>
         </section>
 
         {/* ── 6. CONTROL & SAFETY ────────────────────────────────── */}
-        <section id="safety" className="surface-dark bg-ink text-light">
+        <section id="safety" data-dark-surface className="surface-dark bg-ink text-light">
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
             <div data-reveal>
               <div className="eyebrow mb-[22px] !text-[#a89f8c]">{t.safety.eyebrow}</div>
@@ -630,7 +664,7 @@ export default function App() {
                   data-reveal
                   className="glass-dark flex items-start gap-3 p-5"
                 >
-                  <span aria-hidden="true" className="text-[13px] text-[#a89f8c]">✓</span>
+                  <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-[#a89f8c]" />
                   <span className="text-[13.5px] leading-[1.55] text-[#d8d2c5]">{b}</span>
                 </li>
               ))}
@@ -645,7 +679,7 @@ export default function App() {
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
             <div data-reveal>
               <span className="eyebrow mb-[22px] inline-flex items-center gap-2 rounded-full border border-[rgba(33,43,60,.15)] px-3.5 py-1.5 !text-muted-foreground">
-                <span aria-hidden="true" className="text-ink/35">◉</span>
+                <Dot />
                 {t.digital.badge}
               </span>
               <h2 id="digital-title" className={`${H2} mb-6`}>
@@ -668,15 +702,14 @@ export default function App() {
                 aria-labelledby="digital-areas"
                 data-reveal-group
                 data-reveal-stagger="70"
-                className="m-0 flex list-none flex-col gap-2.5 p-0"
+                className="m-0 flex list-none flex-col border-t border-border p-0"
               >
                 {t.digital.areas.map((area) => (
                   <li
                     key={area}
                     data-reveal
-                    className="flex items-center gap-2.5 rounded-full border border-[rgba(33,43,60,.15)] px-[18px] py-[11px] text-[13.5px] text-muted-foreground"
+                    className="border-b border-border py-3 text-[14px] text-muted-foreground last:border-b-0"
                   >
-                    <span aria-hidden="true" className="text-ink/35">◉</span>
                     {area}
                   </li>
                 ))}
@@ -686,7 +719,7 @@ export default function App() {
                   {t.digital.partnerText}
                 </p>
                 <a href="#contact" className={BTN_OUTLINE}>
-                  {t.digital.partnerCta} →
+                  <WithArrow text={t.digital.partnerCta} />
                 </a>
               </div>
             </div>
@@ -718,7 +751,7 @@ export default function App() {
                   ] as const
                 ).map(([a, label]) => (
                   <button key={a} type="button" onClick={() => openContact(a)} className={BTN_OUTLINE}>
-                    {label} →
+                    <WithArrow text={label} />
                   </button>
                 ))}
               </div>
@@ -729,7 +762,7 @@ export default function App() {
                 <p id="zones-hint" className="mb-5 mt-0 text-[13px] leading-[1.6] text-muted-foreground">
                   {t.pilot.zonesHint}
                 </p>
-                <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
+                <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-2.5">
                   {[...LAUNCH_ZONES, "other"].map((zone) => (
                     <label key={zone} data-reveal className="pill-choice pill-choice--wide">
                       <input
@@ -739,7 +772,9 @@ export default function App() {
                         className="sr-only"
                       />
                       <span>
-                        <span aria-hidden="true" className="pill-dot">◉</span>
+                        <span aria-hidden="true" className="pill-box">
+                          <Check size={11} strokeWidth={3} />
+                        </span>
                         {zone === "other" ? t.pilot.zoneOther : zone}
                       </span>
                     </label>
@@ -772,14 +807,14 @@ export default function App() {
                 {t.categories.intro}
               </p>
             </div>
-            <ul data-reveal-group data-reveal-stagger="60" className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(105px,1fr))] gap-2.5 p-0">
+            <ul data-reveal-group data-reveal-stagger="60" className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(105px,1fr))] gap-2.5 p-0 max-md:grid-cols-3 max-md:gap-2">
               {t.categories.items.map((label, i) => {
                 const Icon = CATEGORY_ICONS[i];
                 return (
                   <li
                     key={i}
                     data-reveal
-                    className="group flex h-[150px] flex-col items-center justify-center gap-3.5 rounded-2xl border border-border/70 bg-white/40 px-2 transition-colors duration-[250ms] hover:bg-white/75 max-md:h-[112px]"
+                    className="group flex h-[150px] flex-col items-center justify-center gap-3.5 rounded-2xl border border-border/70 bg-white/40 px-2 transition-colors duration-[250ms] hover:bg-white/75 max-md:h-[96px] max-md:gap-2.5"
                   >
                     <Icon aria-hidden="true" className="text-ink/45 transition-colors duration-[250ms] group-hover:text-ink" />
                     <span className="text-center text-[11.5px] font-semibold text-muted-foreground">{label}</span>
@@ -825,7 +860,10 @@ export default function App() {
                         className="flex w-full items-center justify-between gap-4 py-5 text-left"
                       >
                         <span className="text-[14.5px] font-semibold">{f.q}</span>
-                        <span aria-hidden="true" className="font-display text-[20px] text-[#70685c]">{open ? "−" : "+"}</span>
+                        <svg aria-hidden="true" viewBox="0 0 16 16" width={16} height={16} className="faq-sign shrink-0 text-[#70685c]">
+                          <path d="M2 8h12" />
+                          <path className="faq-sign-v" d="M8 2v12" />
+                        </svg>
                       </button>
                     </h3>
                     <div
@@ -860,8 +898,8 @@ export default function App() {
                 {t.contact.intro}
               </p>
               <div className="flex items-center gap-3 text-[13.5px] text-muted-foreground">
-                <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-ink/35">
-                  ◉
+                <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-[#70685c]">
+                  <MapPin size={16} strokeWidth={1.75} />
                 </span>
                 {t.contact.location}
               </div>
@@ -871,9 +909,9 @@ export default function App() {
                 type="button"
                 onClick={() => openContact()}
                 data-reveal
-                className="rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
+                className="press rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
               >
-                {t.contact.ctaForm} →
+                <WithArrow text={t.contact.ctaForm} />
               </button>
               <div data-reveal className="flex flex-col gap-3.5">
                 <ContactAlternatives audience={audience} areas={areaLabels} />
@@ -886,13 +924,7 @@ export default function App() {
         <section id="about" className="border-t border-border bg-card/55">
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-stretch`}>
             <div data-reveal="curtain" data-parallax="24" className="min-h-[460px] overflow-hidden rounded-2xl max-md:min-h-[300px]">
-              <img
-                src={poolRecovery}
-                alt={t.alts.pool}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover object-[75%_center]"
-              />
+              <Photo photo={PHOTOS.poolRecovery} alt={t.alts.pool} position="75% center" />
             </div>
             <div data-reveal className="flex flex-col justify-center">
               <div className="eyebrow mb-[22px]">{t.about.label}</div>

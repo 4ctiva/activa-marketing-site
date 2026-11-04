@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 
 export type Lang = "en" | "es";
 
@@ -19,7 +20,7 @@ export const translations = {
     nav: {
       home: "Home",
       about: "About",
-      memberships: "Memberships",
+      memberships: "Benefits",
       contact: "Contact",
       cta: "Join the Pilot",
       menu: "Menu",
@@ -127,7 +128,7 @@ export const translations = {
     how: {
       label: "How It Works",
       title: "Simple for everyone.",
-      tabs: { users: "Members", companies: "Companies", gyms: "Gyms / Studios" },
+      tabs: { users: "Members", companies: "Companies", gyms: "Gyms\u00a0/ Studios" },
       tabsLabel: "Show steps for",
       steps: {
         users: [
@@ -157,20 +158,21 @@ export const translations = {
         {
           n: "+10%",
           d: "productivity among employees who improved their health in one company's wellness program.",
-          s: "Gubler, Larkin & Pierce (2018) · Management Science",
+          sources: [{ label: "Gubler, Larkin & Pierce (2018) · Management Science", href: "https://doi.org/10.1287/mnsc.2017.2883" }],
         },
         {
           n: "$3.27",
           d: "lower medical costs per $1 spent, averaged across earlier studies in a 2010 review. A later randomized trial found no significant savings after 18 months.",
-          s: "Baicker, Cutler & Song (2010) · Health Affairs; Song & Baicker (2019) · JAMA",
+          sources: [{ label: "Baicker, Cutler & Song (2010) · Health Affairs", href: "https://doi.org/10.1377/hlthaff.2009.0626" }, { label: "Song & Baicker (2019) · JAMA", href: "https://doi.org/10.1001/jama.2019.3307" }],
         },
         {
           n: "−69%",
           d: "less likely to be actively job hunting, among employees who feel their employer cares about their wellbeing. A survey association, not proof of cause.",
-          s: "Harter (2022) · Gallup",
+          sources: [{ label: "Harter (2022) · Gallup", href: "https://www.gallup.com/workplace/390776/percent-feel-employer-cares-wellbeing-plummets.aspx" }],
         },
       ],
       disclaimer: "Research findings, not Activa results. They don't prove cause, and no savings are guaranteed.",
+      chip: "External study",
       cta: "Bring Activa to your company",
       refsLabel: "Full references (APA)",
       refs: [
@@ -279,7 +281,7 @@ export const translations = {
       titleTop: "More than a gym.",
       titleEm: "An ecosystem.",
       intro: "Activa includes a variety of spaces and disciplines so everyone can find what they need.",
-      items: ["Gyms", "Yoga", "Pilates", "Boxing", "Functional", "Recovery", "Massage", "Physiotherapy", "Wellness"],
+      items: ["Gyms", "Yoga", "Pilates", "Boxing", "Functional", "Recovery", "Massage", "Physio\u00adtherapy", "Wellness"],
     },
     faq: {
       label: "Frequently Asked Questions",
@@ -380,7 +382,7 @@ export const translations = {
     nav: {
       home: "Inicio",
       about: "Nosotros",
-      memberships: "Membresías",
+      memberships: "Beneficios",
       contact: "Contacto",
       cta: "Sumate al piloto",
       menu: "Menú",
@@ -488,7 +490,7 @@ export const translations = {
     how: {
       label: "Cómo Funciona",
       title: "Simple para todos.",
-      tabs: { users: "Miembros", companies: "Empresas", gyms: "Gimnasios / Studios" },
+      tabs: { users: "Miembros", companies: "Empresas", gyms: "Gimnasios\u00a0/ Studios" },
       tabsLabel: "Ver pasos para",
       steps: {
         users: [
@@ -518,20 +520,21 @@ export const translations = {
         {
           n: "+10%",
           d: "de productividad entre colaboradores que mejoraron su salud en el programa de bienestar de una empresa.",
-          s: "Gubler, Larkin & Pierce (2018) · Management Science",
+          sources: [{ label: "Gubler, Larkin & Pierce (2018) · Management Science", href: "https://doi.org/10.1287/mnsc.2017.2883" }],
         },
         {
           n: "$3.27",
           d: "menos en costos médicos por cada $1 invertido, en promedio de estudios anteriores según una revisión de 2010. Un ensayo aleatorizado posterior no encontró ahorros significativos a los 18 meses.",
-          s: "Baicker, Cutler & Song (2010) · Health Affairs; Song & Baicker (2019) · JAMA",
+          sources: [{ label: "Baicker, Cutler & Song (2010) · Health Affairs", href: "https://doi.org/10.1377/hlthaff.2009.0626" }, { label: "Song & Baicker (2019) · JAMA", href: "https://doi.org/10.1001/jama.2019.3307" }],
         },
         {
           n: "−69%",
           d: "de probabilidad de buscar activamente otro empleo entre colaboradores que sienten que su empresa cuida su bienestar. Es una asociación de encuesta, no prueba de causa.",
-          s: "Harter (2022) · Gallup",
+          sources: [{ label: "Harter (2022) · Gallup", href: "https://www.gallup.com/workplace/390776/percent-feel-employer-cares-wellbeing-plummets.aspx" }],
         },
       ],
       disclaimer: "Hallazgos de investigación, no resultados de Activa. No prueban causa y no garantizan ahorros.",
+      chip: "Estudio externo",
       cta: "Llevá Activa a tu empresa",
       refsLabel: "Referencias completas (APA)",
       refs: [
@@ -640,7 +643,7 @@ export const translations = {
       titleTop: "Más que un gimnasio.",
       titleEm: "Un ecosistema.",
       intro: "Activa incluye una variedad de espacios y disciplinas para que cada persona encuentre lo que necesita.",
-      items: ["Gimnasios", "Yoga", "Pilates", "Boxeo", "Funcional", "Recuperación", "Masajes", "Fisioterapia", "Wellness"],
+      items: ["Gimnasios", "Yoga", "Pilates", "Boxeo", "Funcional", "Recupe\u00adración", "Masajes", "Fisio\u00adterapia", "Wellness"],
     },
     faq: {
       label: "Preguntas Frecuentes",
@@ -793,7 +796,15 @@ export function LanguageProvider({ children, defaultLang = "en" }: { children: R
     }
   };
 
-  const setLang = (next: Lang) => persist(next);
+  // a short crossfade between languages where View Transitions exist; instant otherwise
+  const setLang = (next: Lang) => {
+    const doc = document as Document & { startViewTransition?: (update: () => void) => unknown };
+    if (doc.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      doc.startViewTransition(() => flushSync(() => persist(next)));
+    } else {
+      persist(next);
+    }
+  };
 
   const choose = (next: Lang) => {
     persist(next);

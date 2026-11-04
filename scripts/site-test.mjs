@@ -312,6 +312,162 @@ try {
     await page.close();
   }
 
+  // ── 5b. Phone header: Menu sheet, tabs, categories ────────────────
+  {
+    const { page, errors } = await open({ width: 390, height: 844 });
+    const head = await page.evaluate(() => {
+      const header = document.querySelector("header");
+      const btn = header.querySelector("button[aria-controls=mobile-menu]");
+      const toggle = header.querySelector("button[lang]");
+      const sz = (el) => {
+        const r = el.getBoundingClientRect();
+        return Math.min(r.width, r.height);
+      };
+      return {
+        inlineNavHidden: getComputedStyle(header.querySelector("nav")).display === "none",
+        menuBtn: btn ? sz(btn) : 0,
+        toggle: toggle ? sz(toggle) : 0,
+        oneRow: header.getBoundingClientRect().height < 80,
+      };
+    });
+    check("m390: inline nav hidden, one-row header with ≥40px Menu and language targets", head.inlineNavHidden && head.menuBtn >= 40 && head.toggle >= 40 && head.oneRow, head);
+    await page.focus("button[aria-controls=mobile-menu]");
+    await page.keyboard.press("Enter");
+    await sleep(250);
+    const menu = await page.evaluate(() => {
+      const d = document.getElementById("mobile-menu");
+      return { open: d.open, focusInside: d.contains(document.activeElement), links: d.querySelectorAll("a[href]").length, expanded: document.querySelector("button[aria-controls=mobile-menu]").getAttribute("aria-expanded") };
+    });
+    check("m390: Menu opens a modal sheet with focus inside and every nav link", menu.open && menu.focusInside && menu.links >= 7 && menu.expanded === "true", menu);
+    await shot(page, "m390-menu");
+    await page.keyboard.press("Escape");
+    await sleep(200);
+    check("m390: Escape closes the menu and focus returns to the Menu button", await page.evaluate(() => !document.getElementById("mobile-menu").open && document.activeElement?.getAttribute("aria-controls") === "mobile-menu"));
+    await page.evaluate(() => document.querySelector("button[aria-controls=mobile-menu]").click());
+    await sleep(200);
+    await page.evaluate(() => [...document.querySelectorAll("#mobile-menu a")].find((a) => a.getAttribute("href") === "#faq").click());
+    await sleep(500);
+    const nav = await page.evaluate(() => ({ closed: !document.getElementById("mobile-menu").open, scrollUnlocked: document.body.style.overflow === "", faqTop: document.getElementById("faq").getBoundingClientRect().top }));
+    check("m390: a menu link closes the sheet and goes to its section", nav.closed && nav.scrollUnlocked && nav.faqTop < 200, nav);
+    const tabs = await page.evaluate(() => {
+      const tops = [...document.querySelectorAll("#how [role=tab]")].map((t) => Math.round(t.getBoundingClientRect().top));
+      return { sameRow: new Set(tops).size === 1 };
+    });
+    check("m390: How-it-works tabs sit on one row", tabs.sameRow, tabs);
+    const cats = await page.evaluate(() => {
+      const tops = [...document.querySelectorAll("#categories li")].map((t) => Math.round(t.getBoundingClientRect().top));
+      return { rows: new Set(tops).size };
+    });
+    check("m390: categories form a 3×3 grid (no orphan tile)", cats.rows === 3, cats);
+    check("no console/page errors (m390)", errors.length === 0, errors);
+    await page.close();
+  }
+  {
+    // short landscape phone: the sheet must fit (body zoom) so its CTA can be scrolled to
+    const { page } = await open({ width: 667, height: 375 });
+    await page.evaluate(() => document.querySelector("button[aria-controls=mobile-menu]").click());
+    await sleep(300);
+    const sheet = await page.evaluate(() => {
+      const d = document.getElementById("mobile-menu");
+      d.scrollTop = d.scrollHeight;
+      const cta = [...d.querySelectorAll("a")].at(-1).getBoundingClientRect();
+      return { sheetBottom: Math.round(d.getBoundingClientRect().bottom), ctaBottom: Math.round(cta.bottom), vh: innerHeight };
+    });
+    check("667×375: Menu sheet fits the viewport and its CTA scrolls into view", sheet.sheetBottom <= sheet.vh && sheet.ctaBottom <= sheet.vh, sheet);
+    await page.close();
+  }
+
+  // ── 5c. Header over dark sections; research links; photos ─────────
+  {
+    const { page } = await open();
+    const states = {};
+    for (const id of ["paths", "evidence", "benefits", "safety"]) {
+      await page.evaluate((id) => {
+        const el = document.getElementById(id);
+        window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 20);
+      }, id);
+      await sleep(250);
+      states[id] = await page.evaluate(() => document.querySelector("header").dataset.overDark);
+    }
+    check("header switches to its dark style only over dark sections", states.paths === "false" && states.evidence === "true" && states.benefits === "false" && states.safety === "true", states);
+    await page.evaluate(() => {
+      const card = document.querySelector("#benefits .surface-dark");
+      window.scrollTo(0, card.getBoundingClientRect().top + window.scrollY + 120);
+    });
+    await sleep(250);
+    check("header also goes dark over the Companies card", await page.evaluate(() => document.querySelector("header").dataset.overDark === "true"));
+
+    // over dark: light focus ring, hovers keep their text readable, APT logo keeps its colours
+    await page.evaluate(() => {
+      const el = document.getElementById("evidence");
+      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 20);
+    });
+    await sleep(350);
+    const lum = (rgb) => {
+      const [r, g, b] = rgb.match(/[\d.]+/g).slice(0, 3).map((v) => {
+        const c = v / 255;
+        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+    await page.hover("header a[href='#contact'].rounded-full");
+    await sleep(350);
+    const dark = await page.evaluate(() => {
+      const header = document.querySelector("header");
+      const cta = header.querySelector("a[href='#contact'].rounded-full");
+      const apt = header.querySelector("nav a[href='/para-todos/'] img");
+      return {
+        ring: getComputedStyle(header).getPropertyValue("--focus-ring").trim(),
+        sheetRing: getComputedStyle(document.getElementById("mobile-menu")).getPropertyValue("--focus-ring").trim(),
+        ctaFg: getComputedStyle(cta).color,
+        ctaBg: getComputedStyle(cta).backgroundColor,
+        aptFilter: getComputedStyle(apt).filter,
+      };
+    });
+    dark.ctaContrast = +ratio(dark.ctaFg, dark.ctaBg).toFixed(2);
+    check("over dark: light focus ring (sheet keeps ink), hovered CTA ≥4.5:1, APT logo unfiltered", dark.ring === "#f5f1e8" && dark.sheetRing === "#212b3c" && dark.ctaContrast >= 4.5 && dark.aptFilter === "none", dark);
+
+    // condensed state must settle, not flip each frame under scroll anchoring
+    const flips = await page.evaluate(async () => {
+      window.scrollTo(0, 0);
+      await new Promise((r) => setTimeout(r, 200));
+      window.scrollTo(0, 28);
+      const header = document.querySelector("header");
+      let last = header.dataset.condensed;
+      let n = 0;
+      for (let i = 0; i < 40; i++) {
+        await new Promise((r) => requestAnimationFrame(r));
+        if (header.dataset.condensed !== last) (n++, (last = header.dataset.condensed));
+      }
+      return n;
+    });
+    check("header condensed state settles near the threshold (no flip loop)", flips <= 1, { flips });
+    await page.evaluate(() => {
+      const el = document.getElementById("evidence");
+      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 20);
+    });
+    await sleep(300);
+    await shot(page, "desktop-evidence-header", { captureBeyondViewport: false });
+    const ev = await page.evaluate(() => ({
+      counters: document.querySelectorAll("[data-count]").length,
+      links: [...document.querySelectorAll("#evidence ol a[target=_blank]")].map((a) => a.href),
+      chips: [...document.querySelectorAll("#evidence ol li")].filter((li) => /external study/i.test(li.textContent)).length,
+    }));
+    check("research: static figures, every study linked, every row marked as external", ev.counters === 0 && ev.links.length === 4 && ev.chips === 3, ev);
+    check("research links: only the citation is lang=en, the new-tab hint follows the page", await page.evaluate(() =>
+      [...document.querySelectorAll("#evidence ol a[target=_blank]")].every((a) => !a.hasAttribute("lang") && a.querySelector("[lang=en]") && a.querySelector(".sr-only").closest("[lang]") === document.documentElement),
+    ));
+    check("area pills: the check glyph is hidden by opacity when unchecked (survives forced colors)", await page.evaluate(() =>
+      [...document.querySelectorAll(".pill-choice input[type=checkbox]")].every((i) => getComputedStyle(i.nextElementSibling.querySelector(".pill-box svg")).opacity === (i.checked ? "1" : "0")),
+    ));
+    const photos = await page.evaluate(() =>
+      [...document.querySelectorAll("main img[srcset]")].map((i) => ({ sizes: i.sizes, lazy: i.loading, bg: getComputedStyle(i).backgroundImage.startsWith("url(") })),
+    );
+    check("section photos: srcset + sizes, lazy, with a placeholder behind", photos.length === 5 && photos.every((p) => p.sizes && p.lazy === "lazy" && p.bg), photos);
+    await page.close();
+  }
+
   // ── 6. With motion: content still reachable by keyboard ───────────
   {
     const { page } = await open({ motion: "no-preference" });
