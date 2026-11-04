@@ -298,6 +298,14 @@
 .surface-dark {
   --focus-ring: #f5f1e8;
 }
+/* the sticky header turns to ink glass over dark sections (lib/stickyHeader.ts);
+   the phone Menu sheet is its DOM child but cream, so it pins the ink ring back */
+[data-sticky-header][data-over-dark="true"] {
+  --focus-ring: #f5f1e8;
+}
+.sheet-dialog {
+  --focus-ring: #212b3c;
+}
 
 /* shape/behavior modifiers for glass surfaces */
 /* frost: real blur for a handful of hero-level quiet surfaces — small areas,
@@ -328,7 +336,7 @@
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.24em;
-  color: #8a8172;
+  color: #70685c;
   text-transform: uppercase;
 }
 
@@ -362,4 +370,225 @@ details[open] > summary .details-caret {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Skip link: off-screen until focused ──────────────────────── */
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 300;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #212b3c;
+  color: #f5f1e8;
+  font-size: 13px;
+  font-weight: 600;
+  translate: 0 -200%;
+}
+.skip-link:focus {
+  translate: none;
+  --focus-ring: #f5f1e8;
+}
+
+/* ── Choice pills: native radio/checkbox (visually hidden) + styled label.
+   The input keeps keyboard, checked state and grouping; the ring shows on
+   the pill when the input has keyboard focus. ─────────────────────────── */
+.pill-choice {
+  display: inline-flex;
+  cursor: pointer;
+}
+.pill-choice > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(33, 43, 60, 0.18);
+  padding: 9px 16px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.pill-choice--wide,
+.pill-choice--wide > span {
+  width: 100%;
+}
+.pill-choice--wide > span {
+  padding: 11px 18px;
+  font-size: 13.5px;
+}
+.pill-choice:hover > span {
+  border-color: rgba(33, 43, 60, 0.4);
+  color: #212b3c;
+}
+.pill-choice > input:checked + span {
+  background: #212b3c;
+  border-color: #212b3c;
+  color: #f5f1e8;
+}
+.pill-choice > input:focus-visible + span {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+/* check box inside an area pill: hollow ring → filled with a check (never colour alone) */
+.pill-box {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(33, 43, 60, 0.35);
+  color: #212b3c;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+/* opacity, not colour, hides the check: forced-colors mode overrides colour */
+.pill-box svg {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.pill-choice > input:checked + span .pill-box {
+  background: #f5f1e8;
+  border-color: #f5f1e8;
+}
+.pill-choice > input:checked + span .pill-box svg {
+  opacity: 1;
+}
+/* high-contrast modes drop backgrounds: keep the checked state visible */
+@media (forced-colors: active) {
+  .pill-choice > input:checked + span {
+    outline: 2px solid CanvasText;
+  }
+  /* the header background is forced to Canvas, so the over-dark logo inversion
+     must follow the forced theme, not the section underneath */
+  [data-sticky-header] img {
+    filter: none;
+  }
+}
+@media (forced-colors: active) and (prefers-color-scheme: dark) {
+  [data-sticky-header] a[href="#home"] img {
+    filter: brightness(0) invert(1);
+  }
+}
+
+/* ── Contact dialog ───────────────────────────────────────────── */
+.contact-dialog::backdrop,
+.sheet-dialog::backdrop {
+  background: rgba(15, 22, 36, 0.85);
+  backdrop-filter: blur(8px);
+}
+.sheet-dialog::backdrop {
+  background: rgba(15, 22, 36, 0.55);
+  backdrop-filter: blur(4px);
+}
+/* entrances only (content unmounts on close); the reduced-motion rule below
+   shortens these to nothing */
+.contact-dialog[open] {
+  animation: dialogIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.sheet-dialog[open] {
+  animation: sheetIn 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.contact-dialog[open]::backdrop,
+.sheet-dialog[open]::backdrop {
+  animation: backdropIn 0.25s ease;
+}
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.985;
+  }
+}
+@keyframes sheetIn {
+  from {
+    translate: 0 -100%;
+  }
+}
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+}
+.form-spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid rgba(33, 43, 60, 0.15);
+  border-top-color: #212b3c;
+  animation: formSpin 0.9s linear infinite;
+}
+@keyframes formSpin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ── Tactile feedback ─────────────────────────────────────────────
+   Press: a slight squeeze on touch and click. Hover effects only apply on
+   real pointers (Tailwind v4 gates hover: to (hover: hover); the raw rules
+   below do it explicitly). Keyboard focus mirrors hover. */
+.press {
+  transition-property: scale, background-color, color, border-color, box-shadow, translate;
+  transition-duration: 0.18s;
+}
+.press:active {
+  scale: 0.97;
+}
+.btn-arrow,
+.btn-arrow-out {
+  transition: translate 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@media (hover: hover) {
+  :is(a, button):hover .btn-arrow {
+    translate: 3px 0;
+  }
+  :is(a, button):hover .btn-arrow-out {
+    translate: 2px -2px;
+  }
+}
+:is(a, button):is(:focus-visible, :active) .btn-arrow {
+  translate: 3px 0;
+}
+:is(a, button):is(:focus-visible, :active) .btn-arrow-out {
+  translate: 2px -2px;
+}
+
+/* nav links: an underline draws in, instead of the link hopping */
+.nav-link {
+  display: inline-flex;
+  padding-block: 4px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s;
+}
+@media (hover: hover) {
+  .nav-link:hover {
+    background-size: 100% 1.5px;
+  }
+}
+.nav-link:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* FAQ sign: the vertical stroke turns flat, so + becomes − */
+.faq-sign path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+.faq-sign-v {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: rotate 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+[aria-expanded="true"] .faq-sign-v {
+  rotate: 90deg;
+}
+
+/* language switch: a short crossfade where View Transitions exist (i18n.tsx) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
 }

@@ -39,14 +39,14 @@ try {
   await page.goto(BASE, { waitUntil: "networkidle0" });
   results.secondLoadCurtain = await page.evaluate(() => !!document.querySelector(".intro-curtain"));
 
-  // ── 3. Scroll reveal + counters in #evidence ─────────────────
+  // ── 3. Scroll reveal in #evidence (figures are static: no count-up) ─
   await page.evaluate(() => document.getElementById("evidence").scrollIntoView({ behavior: "instant", block: "center" }));
   await sleep(420); // mid-animation
-  results.counterMid = await page.evaluate(() => document.querySelector("[data-count]").textContent);
+  results.figuresMid = await page.evaluate(() => [...document.querySelectorAll("#evidence ol > li > div:first-child")].map((e) => e.textContent));
   await sleep(1700);
-  results.countersEnd = await page.evaluate(() => [...document.querySelectorAll("[data-count]")].map((e) => e.textContent));
-  results.statCardsIn = await page.evaluate(() =>
-    [...document.querySelectorAll("#evidence [data-reveal-group] > div")].map((e) => e.classList.contains("is-in")),
+  results.noCounters = await page.evaluate(() => document.querySelectorAll("[data-count]").length === 0);
+  results.statRowsIn = await page.evaluate(() =>
+    [...document.querySelectorAll("#evidence ol > li")].map((e) => e.classList.contains("is-in") || !e.hasAttribute("data-reveal")),
   );
 
   // ── 4. Curtain image reveal + parallax in #what ──────────────

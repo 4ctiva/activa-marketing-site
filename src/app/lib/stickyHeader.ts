@@ -23,3 +23,40 @@ export function trackStickyHeader() {
     root.style.removeProperty("--header-clearance");
   };
 }
+
+/**
+ * Marks the sticky header while it sits over a dark section ([data-dark-surface])
+ * so it can switch to ink glass with light text instead of a muddy grey slab,
+ * and once the page has scrolled (data-condensed) so it can tighten slightly.
+ * Returns a cleanup.
+ */
+export function trackHeaderSurface() {
+  const header = document.querySelector<HTMLElement>("[data-sticky-header]");
+  if (!header) return () => {};
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const box = header.getBoundingClientRect();
+    const line = box.top + box.height / 2;
+    const overDark = [...document.querySelectorAll<HTMLElement>("[data-dark-surface]")].some((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top <= line && r.bottom >= line;
+    });
+    header.dataset.overDark = String(overDark);
+    // hysteresis wider than the ~9px the header shrinks by: otherwise scroll
+    // anchoring moves scrollY back across a single threshold and it flips forever
+    const condensed = header.dataset.condensed === "true";
+    header.dataset.condensed = String(condensed ? window.scrollY > 8 : window.scrollY > 40);
+  };
+  const schedule = () => {
+    if (!raf) raf = requestAnimationFrame(update);
+  };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule, { passive: true });
+  update();
+  return () => {
+    window.removeEventListener("scroll", schedule);
+    window.removeEventListener("resize", schedule);
+    if (raf) cancelAnimationFrame(raf);
+  };
+}

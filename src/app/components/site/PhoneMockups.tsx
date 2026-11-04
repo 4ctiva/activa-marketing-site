@@ -1,16 +1,19 @@
 import { SearchIcon, HeartIcon } from "./icons";
-import appLogo from "../../../../assets/logo.png";
-import venue9Round from "../../../../assets/venue-9round.jpg";
-import venueOtf from "../../../../assets/venue-otf.jpg";
-import venueLumiere from "../../../../assets/venue-lumiere.jpg";
-import partner9Round from "../../../../assets/partner-9round.webp";
-import partnerOrangetheory from "../../../../assets/partner-orangetheory.jpg";
-import partnerLumiere from "../../../../assets/partner-lumiere.jpg";
-import partnerMukti from "../../../../assets/partner-mukti.png";
+import appLogo from "../../../../assets/optimized/logo-240w.webp";
+import venue9Round from "../../../../assets/optimized/venue-9round-720w.webp";
+import venueOtf from "../../../../assets/optimized/venue-otf-720w.webp";
+import venueLumiere from "../../../../assets/optimized/venue-lumiere-720w.webp";
+import partner9Round from "../../../../assets/optimized/partner-9round-120w.webp";
+import partnerOrangetheory from "../../../../assets/optimized/partner-orangetheory-120w.webp";
+import partnerLumiere from "../../../../assets/optimized/partner-lumiere-120w.webp";
+import partnerMukti from "../../../../assets/optimized/partner-mukti-120w.webp";
 
 /*
  * Floating iPhone mockups from the hero of the design handoff.
  * All in-app copy is Spanish by design, regardless of site language.
+ * Partner brands are shown with permission; ratings, bookings and the member
+ * are example data, so the phones are hidden from assistive technology and the
+ * visible caption (localized) says so instead of announcing them as content.
  */
 
 // box-content: the design prototype lays out in content-box, so the bezel is 302×582 overall
@@ -40,7 +43,7 @@ function TabRow({ active, tighterBottom }: { active: "Red" | "Mi plan"; tighterB
   const tabs = ["Mi panel", "Red", "Reservas", "Mi QR", "Mi plan"];
   return (
     <div
-      className={`flex items-center justify-between px-5 pt-1 text-[8.5px] font-semibold text-[#8a8172] ${
+      className={`flex items-center justify-between px-5 pt-1 text-[8.5px] font-semibold text-[#70685c] ${
         tighterBottom ? "pb-0.5" : "pb-2"
       }`}
     >
@@ -106,7 +109,7 @@ function VenueCard({
           </span>
           <span className="flex flex-col">
             <span className="text-[10.5px] font-bold">{name}</span>
-            <span className="text-[8px] text-[#8a8172]">{brand}</span>
+            <span className="text-[8px] text-[#70685c]">{brand}</span>
           </span>
         </div>
         <div className="mt-[7px] flex gap-[7px] whitespace-nowrap text-[8px] text-muted-foreground">
@@ -132,7 +135,7 @@ function NetworkPhone() {
         <AppLogo />
         <TabRow active="Red" tighterBottom />
         <div className="flex items-center gap-2 px-5 pb-0.5 pt-2">
-          <div className="flex flex-1 items-center gap-[7px] rounded-full bg-white px-3 py-2 text-[9px] text-[#8a8172]">
+          <div className="flex flex-1 items-center gap-[7px] rounded-full bg-white px-3 py-2 text-[9px] text-[#70685c]">
             <SearchIcon size={11} />
             Buscá por aliado, sede, servicio…
           </div>
@@ -191,7 +194,7 @@ function ReservationRow({ logoImg, logoAlt, title, when }: { logoImg: string; lo
         <span className="text-[10.5px] font-bold">{title}</span>
         <span className="text-[9px] text-muted-foreground">{when}</span>
       </span>
-      <span className="text-xs text-[#8a8172]">→</span>
+      <span className="text-xs text-[#70685c]">→</span>
     </div>
   );
 }
@@ -212,7 +215,7 @@ function MembershipPhone() {
             <span>●●● 4412</span>
           </div>
         </div>
-        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#8a8172]">PRÓXIMAS RESERVAS</div>
+        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#70685c]">PRÓXIMAS RESERVAS</div>
         <div className="mx-5 flex flex-col gap-1.5">
           <ReservationRow
             logoImg={partner9Round}
@@ -233,7 +236,7 @@ function MembershipPhone() {
             when="Vie · 7:00 AM · San José"
           />
         </div>
-        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#8a8172]">ESTE MES</div>
+        <div className="px-5 pb-[5px] pt-2.5 text-[11px] font-bold text-[#70685c]">ESTE MES</div>
         <div className="flex gap-2 px-5">
           {[
             { n: "14", label: "clases" },
@@ -256,19 +259,28 @@ function MembershipPhone() {
   );
 }
 
-export default function PhoneMockups() {
+export default function PhoneMockups({ caption }: { caption: string }) {
   return (
-    <div
-      data-reveal-group
-      data-reveal-stagger="160"
-      className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
-    >
-      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
-        <NetworkPhone />
+    <figure className="m-0">
+      <div
+        aria-hidden="true"
+        data-reveal-group
+        data-reveal-stagger="160"
+        className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
+      >
+        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
+          <NetworkPhone />
+        </div>
+        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
+          <MembershipPhone />
+        </div>
       </div>
-      <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
-        <MembershipPhone />
-      </div>
-    </div>
+      <figcaption className="mx-auto mt-7 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty">
+        <span aria-hidden="true" className="mr-1.5 rounded-full border border-[rgba(33,43,60,.2)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[.16em]">
+          Demo
+        </span>
+        {caption}
+      </figcaption>
+    </figure>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { introPending, markIntroDone } from "../../lib/motion";
-import logoFull from "../../../../assets/logo-full.png";
+import logoFull from "../../../../assets/optimized/logo-full-400w.webp";
 
 /**
  * One-time page-load curtain: the logo fades in on a cream cover, then the

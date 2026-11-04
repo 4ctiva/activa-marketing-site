@@ -40,7 +40,7 @@ function ensureObserver() {
           continue;
         }
         if (!entry.isIntersecting) continue;
-        revealNow(el);
+        revealWhenReady(el);
       }
     },
     // threshold 0: clip-path shrinks the intersection rect, so clipped
@@ -50,7 +50,22 @@ function ensureObserver() {
   return observer;
 }
 
+/**
+ * Curtain reveals wait (at most 1.2s) for their image to decode, so the clip
+ * never sweeps open onto an empty box; everything else reveals at once.
+ * Keyboard focus bypasses this and reveals immediately (see initMotion).
+ */
+function revealWhenReady(el: HTMLElement) {
+  const img = el.dataset.reveal === "curtain" ? el.querySelector("img") : null;
+  if (!img || img.complete) return revealNow(el);
+  observer?.unobserve(el);
+  const decoded = img.decode().catch(() => {});
+  const timeout = new Promise((r) => window.setTimeout(r, 1200));
+  Promise.race([decoded, timeout]).then(() => revealNow(el));
+}
+
 function revealNow(el: HTMLElement) {
+  if (el.classList.contains("is-in")) return;
   el.classList.add("is-in");
   observer?.unobserve(el);
   el.addEventListener("transitionend", (e) => {

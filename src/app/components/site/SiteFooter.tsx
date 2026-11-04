@@ -1,7 +1,7 @@
 import { translations, type Lang, PRIMARY_EMAIL } from "../../i18n";
 import { LEGAL_PATHS } from "../../legal/model";
 import { InstagramIcon, MailIcon, WhatsAppIcon } from "./icons";
-import logoFull from "../../../../assets/logo-full.png";
+import logoFull from "../../../../assets/optimized/logo-full-400w.webp";
 
 /**
  * Footer shared by the main site, the Activa para Todos page and the legal
@@ -27,7 +27,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
   const linkCls = "text-[#a89f8c] transition-colors duration-200 hover:text-[#f5f1e8]";
 
   return (
-    <footer className="surface-dark bg-navy text-light">
+    <footer data-dark-surface className="surface-dark bg-navy text-light">
       <div className="mx-auto box-content max-w-[1280px] px-12 pb-8 pt-[72px]">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-[clamp(28px,4vw,48px)] border-b border-[rgba(245,241,232,.12)] pb-11">
           <div>
