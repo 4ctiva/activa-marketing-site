@@ -334,7 +334,7 @@ export default function App() {
                 {t.hero.status}
               </p>
             </div>
-            <PhoneMockups caption={t.hero.mockupCaption} />
+            <PhoneMockups caption={t.hero.mockupCaption} showLabels={t.hero.mockupShow} />
           </div>
         </section>
 

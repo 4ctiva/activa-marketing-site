@@ -50,6 +50,8 @@ export const translations = {
       comingSoon: "Coming soon to",
       mockupCaption:
         "Preview of the Activa app. The ratings, bookings and member shown are examples, not live data.",
+      // the in-app screens keep their Spanish names ("Red", "Mi plan") in both languages
+      mockupShow: { network: "Show the “Red” screen", plan: "Show the “Mi plan” screen" },
       ctaCompany: "I'm a company",
       ctaGym: "I'm a gym or studio",
       ctaUser: "I want to join the pilot",
@@ -426,6 +428,7 @@ export const translations = {
       comingSoon: "Próximamente en",
       mockupCaption:
         "Vista previa de la app de Activa. Las calificaciones, reservas y la persona que se muestran son ejemplos, no datos reales.",
+      mockupShow: { network: "Ver la pantalla “Red”", plan: "Ver la pantalla “Mi plan”" },
       ctaCompany: "Soy empresa",
       ctaGym: "Soy gimnasio o studio",
       ctaUser: "Quiero unirme al piloto",

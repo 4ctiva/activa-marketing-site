@@ -718,3 +718,13 @@ details[open] > summary .details-caret {
     transition: none;
   }
 }
+
+/* hero phones: the swap button eases the back phone down a step (PhoneMockups) */
+.phone-layer {
+  transition: scale 0.45s var(--ease-cine, ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .phone-layer {
+    transition: none;
+  }
+}
