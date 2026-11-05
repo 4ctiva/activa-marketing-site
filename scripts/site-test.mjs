@@ -541,6 +541,41 @@ try {
     await page.close();
   }
 
+  // ── 5d. Hero phones: the swap button shows each screen in full ────
+  {
+    const state = (page) =>
+      page.evaluate(() => {
+        const layer = (s) => document.querySelector(`#home [data-screen=${s}]`);
+        const shown = (el) => getComputedStyle(el).display !== "none";
+        const btn = document.querySelector("[data-mockup-swap]");
+        return {
+          z: ["network", "plan"].map((s) => getComputedStyle(layer(s)).zIndex),
+          shown: ["network", "plan"].filter((s) => shown(layer(s))),
+          button: btn && btn.getClientRects().length ? btn.textContent.trim() : null,
+        };
+      });
+    const { page, errors } = await open();
+    const before = await state(page);
+    await page.evaluate(() => document.querySelector("[data-mockup-swap]").click());
+    await sleep(100);
+    const after = await state(page);
+    check("desktop: the swap button brings the covered screen to the front and relabels itself",
+      before.z.join() === "10,0" && after.z.join() === "0,10" && before.button !== after.button && /Red/.test(after.button), { before, after });
+    check("no console/page errors (mockup swap)", errors.length === 0, errors);
+    await page.close();
+    const phone = await open({ width: 390, height: 844, lang: "es" });
+    const p0 = await state(phone.page);
+    await phone.page.evaluate(() => document.querySelector("[data-mockup-swap]").click());
+    await sleep(100);
+    const p1 = await state(phone.page);
+    check("m390: one screen at a time; the swap button switches it", p0.shown.join() === "network" && p1.shown.join() === "plan" && /Mi plan/.test(p0.button), { p0, p1 });
+    await phone.page.close();
+    const tablet = await open({ width: 1024, height: 768 });
+    const t0 = await state(tablet.page);
+    check("1024: both screens side by side, so no swap button", t0.shown.length === 2 && t0.button === null, t0);
+    await tablet.page.close();
+  }
+
   // ── 6. With motion: content still reachable by keyboard ───────────
   {
     const { page } = await open({ motion: "no-preference" });

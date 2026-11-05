@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { ArrowLeftRight } from "lucide-react";
 import { SearchIcon, HeartIcon } from "./icons";
 import appLogo from "../../../../assets/optimized/logo-240w.webp";
 import venue9Round from "../../../../assets/optimized/venue-9round-720w.webp";
@@ -259,7 +261,14 @@ function MembershipPhone() {
   );
 }
 
-export default function PhoneMockups({ caption }: { caption: string }) {
+type Screen = "network" | "plan";
+
+export default function PhoneMockups({ caption, showLabels }: { caption: string; showLabels: Record<Screen, string> }) {
+  // which screen is in front (overlapped, xl) or the one shown (phones); side by side in between
+  const [front, setFront] = useState<Screen>("network");
+  const other: Screen = front === "network" ? "plan" : "network";
+  // the back screen is hidden on phones and steps down a little when overlapped
+  const layer = (screen: Screen) => (screen === front ? "z-10" : "z-0 max-md:hidden xl:scale-[.96]");
   return (
     <figure className="m-0">
       {/* phones: one below md, side by side to xl, then overlapped in quiet depth
@@ -270,18 +279,30 @@ export default function PhoneMockups({ caption }: { caption: string }) {
         data-reveal-stagger="160"
         className="flex justify-center gap-[26px] pt-12 max-md:pt-10 xl:pt-0 xl:[zoom:.82] min-[1400px]:[zoom:.88]"
       >
-        <div data-reveal className="relative z-10 xl:rotate-[-2deg]">
+        <div data-reveal data-screen="network" className={`phone-layer relative xl:rotate-[-2deg] ${layer("network")}`}>
           <div className="animate-[phoneFloat_6s_ease-in-out_infinite]">
             <NetworkPhone />
           </div>
         </div>
-        <div data-reveal className="max-md:hidden xl:-ml-[150px] xl:mt-24 xl:rotate-[2deg]">
+        <div data-reveal data-screen="plan" className={`phone-layer relative xl:-ml-[150px] xl:mt-24 xl:rotate-[2deg] ${layer("plan")}`}>
           <div className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
             <MembershipPhone />
           </div>
         </div>
       </div>
-      <figcaption className="mx-auto mt-7 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty max-md:text-[13px] xl:max-w-[420px] xl:px-0">
+      {/* only where a screen is covered or hidden: phones and the overlapped xl layout */}
+      <div className="mt-6 flex justify-center md:max-xl:hidden">
+        <button
+          type="button"
+          data-mockup-swap
+          onClick={() => setFront(other)}
+          className="press inline-flex min-h-11 items-center gap-2 rounded-full border border-[rgba(33,43,60,.25)] px-5 text-[13px] font-semibold text-ink transition-colors duration-200 hover:border-ink max-md:text-[14px]"
+        >
+          <ArrowLeftRight aria-hidden="true" size={15} strokeWidth={1.75} />
+          {showLabels[other]}
+        </button>
+      </div>
+      <figcaption className="mx-auto mt-5 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty max-md:text-[13px] xl:max-w-[420px] xl:px-0">
         <span aria-hidden="true" className="mr-1.5 rounded-full border border-[rgba(33,43,60,.2)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[.16em]">
           Demo
         </span>
