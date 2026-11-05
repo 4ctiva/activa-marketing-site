@@ -33,9 +33,9 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <MailIcon size={17} />
           </span>
           <span className="flex min-w-0 flex-col">
-            <span className="text-sm font-bold">Esteban Baltodano</span>
+            <span className="text-sm font-bold max-md:text-[15px]">{t.contact.emailName}</span>
             {/* only ever break after the @, never inside the domain */}
-            <span className="text-xs text-[#70685c]">
+            <span className="text-xs text-[#70685c] max-md:text-[13px]">
               {CONTACT.email.split("@")[0]}@<wbr />
               {CONTACT.email.split("@")[1]}
             </span>
@@ -49,10 +49,10 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <WhatsAppIcon size={15} />
           </span>
           <span className="flex flex-col">
-            <span className="text-sm font-bold">
+            <span className="text-sm font-bold max-md:text-[15px]">
               WhatsApp <span className="sr-only">{t.common.newTab}</span>
             </span>
-            <span className="text-xs text-[#70685c]">{CONTACT.whatsappLabel}</span>
+            <span className="text-xs text-[#70685c] max-md:text-[13px]">{CONTACT.whatsappLabel}</span>
           </span>
         </span>
         <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.75} className="btn-arrow-out shrink-0 text-[#70685c]" />
@@ -63,10 +63,10 @@ export function ContactAlternatives({ audience, areas }: { audience: Audience | 
             <InstagramIcon size={17} />
           </span>
           <span className="flex flex-col">
-            <span className="text-sm font-bold">
+            <span className="text-sm font-bold max-md:text-[15px]">
               Instagram <span className="sr-only">{t.common.newTab}</span>
             </span>
-            <span className="text-xs text-[#70685c]">{CONTACT.instagramHandle}</span>
+            <span className="text-xs text-[#70685c] max-md:text-[13px]">{CONTACT.instagramHandle}</span>
           </span>
         </span>
         <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.75} className="btn-arrow-out shrink-0 text-[#70685c]" />
@@ -96,7 +96,7 @@ export function AudiencePills({
   ];
   return (
     <fieldset className="m-0 min-w-0 border-0 p-0">
-      <legend className="mb-3 p-0 text-[13px] font-semibold">{legend}</legend>
+      <legend className="mb-3 p-0 text-[13px] font-semibold max-md:text-[14px]">{legend}</legend>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => (
           <label key={o.key} className="pill-choice">
@@ -202,7 +202,7 @@ export default function ContactDialog({
       {open && (
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between gap-4 border-b border-border px-[clamp(16px,4vw,26px)] py-[14px]">
-            <h2 id="contact-dialog-title" className="m-0 text-[15px] font-semibold">
+            <h2 id="contact-dialog-title" className="m-0 text-[15px] font-semibold max-md:text-[16px]">
               {t.contact.dialogTitle}
             </h2>
             <button
@@ -222,9 +222,9 @@ export default function ContactDialog({
                 value={audience}
                 onChange={(a) => a !== "all" && onAudience(a)}
               />
-              <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground">{t.contact.audienceNote}</p>
+              <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground max-md:text-[13.5px]">{t.contact.audienceNote}</p>
               {areas.length > 0 && (
-                <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground">
+                <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground max-md:text-[13.5px]">
                   <span className="font-semibold text-ink">{t.contact.areasLine}</span> {areas.join(", ")}
                 </p>
               )}
@@ -232,15 +232,15 @@ export default function ContactDialog({
                 href={CONTACT.form}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="press rounded-full bg-ink px-5 py-3.5 text-center text-sm font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52]"
+                className="press rounded-full bg-ink px-5 py-3.5 text-center text-sm font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52] max-md:text-[15px]"
               >
                 {t.contact.openForm}
                 <ArrowUpRight aria-hidden="true" size={16} strokeWidth={2} className="btn-arrow-out ml-1.5 inline-block align-[-3px]" />
                 <span className="sr-only"> {t.common.newTab}</span>
               </a>
-              <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground">{t.contact.formHelp}</p>
+              <p className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground max-md:text-[13.5px]">{t.contact.formHelp}</p>
               <section aria-labelledby="contact-dialog-alt" className="flex flex-col gap-2.5">
-                <h3 id="contact-dialog-alt" className="m-0 text-[13px] font-semibold">
+                <h3 id="contact-dialog-alt" className="m-0 text-[13px] font-semibold max-md:text-[14px]">
                   {t.contact.altTitle}
                 </h3>
                 <ContactAlternatives audience={audience} areas={areas} />
@@ -250,7 +250,7 @@ export default function ContactDialog({
               {frame !== "loaded" && (
                 <div
                   role="status"
-                  className="absolute inset-x-0 top-0 flex flex-col items-center gap-3 px-6 py-10 text-center text-[13px] text-muted-foreground"
+                  className="absolute inset-x-0 top-0 flex flex-col items-center gap-3 px-6 py-10 text-center text-[13px] text-muted-foreground max-md:text-[14px]"
                 >
                   {frame === "loading" && <span aria-hidden="true" className="form-spinner" />}
                   <span>{frame === "loading" ? t.contact.loading : t.contact.slow}</span>

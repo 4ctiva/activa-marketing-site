@@ -9,7 +9,7 @@ export const TEAM_EMAILS = [
   { name: "Andrés Quirós", email: "andresquiros@4ctiva.com" },
 ];
 
-export const PRIMARY_EMAIL = "estebanbaltodano@4ctiva.com";
+export const PRIMARY_EMAIL = "soporte@4ctiva.com";
 
 export const LAUNCH_ZONES = ["San José", "Escazú", "Santa Ana", "Heredia", "Curridabat", "Cartago"];
 
@@ -129,6 +129,7 @@ export const translations = {
       label: "How It Works",
       title: "Simple for everyone.",
       tabs: { users: "Members", companies: "Companies", gyms: "Gyms\u00a0/ Studios" },
+      tabsShort: { users: "Members", companies: "Companies", gyms: "Gyms" },
       tabsLabel: "Show steps for",
       steps: {
         users: [
@@ -236,14 +237,26 @@ export const translations = {
       titleEm: "not uncontrolled access.",
       paragraph:
         "Each Activa partner can define their participation terms: available hours, capacity, bookings, visit limits and user type. Our goal is to protect each gym or studio's experience while generating new quality clients.",
-      bullets: [
-        "Verified users.",
-        "Controlled check-in.",
-        "Partner-specific rules.",
-        "Advance bookings when needed.",
-        "Usage limits per plan.",
-        "Respect for each space's community.",
+      flowLabel: "How a visit is verified",
+      flow: [
+        { text: "You book in the app.", refs: [["t", "11.1"]] },
+        { text: "You show your personal QR or temporary code.", refs: [["t", "13.1"]] },
+        { text: "Reception checks it's you: with your photo if you added one, or your ID, which is never copied.", refs: [["t", "13.2"]] },
+        { text: "The visit is recorded and uses your credits.", refs: [["t", "11.1"]] },
+        { text: "The gym or studio is paid for each valid visit.", refs: [["r", "11.3"]] },
       ],
+      privacyLabel: "Privacy by design",
+      privacy: [
+        { text: "Your photo is optional. You can use Activa without one.", refs: [["t", "13.2"], ["t", "13.4"]] },
+        { text: "No automated facial recognition and no biometric templates.", refs: [["t", "13.2"], ["a", "A.6"]] },
+        { text: "Without a photo, you show your ID at reception. No photo or copy of it is kept.", refs: [["t", "13.2"], ["a", "A.6"]] },
+        { text: "Your company or association never receives your photos or your individual visit history.", refs: [["t", "18.2"], ["a", "A.7"]] },
+      ],
+      law: "Your data is handled under Costa Rica's Law 8968 on personal data protection. You can exercise your rights free of charge at soporte@4ctiva.com, and the privacy notice explains how to reach PRODHAB.",
+      refTerms: "Terms",
+      refRules: "Rules",
+      refAnnex: "Privacy notice",
+      refLang: "(in Spanish)",
     },
     digital: {
       badge: "In development",
@@ -309,6 +322,7 @@ export const translations = {
       intro: "Fill out our quick form to sign up for the pilot, or email us directly. We'll get back to you within 48 hours.",
       ctaForm: "Open the form",
       ctaEmail: "Contact us directly",
+      emailName: "Activa support",
       formTitle: "Contact Activa",
       location: "Costa Rica · GAM",
       dialogTitle: "Register your interest",
@@ -491,6 +505,7 @@ export const translations = {
       label: "Cómo Funciona",
       title: "Simple para todos.",
       tabs: { users: "Miembros", companies: "Empresas", gyms: "Gimnasios\u00a0/ Studios" },
+      tabsShort: { users: "Miembros", companies: "Empresas", gyms: "Gimnasios" },
       tabsLabel: "Ver pasos para",
       steps: {
         users: [
@@ -598,14 +613,26 @@ export const translations = {
       titleEm: "no acceso sin control.",
       paragraph:
         "Cada socio de Activa puede definir sus condiciones de participación: horarios disponibles, cupos, reservas, límites de visitas y tipo de usuario. Nuestro objetivo es proteger la experiencia de cada gimnasio o studio mientras generamos nuevos clientes de calidad.",
-      bullets: [
-        "Usuarios verificados.",
-        "Check-in controlado.",
-        "Reglas específicas por socio.",
-        "Reservas anticipadas cuando sea necesario.",
-        "Límites de uso por plan.",
-        "Respeto por la comunidad de cada espacio.",
+      flowLabel: "Cómo se verifica una visita",
+      flow: [
+        { text: "Reservás en la app.", refs: [["t", "11.1"]] },
+        { text: "Mostrás tu QR o código temporal personal.", refs: [["t", "13.1"]] },
+        { text: "Recepción verifica que sos vos: con tu foto si la agregaste, o con tu identificación, que nunca se copia.", refs: [["t", "13.2"]] },
+        { text: "La visita queda registrada y usa tus créditos.", refs: [["t", "11.1"]] },
+        { text: "El gimnasio o studio recibe el pago por cada visita válida.", refs: [["r", "11.3"]] },
       ],
+      privacyLabel: "Privacidad desde el diseño",
+      privacy: [
+        { text: "Tu foto es opcional. Podés usar Activa sin subir una.", refs: [["t", "13.2"], ["t", "13.4"]] },
+        { text: "Sin reconocimiento facial automatizado ni plantillas biométricas.", refs: [["t", "13.2"], ["a", "A.6"]] },
+        { text: "Sin foto, mostrás tu identificación en recepción. No se fotografía ni se guarda copia.", refs: [["t", "13.2"], ["a", "A.6"]] },
+        { text: "Tu empresa o asociación nunca recibe tus fotos ni tu historial individual de visitas.", refs: [["t", "18.2"], ["a", "A.7"]] },
+      ],
+      law: "Tratamos tus datos conforme a la Ley 8968 de protección de datos personales. Podés ejercer tus derechos gratis en soporte@4ctiva.com, y el aviso de privacidad explica cómo acudir a la PRODHAB.",
+      refTerms: "Términos",
+      refRules: "Reglas",
+      refAnnex: "Aviso de privacidad",
+      refLang: "",
     },
     digital: {
       badge: "En desarrollo",
@@ -671,6 +698,7 @@ export const translations = {
       intro: "Completá nuestro formulario para registrarte en el piloto, o escribinos directamente. Te responderemos en menos de 48 horas.",
       ctaForm: "Abrir el formulario",
       ctaEmail: "Contactanos directamente",
+      emailName: "Soporte de Activa",
       formTitle: "Contactar a Activa",
       location: "Costa Rica · GAM",
       dialogTitle: "Registrá tu interés",

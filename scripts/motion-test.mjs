@@ -32,8 +32,13 @@ try {
   results.afterIntro = await page.evaluate(() => ({
     curtainGone: !document.querySelector(".intro-curtain"),
     h1In: document.querySelector("h1").classList.contains("is-in"),
-    phonesIn: [...document.querySelectorAll('[class*="phoneFloat"]')].map((e) => e.classList.contains("is-in")),
   }));
+  // below xl the phones sit under the copy, so they reveal once scrolled to
+  await page.evaluate(() => document.querySelector("#home figure").scrollIntoView({ behavior: "instant", block: "center" }));
+  await sleep(1200);
+  results.afterIntro.phonesIn = await page.evaluate(() =>
+    [...document.querySelectorAll("#home figure > div > div")].map((e) => e.classList.contains("is-in")),
+  );
 
   // ── 2. Second-load: intro skipped within same session ────────
   await page.goto(BASE, { waitUntil: "networkidle0" });
@@ -77,7 +82,7 @@ try {
   // ── 6. Tab switch entrance ───────────────────────────────────
   await page.evaluate(() => document.getElementById("how").scrollIntoView({ behavior: "instant" }));
   await sleep(700);
-  await page.evaluate(() => [...document.querySelectorAll("#how button")].find((b) => b.textContent === "Companies").click());
+  await page.evaluate(() => document.getElementById("how-tab-companies").click());
   await sleep(80);
   results.tabSwapMidOpacity = await page.evaluate(
     () => getComputedStyle(document.querySelector("#how [data-reveal-group] > div")).opacity,

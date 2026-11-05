@@ -141,6 +141,16 @@
   --default-transition-timing-function: ease;
 }
 
+/* vh/dvh inside the zoomed body grow with it: divide sizes by this */
+:root {
+  --body-zoom: 1.15;
+}
+@media (max-width: 767px) {
+  :root {
+    --body-zoom: 1;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -158,8 +168,9 @@
     font-size: var(--font-size);
     font-weight: 400;
     line-height: normal;
-    /* Uniform 15% scale-up of the whole layout (real reflow, keeps proportions) */
-    zoom: 1.15;
+    /* Uniform 15% scale-up of the whole layout (real reflow, keeps proportions).
+       Phones lay out at their real width instead, with their own type sizes. */
+    zoom: var(--body-zoom);
     /* Ambient tint field: soft ink/sand washes the glass surfaces sit over —
        painted once on the body (scrolls with content, no repaint cost) */
     background-image:
@@ -339,6 +350,17 @@
   color: #70685c;
   text-transform: uppercase;
 }
+/* keeps the longest eyebrows on one line down to 360px */
+@media (max-width: 767px) {
+  .eyebrow {
+    letter-spacing: 0.18em;
+  }
+}
+@media (max-width: 389px) {
+  .eyebrow {
+    letter-spacing: 0.12em;
+  }
+}
 
 /* Custom <details> marker (iOS renders the native one as a blue emoji) */
 details[open] > summary .details-caret {
@@ -416,6 +438,17 @@ details[open] > summary .details-caret {
 .pill-choice--wide > span {
   padding: 11px 18px;
   font-size: 13.5px;
+}
+/* phones lay out unzoomed (--body-zoom): one step up, 44px targets */
+@media (max-width: 767px) {
+  .pill-choice > span {
+    min-height: 44px;
+    font-size: 14px;
+  }
+  .pill-choice--wide > span {
+    padding: 11px 14px;
+    font-size: 14.5px;
+  }
 }
 .pill-choice:hover > span {
   border-color: rgba(33, 43, 60, 0.4);
@@ -591,4 +624,97 @@ details[open] > summary .details-caret {
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.22s;
+}
+
+/* ── Pilot-area map (components/site/PilotMap.tsx) ─────────────────
+   Unselected: dashed hollow ring. Selected: filled, one pulse. The shape
+   change carries the state, never colour alone. */
+.pilot-map-meta text {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+.pilot-map-dot {
+  cursor: pointer;
+}
+.pilot-map-ring {
+  fill: transparent;
+  stroke: #212b3c;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2.5;
+  transition: fill 0.2s;
+}
+.pilot-map-dot:hover .pilot-map-ring {
+  fill: rgba(33, 43, 60, 0.12);
+}
+.pilot-map-dot.is-on .pilot-map-ring {
+  fill: #212b3c;
+  stroke-dasharray: none;
+}
+.pilot-map-pulse {
+  fill: none;
+  stroke: #212b3c;
+  stroke-width: 1;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.pilot-map-dot.is-on .pilot-map-pulse {
+  animation: mapPulse 0.9s var(--ease-cine, ease) 1;
+}
+@keyframes mapPulse {
+  from {
+    opacity: 0.6;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 2.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pilot-map-dot.is-on .pilot-map-pulse {
+    animation: none;
+  }
+}
+.pilot-map-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  fill: #212b3c;
+  text-transform: uppercase;
+}
+@media (forced-colors: active) {
+  .pilot-map-ring,
+  .pilot-map-pulse {
+    stroke: CanvasText;
+  }
+  .pilot-map-dot.is-on .pilot-map-ring {
+    fill: CanvasText;
+  }
+  .pilot-map-label,
+  .pilot-map-meta {
+    fill: CanvasText;
+  }
+}
+
+/* ── Phone interest dock (components/site/InterestDock.tsx) ─────── */
+.interest-dock {
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+  translate: 0 110%;
+  visibility: hidden;
+  transition:
+    translate 0.3s var(--ease-cine, ease),
+    visibility 0s 0.3s;
+}
+.interest-dock.is-shown {
+  translate: 0 0;
+  visibility: visible;
+  transition: translate 0.3s var(--ease-cine, ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .interest-dock,
+  .interest-dock.is-shown {
+    transition: none;
+  }
 }

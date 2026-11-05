@@ -39,7 +39,7 @@ export default function AptApp() {
             href="https://cepiacostarica.org/es/"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-leaf px-6 py-[11px] text-[13px] font-semibold text-light max-md:hidden"
+            className="rounded-full bg-leaf px-6 py-[11px] text-[13px] font-semibold text-light max-md:hidden max-md:text-[14px]"
           >
             Conocé a CEPIA
           </a>
@@ -61,7 +61,7 @@ export default function AptApp() {
               <div data-reveal className="mb-7">
                 <img src={aptLogo} alt="Activa para Todos" className="block h-auto w-[min(300px,70vw)]" />
               </div>
-              <h1 data-reveal className="mb-[26px] mt-0 font-display text-[clamp(34px,5vw,52px)] font-light leading-[1.1] tracking-[-.01em]">
+              <h1 data-reveal className="mb-[26px] mt-0 font-display text-[clamp(34px,5vw,52px)] font-light leading-[1.1] tracking-[-.01em] max-md:text-[38px]">
                 Más oportunidades para
                 <br />
                 <span className="font-semibold">moverse, jugar y crecer.</span>
@@ -75,14 +75,14 @@ export default function AptApp() {
                 apoyar el acceso de niñas y niños de Guanacaste al deporte y a actividades de bienestar.
               </p>
               <div data-reveal className="flex flex-wrap gap-3">
-                <a href="#causa" className="rounded-full bg-leaf px-7 py-3.5 text-[13.5px] font-bold text-light">
+                <a href="#causa" className="rounded-full bg-leaf px-7 py-3.5 text-[13.5px] font-bold text-light max-md:text-[14.5px]">
                   Conocé nuestro compromiso →
                 </a>
                 <a
                   href="https://cepiacostarica.org/es/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]"
+                  className="rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61] max-md:text-[14.5px]"
                 >
                   Conocé a CEPIA
                 </a>
@@ -90,13 +90,13 @@ export default function AptApp() {
                   href="https://www.instagram.com/activawellnesscr/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61]"
+                  className="flex items-center gap-2 rounded-full border-[1.5px] border-ink px-[26px] py-[13px] text-[13.5px] font-semibold transition-colors duration-200 hover:text-[#3d4a61] max-md:text-[14.5px]"
                 >
                   <InstagramIcon size={15} />
                   Instagram
                 </a>
               </div>
-              <div data-reveal className="mt-16 font-display text-[clamp(22px,3vw,30px)] font-light italic text-ink">
+              <div data-reveal className="mt-16 font-display text-[clamp(22px,3vw,30px)] font-light italic text-ink max-md:text-[25px]">
                 “El bienestar crece cuando lo compartimos.”
               </div>
             </div>
@@ -108,15 +108,15 @@ export default function AptApp() {
           <div className="mx-auto box-content grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-center gap-[clamp(28px,4.5vw,64px)] px-[clamp(20px,4.5vw,48px)] py-[clamp(56px,8vw,96px)]">
             <div data-reveal>
               <div className="mb-[22px] font-mono text-[11px] uppercase tracking-[.24em] text-leaf">La causa</div>
-              <h2 className="mb-6 mt-0 font-display text-[clamp(29px,4.2vw,44px)] font-light leading-[1.12] tracking-[-.01em]">
+              <h2 className="mb-6 mt-0 font-display text-[clamp(29px,4.2vw,44px)] font-light leading-[1.12] tracking-[-.01em] max-md:text-[32px]">
                 Una causa <span className="font-semibold">que nos mueve.</span>
               </h2>
-              <p className="mb-4 mt-0 text-[15px] leading-[1.75] text-muted-foreground text-pretty">
+              <p className="mb-4 mt-0 text-[15px] leading-[1.75] text-muted-foreground text-pretty max-md:text-[16px]">
                 Queremos contribuir a que el costo de una actividad, el equipo o el transporte dejen de ser una barrera
                 para participar. Nuestro objetivo es apoyar oportunidades regulares de juego, aprendizaje y movimiento, en
                 espacios seguros y con acompañamiento.
               </p>
-              <p className="m-0 text-[15px] leading-[1.75] text-muted-foreground text-pretty">
+              <p className="m-0 text-[15px] leading-[1.75] text-muted-foreground text-pretty max-md:text-[16px]">
                 CEPIA es una organización costarricense sin fines de lucro que trabaja con comunidades de Guanacaste. Sus
                 programas incluyen oportunidades educativas, deportivas y recreativas para niñas, niños y jóvenes.
               </p>
@@ -138,7 +138,7 @@ export default function AptApp() {
           <div className="mx-auto box-content grid max-w-[1280px] grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-start gap-[clamp(28px,4.5vw,64px)] px-[clamp(20px,4.5vw,48px)] py-[clamp(56px,8vw,96px)]">
             <div data-reveal>
               <div className="mb-[22px] font-mono text-[11px] uppercase tracking-[.24em] text-leaf">Donaciones</div>
-              <h2 className="m-0 font-display text-[clamp(29px,4.2vw,44px)] font-light leading-[1.12] tracking-[-.01em]">
+              <h2 className="m-0 font-display text-[clamp(29px,4.2vw,44px)] font-light leading-[1.12] tracking-[-.01em] max-md:text-[32px]">
                 ¿Puedo donar <span className="font-semibold">directamente a CEPIA?</span>
               </h2>
             </div>

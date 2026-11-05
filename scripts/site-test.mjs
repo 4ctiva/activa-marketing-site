@@ -468,6 +468,79 @@ try {
     await page.close();
   }
 
+  // ── 5c. 2026-11-05 decisions: phone scale, dock, map, verification ──
+  {
+    const { page, errors } = await open({ width: 390, height: 844, lang: "es" });
+    const scale = await page.evaluate(() => ({
+      zoom: getComputedStyle(document.body).zoom,
+      h1: parseFloat(getComputedStyle(document.querySelector("h1")).fontSize),
+      body: parseFloat(getComputedStyle(document.querySelector("#what p")).fontSize),
+      ctaW: document.querySelector("[data-hero-cta]").getBoundingClientRect().width,
+      tabs: [...document.querySelectorAll("#how [role=tab]")].map((t) => ({ text: t.innerText.trim(), h: t.getBoundingClientRect().height })),
+      toggleH: document.querySelector("header button[lang]").getBoundingClientRect().height,
+      menuH: document.querySelector("button[aria-controls=mobile-menu]").getBoundingClientRect().height,
+    }));
+    check("m390: no body zoom on phones; 42px H1 and ≥16px body text", scale.zoom === "1" && scale.h1 >= 42 && scale.body >= 16, scale);
+    check("m390: hero CTA spans the width; header controls are 44px", scale.ctaW > 300 && scale.toggleH >= 44 && scale.menuH >= 44, scale);
+    check("m390: tabs use one-word labels and are 44px tall", scale.tabs.every((t) => !/\//.test(t.text) && t.h >= 44), scale.tabs);
+    const dock = async () => page.evaluate(() => getComputedStyle(document.querySelector("[data-interest-dock]")).visibility);
+    const atTop = await dock();
+    await page.evaluate(() => document.getElementById("how").scrollIntoView());
+    await sleep(300);
+    const midPage = await dock();
+    await page.evaluate(() => document.getElementById("contact").scrollIntoView());
+    await sleep(300);
+    const atContact = await dock();
+    check("m390: interest dock appears after the hero CTA and steps aside at Contact", atTop === "hidden" && midPage === "visible" && atContact === "hidden", { atTop, midPage, atContact });
+    await page.evaluate(() => document.getElementById("how").scrollIntoView());
+    await sleep(300);
+    await page.evaluate(() => document.querySelector("[data-interest-dock] button").click());
+    await sleep(200);
+    check("m390: the dock opens the contact dialog", await page.evaluate(() => document.querySelector("dialog[aria-labelledby=contact-dialog-title]").open));
+    await page.keyboard.press("Escape");
+    const chips = await page.evaluate(() => {
+      const tops = [...document.querySelectorAll("#pilot label")].map((l) => Math.round(l.getBoundingClientRect().top));
+      return { rows: new Set(tops).size, map: !!document.querySelector(".pilot-map")?.getClientRects().length };
+    });
+    check("m390: area chips sit two per row and the map is left to desktop", chips.rows === 4 && !chips.map, chips);
+    check("no console/page errors (decisions, m390)", errors.length === 0, errors);
+    await page.close();
+  }
+  {
+    const { page, errors } = await open();
+    const d = await page.evaluate(() => ({
+      zoom: getComputedStyle(document.body).zoom,
+      heroCols: getComputedStyle(document.querySelector("#home > div")).gridTemplateColumns.split(" ").length,
+      badgesBesideCta: (() => {
+        const cta = document.querySelector("[data-hero-cta]").getBoundingClientRect();
+        // the "Coming soon to" + badges row, left-aligned with the CTA
+        const row = document.querySelector("#home img[width='125']").parentElement.parentElement.getBoundingClientRect();
+        return row.top - cta.bottom < 80 && Math.abs(row.left - cta.left) < 2;
+      })(),
+      refs: [...document.querySelectorAll("#safety a[href^='/legal/']")].map((a) => a.getAttribute("href")),
+      steps: document.querySelectorAll("#safety ol > li").length,
+      law: /8968/.test(document.getElementById("safety").textContent) && /PRODHAB/.test(document.getElementById("safety").textContent),
+      utility: ["#digital h2", "#faq h2", "#contact h2"].map((sel) => document.querySelector(sel).querySelectorAll("span, br").length),
+      contact: [...document.querySelectorAll("#contact a, footer a")].map((a) => a.href).filter((h) => /mailto|wa\.me/.test(h)),
+    }));
+    check("desktop: zoom stays 1.15; hero is two columns with badges right under the CTA", d.zoom === "1.15" && d.heroCols === 2 && d.badgesBesideCta, d);
+    check("safety: five verification steps, every claim linked to a clause, Ley 8968 / PRODHAB named",
+      d.steps === 5 && d.refs.length >= 13 && d.refs.every((h) => /^\/legal\/(terminos\/#(clausula-\d+-\d+|aviso-de-privacidad)|reglas-de-negocio\/#regla-\d+-\d+)$/.test(h)) && d.law, d.refs);
+    check("utility headlines (Digital, FAQ, Contact) use one weight", d.utility.every((n) => n === 0), d.utility);
+    check("contact uses soporte@4ctiva.com and the +506 WhatsApp", d.contact.length >= 4 && d.contact.every((h) => /soporte@4ctiva\.com|wa\.me\/50672916960/.test(h)), d.contact);
+    await page.evaluate(() => document.querySelector("#pilot").scrollIntoView());
+    const map = await page.evaluate(() => {
+      const before = document.querySelector("#pilot input[type=checkbox]").checked;
+      document.querySelector(".pilot-map-dot").dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      return { before, dots: document.querySelectorAll(".pilot-map-dot").length, hidden: document.querySelector(".pilot-map").getAttribute("aria-hidden") };
+    });
+    await sleep(100);
+    const after = await page.evaluate(() => ({ box: document.querySelector("#pilot input[type=checkbox]").checked, on: document.querySelector(".pilot-map-dot").classList.contains("is-on") }));
+    check("map: six dots mirror the checkboxes and toggle them; hidden from assistive tech", map.dots === 6 && !map.before && after.box && after.on && map.hidden === "true", { map, after });
+    check("no console/page errors (decisions, desktop)", errors.length === 0, errors);
+    await page.close();
+  }
+
   // ── 6. With motion: content still reachable by keyboard ───────────
   {
     const { page } = await open({ motion: "no-preference" });

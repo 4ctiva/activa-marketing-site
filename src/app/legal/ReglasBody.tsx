@@ -22,12 +22,12 @@ export default function ReglasBody({ doc, linkVersion }: { doc: RulesDoc; linkVe
         >
           <div className="legal-topic-head">
             <div className="mb-2 font-mono text-[11px] font-bold tracking-[.2em] text-[#76674a]">{topic.code}</div>
-            <h2 className="mb-4 mt-0 font-display text-[clamp(22px,2.6vw,27px)] font-normal leading-[1.22] tracking-[-.005em] text-ink">
+            <h2 className="mb-4 mt-0 font-display text-[clamp(22px,2.6vw,27px)] font-normal leading-[1.22] tracking-[-.005em] text-ink max-md:text-[24px]">
               <span className="legal-mark">{topic.title}</span>
             </h2>
 
             {topic.termsRefs.length > 0 && (
-              <p className="mb-3 mt-0 hidden text-[13px] text-ink/80 print:block">
+              <p className="mb-3 mt-0 hidden text-[13px] text-ink/80 print:block max-md:text-[14px]">
                 Referencias: Términos {topic.termsRefs.map(termsRefSourceLabel).join(", ")}
               </p>
             )}

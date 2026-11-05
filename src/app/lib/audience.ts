@@ -10,9 +10,10 @@ export type Audience = "companies" | "gyms" | "users";
 export const AUDIENCES: Audience[] = ["companies", "gyms", "users"];
 
 export const CONTACT = {
-  email: "estebanbaltodano@4ctiva.com",
-  whatsapp: "16073196214",
-  whatsappLabel: "+1 (607) 319-6214",
+  // the support mailbox and the +506 number listed in the Términos (Datos clave)
+  email: "soporte@4ctiva.com",
+  whatsapp: "50672916960",
+  whatsappLabel: "+506 7291 6960",
   instagram: "https://www.instagram.com/activawellnesscr/",
   instagramHandle: "@activawellnesscr",
   form: "https://docs.google.com/forms/d/e/1FAIpQLSf4GeBCFGcsHa3XpXcrZQVP70hvqwa9TQ0XhCx8ZHf2R-Dznw/viewform",

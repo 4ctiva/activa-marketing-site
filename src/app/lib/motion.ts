@@ -228,6 +228,10 @@ export function initMotion({ revealAfterMs = 0 }: { revealAfterMs?: number } = {
 /** Whether the load intro should play this session (once per tab session). */
 export function introPending(): boolean {
   if (reducedMotion()) return false;
+  // a shared #section link or a back/forward visit goes straight to the content
+  if (window.location.hash.length > 1) return false;
+  const nav = performance.getEntriesByType?.("navigation")[0] as PerformanceNavigationTiming | undefined;
+  if (nav?.type === "back_forward") return false;
   try {
     return !window.sessionStorage.getItem("activa-intro-done");
   } catch {

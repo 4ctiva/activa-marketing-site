@@ -4,8 +4,9 @@ import logoFull from "../../../../assets/optimized/logo-full-400w.webp";
 
 /**
  * One-time page-load curtain: the logo fades in on a cream cover, then the
- * cover slides up to reveal the page (once per tab session). Hidden entirely
- * without JS or under prefers-reduced-motion via motion.css.
+ * cover slides up to reveal the page (once per tab session, ~1.15s in all).
+ * Skipped for shared #section links and back/forward (lib/motion.ts), and
+ * hidden entirely without JS or under prefers-reduced-motion via motion.css.
  */
 export default function IntroCurtain() {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,8 +26,8 @@ export default function IntroCurtain() {
     const leave = window.setTimeout(() => {
       clearInert();
       setPhase("leaving");
-    }, 1000);
-    const gone = window.setTimeout(() => setPhase("gone"), 1950);
+    }, 550);
+    const gone = window.setTimeout(() => setPhase("gone"), 1150);
     return () => {
       window.clearTimeout(leave);
       window.clearTimeout(gone);

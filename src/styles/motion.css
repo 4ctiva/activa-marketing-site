@@ -57,13 +57,13 @@
     align-items: center;
     justify-content: center;
     background: var(--background);
-    transition: translate 0.9s var(--ease-cine);
+    transition: translate 0.6s var(--ease-cine);
   }
   .intro-curtain img {
     height: 26px;
     width: auto;
     opacity: 0;
-    animation: introLogo 1s var(--ease-cine) both;
+    animation: introLogo 0.5s var(--ease-cine) both;
   }
   .intro-curtain.is-done {
     translate: 0 -100%;

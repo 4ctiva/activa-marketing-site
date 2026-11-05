@@ -1,13 +1,13 @@
 // Based on "ACTIVA_Reglas_de_Negocio_Borrador.docx" (Versión de trabajo 2026-10-07), published as the final
 // document: the internal working layer is omitted (draft notes, Control codes, "Pendientes", references to the
 // non-public Aliados/ASDECITI contracts, internal files) and the open items were closed by ACTIVA on 2026-10-08
-// (renewal notice, refund formula, retracto, versions). Inline markup: see RichText.tsx.
+// (renewal notice, refund formula, retracto, versions). ACTIVA approved this version as final on
+// 2026-11-05, so it no longer carries a review notice. Inline markup: see RichText.tsx.
 import type { RulesDoc } from "../model";
 
 export const REGLAS: RulesDoc = {
   title: "Reglas de Negocio de ACTIVA",
   version: "2026-10-12",
-  reviewNotice: "Borrador para revisión. Esta versión incorpora la fotografía opcional y debe aprobarse junto con los Términos y sus anexos de privacidad antes de utilizarse para recabar aceptaciones. La fecha de entrada en vigor está sujeta a esa aprobación.",
   effective: "1 de noviembre de 2026",
   intro: "Estas Reglas de Negocio desarrollan las materias operativas de los [Términos y Condiciones](/legal/terminos/), del contrato de Centros Afiliados y del convenio de empresa o asociación, y forman parte de ellos.",
   operator: { title: "Operador", rows: [

@@ -21,7 +21,7 @@ export function ClauseList({ clauses, idFor }: { clauses: Clause[]; idFor: (num:
             >
               {c.num}
             </a>
-            <p className="m-0 text-[15.5px] leading-[1.75] text-ink/85 text-pretty">
+            <p className="m-0 text-[15.5px] leading-[1.75] text-ink/85 text-pretty max-md:text-[16.5px]">
               <RichText text={c.text} />
             </p>
           </li>
@@ -41,7 +41,7 @@ export function KeyValueCard({ rows }: { rows: [string, Rich][] }) {
           className="grid gap-x-6 gap-y-1 border-t border-border py-3.5 first:border-t-0 sm:grid-cols-[minmax(140px,190px)_minmax(0,1fr)]"
         >
           <dt className="pt-[3px] font-mono text-[10.5px] font-bold uppercase tracking-[.16em] text-muted-foreground">{k}</dt>
-          <dd className="m-0 text-[14.5px] leading-[1.65] text-ink/85">
+          <dd className="m-0 text-[14.5px] leading-[1.65] text-ink/85 max-md:text-[15.5px]">
             <RichText text={v} />
           </dd>
         </div>
@@ -60,7 +60,7 @@ export function ArrowLink({ href, code, title }: { href: string; code: string; t
   return (
     <a
       href={href}
-      className="group flex items-baseline gap-3 rounded-lg py-1.5 text-[14px] leading-snug text-ink/80 transition-colors duration-200 hover:text-ink"
+      className="group flex items-baseline gap-3 rounded-lg py-1.5 text-[14px] leading-snug text-ink/80 transition-colors duration-200 hover:text-ink max-md:text-[15px]"
     >
       <span className="shrink-0 font-mono text-[11.5px] tracking-[.06em] text-ink/70 group-hover:text-ink">{code}</span>
       <span className="min-w-0 flex-1 underline decoration-ink/25 underline-offset-[3px] transition-[text-decoration-color] duration-200 group-hover:decoration-ink/70">

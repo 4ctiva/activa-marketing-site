@@ -27,10 +27,10 @@
   }
 }
 
-/* body has zoom: 1.15, which also scales vh — divide it back out */
+/* the body zoom (theme.css) also scales vh — divide it back out */
 .legal-toc {
   top: var(--legal-header-clearance);
-  max-height: calc(100vh / 1.15 - var(--legal-header-clearance) - 12px);
+  max-height: calc(100vh / var(--body-zoom) - var(--legal-header-clearance) - 12px);
 }
 
 /* focus rings come from theme.css (:focus-visible); the index scrolls and its

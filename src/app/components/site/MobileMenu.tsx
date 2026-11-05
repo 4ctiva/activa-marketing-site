@@ -61,7 +61,7 @@ export default function MobileMenu() {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={t.nav.menu}
-        className="press flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.25)] text-ink transition-colors duration-300 md:hidden group-data-[over-dark=true]/header:border-[rgba(245,241,232,.3)] group-data-[over-dark=true]/header:text-[#f5f1e8]"
+        className="press flex size-11 items-center justify-center rounded-full border border-[rgba(33,43,60,.25)] text-ink transition-colors duration-300 md:hidden group-data-[over-dark=true]/header:border-[rgba(245,241,232,.3)] group-data-[over-dark=true]/header:text-[#f5f1e8]"
       >
         <Menu aria-hidden="true" size={18} strokeWidth={1.75} />
       </button>
@@ -76,7 +76,7 @@ export default function MobileMenu() {
         }}
         onClick={(e) => e.target === e.currentTarget && setOpen(false)}
         // max-h divides by the body zoom (theme.css) so the sheet never outgrows the viewport
-        className="sheet-dialog inset-x-0 top-0 bottom-auto m-0 h-auto max-h-[calc(100dvh/1.15)] w-full max-w-none overflow-y-auto rounded-b-[28px] border-0 bg-background p-0 text-foreground md:hidden"
+        className="sheet-dialog inset-x-0 top-0 bottom-auto m-0 h-auto max-h-[calc(100dvh/var(--body-zoom))] w-full max-w-none overflow-y-auto rounded-b-[28px] border-0 bg-background p-0 text-foreground md:hidden"
       >
         {open && (
           <div className="flex flex-col px-5 pb-7 pt-3">
@@ -86,7 +86,7 @@ export default function MobileMenu() {
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label={t.common.close}
-                className="press flex size-10 items-center justify-center rounded-full text-muted-foreground hover:text-ink"
+                className="press flex size-11 items-center justify-center rounded-full text-muted-foreground hover:text-ink"
               >
                 <X aria-hidden="true" size={20} strokeWidth={1.75} />
               </button>
@@ -98,7 +98,7 @@ export default function MobileMenu() {
                     <a
                       href={l.href}
                       onClick={follow}
-                      className="flex items-center justify-between py-3.5 font-display text-[24px] font-light leading-tight text-ink"
+                      className="flex items-center justify-between py-4 font-display text-[26px] font-light leading-tight text-ink"
                     >
                       {l.label}
                     </a>
@@ -115,7 +115,7 @@ export default function MobileMenu() {
             <a
               href="#contact"
               onClick={follow}
-              className="press mt-6 rounded-full bg-ink px-6 py-3.5 text-center text-[14px] font-bold text-primary-foreground"
+              className="press mt-6 rounded-full bg-ink px-6 py-4 text-center text-[16px] font-bold text-primary-foreground"
             >
               {t.nav.cta}
             </a>

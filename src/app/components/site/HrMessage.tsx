@@ -29,10 +29,10 @@ export default function HrMessage() {
 
   return (
     <div className="flex flex-col gap-3">
-      <p id="hr-help" className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground">
+      <p id="hr-help" className="m-0 text-[12.5px] leading-[1.6] text-muted-foreground max-md:text-[13.5px]">
         {t.hr.body}
       </p>
-      <label htmlFor="hr-message" className="text-[12.5px] font-semibold">
+      <label htmlFor="hr-message" className="text-[12.5px] font-semibold max-md:text-[13.5px]">
         {t.hr.label}
       </label>
       <textarea
@@ -46,23 +46,23 @@ export default function HrMessage() {
           setEdited(true);
           setStatus("");
         }}
-        className="w-full resize-y rounded-xl border border-[rgba(33,43,60,.2)] bg-white/70 p-3 text-[13px] leading-[1.55] text-ink"
+        className="w-full resize-y rounded-xl border border-[rgba(33,43,60,.2)] bg-white/70 p-3 text-[13px] leading-[1.55] text-ink max-md:text-[14px]"
       />
       <div className="flex flex-wrap items-center gap-2.5">
         <button
           type="button"
           onClick={copy}
-          className="rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-primary-foreground"
+          className="rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-primary-foreground max-md:text-[14px]"
         >
           {t.hr.copy}
         </button>
         <a
           href={`mailto:?subject=${encodeURIComponent(t.hr.subject)}&body=${encodeURIComponent(text)}`}
-          className="rounded-full border-[1.5px] border-ink px-5 py-2.5 text-[13px] font-semibold"
+          className="rounded-full border-[1.5px] border-ink px-5 py-2.5 text-[13px] font-semibold max-md:text-[14px]"
         >
           {t.hr.email}
         </a>
-        <span role="status" className="text-[12.5px] text-muted-foreground">
+        <span role="status" className="text-[12.5px] text-muted-foreground max-md:text-[13.5px]">
           {status === "copied" ? t.hr.copied : status === "failed" ? t.hr.copyFailed : ""}
         </span>
       </div>
