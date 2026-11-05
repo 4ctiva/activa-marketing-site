@@ -8,6 +8,8 @@ import ContactDialog, { AudiencePills, ContactAlternatives } from "./components/
 import { ArrowRight, ArrowUpRight, Check, ChevronRight, MapPin } from "lucide-react";
 import HrMessage from "./components/site/HrMessage";
 import MobileMenu from "./components/site/MobileMenu";
+import PilotMap from "./components/site/PilotMap";
+import InterestDock from "./components/site/InterestDock";
 import { initMotion, scanReveals } from "./lib/motion";
 import { trackHeaderSurface, trackStickyHeader } from "./lib/stickyHeader";
 import { AUDIENCES, MEMBER_APP_LIVE, MEMBER_APP_URL, useAreas, useAudience, type Audience } from "./lib/audience";
@@ -17,19 +19,22 @@ import aptLogo from "../../assets/optimized/apt-logo-270w.webp";
 import badgeAppStore from "../../assets/optimized/badge-appstore-380w.webp";
 import badgeGooglePlay from "../../assets/optimized/badge-googleplay-380w.webp";
 import { Photo, PHOTOS } from "./lib/photos";
+import { LEGAL_PATHS, rulesIds, termsIds } from "./legal/model";
 
 // box-content: the design prototype lays out in content-box, so 1280px is the
 // content width and the side padding sits outside it (1376px overall).
 const CONTAINER = "mx-auto box-content max-w-[1280px] px-[clamp(20px,4.5vw,48px)]";
 const SECTION_Y = "py-[clamp(56px,8vw,96px)]";
-const H2 = "m-0 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-[1.1] tracking-[-.01em]";
+const H2 = "m-0 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-[1.1] tracking-[-.01em] max-md:text-[34px]";
+/** Utility sections (Digital, FAQ, Contact): one weight; the light/semibold pair is kept for hero and statement sections. */
+const H2_UTILITY = H2.replace("font-light", "font-normal");
 const GRID_2COL =
   "grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-[clamp(28px,4.5vw,64px)]";
 const BTN_INK =
-  "press inline-block max-w-full rounded-full bg-ink px-7 py-[13px] text-center text-[13.5px] font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52]";
+  "press inline-block max-w-full rounded-full bg-ink px-7 py-[13px] text-center text-[13.5px] font-bold text-primary-foreground hover:bg-[#2c3a52] focus-visible:bg-[#2c3a52] max-md:text-[14.5px]";
 // outline pills fill with ink on hover/focus (AA at every step)
 const BTN_OUTLINE =
-  "press inline-block max-w-full rounded-full border-[1.5px] border-ink px-6 py-3 text-center text-[13px] font-semibold hover:bg-ink hover:text-[#f5f1e8] focus-visible:bg-ink focus-visible:text-[#f5f1e8]";
+  "press inline-block max-w-full rounded-full border-[1.5px] border-ink px-6 py-3 text-center text-[13px] font-semibold hover:bg-ink hover:text-[#f5f1e8] focus-visible:bg-ink focus-visible:text-[#f5f1e8] max-md:text-[14px]";
 
 /** Trailing arrow for CTAs; it nudges right on hover/press (theme.css .btn-arrow). */
 const Arrow = () => <ArrowRight aria-hidden="true" size={15} strokeWidth={2} className="btn-arrow ml-1.5 inline-block align-[-2px]" />;
@@ -54,6 +59,34 @@ const WithArrow = ({ text }: { text: string }) => (
 );
 /** Status dot: a static marker, never a control. */
 const Dot = () => <span aria-hidden="true" className="inline-block size-1.5 shrink-0 rounded-full bg-[#70685c]" />;
+
+/** A cited clause as [doc, num]: "t" Términos, "a" Términos Anexo A (privacy notice), "r" Reglas de Negocio. */
+type LegalRef = readonly string[];
+const legalRefHref = ([doc, num]: LegalRef) =>
+  doc === "r"
+    ? `${LEGAL_PATHS.reglas}#${rulesIds.clause(num)}`
+    : `${LEGAL_PATHS.terminos}#${doc === "a" ? "aviso-de-privacidad" : termsIds.clause(num)}`;
+
+/** Clause links under a commitment, so every claim points at the text that makes it. */
+function LegalRefs({ refs }: { refs: readonly LegalRef[] }) {
+  const { t } = useLang();
+  const label = { t: t.safety.refTerms, a: t.safety.refAnnex, r: `${t.safety.refRules} RN` } as Record<string, string>;
+  return (
+    <span className="flex flex-wrap gap-x-3.5 gap-y-1">
+      {refs.map((ref) => (
+        <a
+          key={ref.join()}
+          href={legalRefHref(ref)}
+          hrefLang="es"
+          className="font-mono text-[11px] tracking-[.04em] text-[#a89f8c] underline decoration-[rgba(245,241,232,.3)] underline-offset-4 hover:text-light hover:decoration-current max-md:text-[12px]"
+        >
+          {label[ref[0]]} {ref[1]}
+          {t.safety.refLang && <span className="sr-only"> {t.safety.refLang}</span>}
+        </a>
+      ))}
+    </span>
+  );
+}
 
 // staggered reveal delays (see motion.css / lib/motion.ts)
 const D = (s: number) => ({ "--reveal-delay": `${s}s` }) as CSSProperties;
@@ -84,18 +117,18 @@ function LanguagePicker() {
         <div className="mb-1 mt-[22px] font-mono text-[11px] tracking-[.24em] text-[#70685c]">
           CHOOSE YOUR LANGUAGE
         </div>
-        <div lang="es" className="mb-[26px] text-[13px] text-muted-foreground">Elegí tu idioma</div>
+        <div lang="es" className="mb-[26px] text-[13px] text-muted-foreground max-md:text-[14px]">Elegí tu idioma</div>
         <div className="flex flex-col gap-2.5">
           <button
             onClick={() => choose("en")}
-            className="rounded-full border-[1.5px] border-ink p-[13px] text-sm font-semibold"
+            className="rounded-full border-[1.5px] border-ink p-[13px] text-sm font-semibold max-md:text-[15px]"
           >
             English
           </button>
           <button
             lang="es"
             onClick={() => choose("es")}
-            className="rounded-full border-[1.5px] border-ink p-[13px] text-sm font-semibold"
+            className="rounded-full border-[1.5px] border-ink p-[13px] text-sm font-semibold max-md:text-[15px]"
           >
             Español
           </button>
@@ -132,7 +165,7 @@ export default function App() {
     setAreas((prev) => (prev.includes(zone) ? prev.filter((z) => z !== zone) : [...prev, zone]));
 
   useEffect(() => {
-    initMotion({ revealAfterMs: document.querySelector(".intro-curtain") ? 1150 : 0 });
+    initMotion({ revealAfterMs: document.querySelector(".intro-curtain") ? 650 : 0 });
   }, []);
 
   useEffect(() => trackStickyHeader(), []);
@@ -156,9 +189,9 @@ export default function App() {
   }, [howTab, faqFilter, lang]);
 
   const howTabs = [
-    { key: "users" as const, label: t.how.tabs.users },
-    { key: "companies" as const, label: t.how.tabs.companies },
-    { key: "gyms" as const, label: t.how.tabs.gyms },
+    { key: "users" as const, label: t.how.tabs.users, short: t.how.tabsShort.users },
+    { key: "companies" as const, label: t.how.tabs.companies, short: t.how.tabsShort.companies },
+    { key: "gyms" as const, label: t.how.tabs.gyms, short: t.how.tabsShort.gyms },
   ];
 
   // WAI-ARIA tabs: arrow keys / Home / End move between tabs and select them
@@ -198,12 +231,12 @@ export default function App() {
       >
         <div className="mx-auto box-content flex max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(16px,4vw,48px)] py-3.5 transition-[padding] duration-300 group-data-[condensed=true]/header:py-2.5 max-md:flex-nowrap max-md:py-2.5">
           <a href="#home" className="flex items-center">
-            <img src={logoFull} alt="Activa" width={94} height={19} className="block h-[19px] w-auto transition-[filter] duration-300 max-md:h-[15px] group-data-[over-dark=true]/header:brightness-0 group-data-[over-dark=true]/header:invert" />
+            <img src={logoFull} alt="Activa" width={94} height={19} className="block h-[19px] w-auto transition-[filter] duration-300 max-md:h-[18px] group-data-[over-dark=true]/header:brightness-0 group-data-[over-dark=true]/header:invert" />
           </a>
           {/* phones get the Menu sheet instead (MobileMenu) */}
           <nav
             aria-label={t.nav.main}
-            className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-ink/70 transition-colors duration-300 max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85"
+            className="flex flex-wrap items-center gap-x-[clamp(14px,2.2vw,30px)] gap-y-3 text-[13.5px] font-medium text-ink/70 transition-colors duration-300 max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85 max-md:text-[14.5px]"
           >
             <a href="#home" className="nav-link hover:text-ink group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
               {t.nav.home}
@@ -224,7 +257,7 @@ export default function App() {
           </nav>
           <div className="flex items-center gap-3.5 max-md:gap-2">
             {MEMBER_APP_LIVE && (
-              <a href={MEMBER_APP_URL} className="text-[12.5px] font-medium text-ink/70 hover:text-ink max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85 group-data-[over-dark=true]/header:hover:text-[#f5f1e8]">
+              <a href={MEMBER_APP_URL} className="text-[12.5px] font-medium text-ink/70 hover:text-ink max-md:hidden group-data-[over-dark=true]/header:text-[#f5f1e8]/85 group-data-[over-dark=true]/header:hover:text-[#f5f1e8] max-md:text-[13.5px]">
                 {t.nav.signIn}
               </a>
             )}
@@ -232,14 +265,14 @@ export default function App() {
               onClick={() => setLang(nextLang)}
               aria-label={t.nav.switchLang}
               lang={nextLang}
-              className="press rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:h-10 max-md:px-3.5 group-data-[over-dark=true]/header:border-[rgba(245,241,232,.3)] group-data-[over-dark=true]/header:text-[#f5f1e8] group-data-[over-dark=true]/header:hover:text-white"
+              className="press rounded-full border border-[rgba(33,43,60,.25)] px-[15px] py-2 font-mono text-[11px] transition-colors duration-200 hover:text-[#3d4a61] max-md:h-11 max-md:px-4 max-md:text-[12px] group-data-[over-dark=true]/header:border-[rgba(245,241,232,.3)] group-data-[over-dark=true]/header:text-[#f5f1e8] group-data-[over-dark=true]/header:hover:text-white"
             >
               <span className="font-bold">{lang.toUpperCase()}</span>
               <span className="text-[#70685c] group-data-[over-dark=true]/header:text-[#c9c1b2]"> / {nextLang.toUpperCase()}</span>
             </button>
             <a
               href="#contact"
-              className="press rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground transition-colors duration-300 hover:bg-[#2c3a52] max-md:hidden group-data-[over-dark=true]/header:bg-[#f5f1e8] group-data-[over-dark=true]/header:text-ink group-data-[over-dark=true]/header:hover:bg-white"
+              className="press rounded-full bg-ink px-6 py-[11px] text-[13px] font-semibold text-primary-foreground transition-colors duration-300 hover:bg-[#2c3a52] max-md:hidden group-data-[over-dark=true]/header:bg-[#f5f1e8] group-data-[over-dark=true]/header:text-ink group-data-[over-dark=true]/header:hover:bg-white max-md:text-[14px]"
             >
               {t.nav.cta}
             </a>
@@ -250,55 +283,58 @@ export default function App() {
 
       <main id="main" tabIndex={-1} className="outline-none">
         {/* ── 1. HERO ────────────────────────────────────────────── */}
+        {/* centred and stacked below xl; from xl the copy sits left and the phones right */}
         <section id="home" className="relative">
-          <div
-            data-reveal-group
-            className="mx-auto box-content max-w-[1280px] px-[clamp(20px,4.5vw,48px)] pb-6 pt-20 text-center max-md:pt-8"
-          >
-            <div data-reveal className="eyebrow mb-6">
-              {t.hero.eyebrow}
-            </div>
-            <h1
-              data-reveal
-              className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em] max-md:text-[31px]"
-            >
-              {t.hero.titleTop}
-              <br />
-              <span className="font-semibold">{t.hero.titleEm}</span>
-            </h1>
-            <p
-              data-reveal
-              className="mx-auto mt-6 max-w-[620px] text-[16.5px] leading-[1.6] text-muted-foreground text-pretty"
-            >
-              {t.hero.subtitle}
-            </p>
-            <div data-reveal className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => openContact()}
-                className="press max-w-full rounded-full bg-ink px-7 py-3.5 text-[14px] font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
+          <div className="mx-auto box-content max-w-[1280px] px-[clamp(20px,4.5vw,48px)] pb-[72px] pt-20 max-md:pb-14 max-md:pt-8 xl:grid xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center xl:gap-x-[clamp(24px,3vw,56px)] xl:pt-14">
+            <div data-reveal-group className="text-center xl:text-left">
+              <div data-reveal className="eyebrow mb-6">
+                {t.hero.eyebrow}
+              </div>
+              <h1
+                data-reveal
+                className="m-0 font-display text-[clamp(36px,6vw,64px)] font-light leading-[1.08] tracking-[-.015em] max-md:text-[42px] max-md:leading-[1.06]"
               >
-                {t.hero.ctaPrimary}
-              </button>
-              <a href="#how" className={`${BTN_OUTLINE} !py-3.5 text-[14px]`}>
-                {t.hero.ctaSecondary}
-              </a>
+                {t.hero.titleTop}
+                <br />
+                <span className="font-semibold">{t.hero.titleEm}</span>
+              </h1>
+              <p
+                data-reveal
+                className="mx-auto mt-6 max-w-[620px] text-[16.5px] leading-[1.6] text-muted-foreground text-pretty max-md:text-[17px] xl:mx-0 xl:max-w-[540px]"
+              >
+                {t.hero.subtitle}
+              </p>
+              {/* one action row: the CTA, a text link, and the store badges with their label */}
+              <div data-reveal className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 xl:justify-start">
+                <button
+                  type="button"
+                  onClick={() => openContact()}
+                  data-hero-cta
+                  className="press max-w-full rounded-full bg-ink px-7 py-3.5 text-[14px] font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)] max-md:w-full max-md:py-4 max-md:text-[16px]"
+                >
+                  {t.hero.ctaPrimary}
+                </button>
+                <a href="#how" className="inline-flex min-h-11 items-center text-[14px] font-semibold underline underline-offset-4 hover:text-[#3d4a61] max-md:text-[15px]">
+                  {/* one inline box, so the flex link keeps the space before the last word */}
+                  <span>
+                    <WithArrow text={t.hero.ctaSecondary} />
+                  </span>
+                </a>
+              </div>
+              <div data-reveal className="mt-7 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 xl:justify-start">
+                <span className="font-mono text-[11px] uppercase tracking-[.2em] text-[#70685c]">{t.hero.comingSoon}</span>
+                {/* badges stay side by side; only the label wraps on narrow screens */}
+                <span className="flex flex-nowrap items-center gap-3">
+                  <img src={badgeAppStore} alt={t.alts.appStore} width={125} height={42} decoding="async" className="h-[40px] w-auto opacity-85" />
+                  <img src={badgeGooglePlay} alt={t.alts.googlePlay} width={141} height={42} decoding="async" className="h-[40px] w-auto opacity-85" />
+                </span>
+              </div>
+              <p data-reveal className="mb-0 mt-6 flex items-center justify-center gap-2 text-[12.5px] text-muted-foreground max-md:text-[13.5px] xl:justify-start">
+                <Dot />
+                {t.hero.status}
+              </p>
             </div>
-            <p data-reveal className="mx-auto mb-0 mt-5 flex items-center justify-center gap-2 text-[12.5px] text-muted-foreground">
-              <Dot />
-              {t.hero.status}
-            </p>
-          </div>
-          <PhoneMockups caption={t.hero.mockupCaption} />
-          <div className="flex flex-col items-center gap-[26px] px-6 pb-[72px] pt-8">
-            <div data-reveal className="flex flex-wrap items-center justify-center gap-x-[18px] gap-y-3.5">
-              <span className="font-mono text-[11px] uppercase tracking-[.24em] text-[#70685c]">{t.hero.comingSoon}</span>
-              {/* badges stay side by side; only the label wraps on narrow screens */}
-              <span className="flex flex-nowrap items-center gap-[18px]">
-                <img src={badgeAppStore} alt={t.alts.appStore} width={125} height={42} loading="lazy" decoding="async" className="h-[42px] w-auto opacity-85" />
-                <img src={badgeGooglePlay} alt={t.alts.googlePlay} width={141} height={42} loading="lazy" decoding="async" className="h-[42px] w-auto opacity-85" />
-              </span>
-            </div>
+            <PhoneMockups caption={t.hero.mockupCaption} />
           </div>
         </section>
 
@@ -321,20 +357,20 @@ export default function App() {
                     data-reveal
                     className={`glass-quiet glass-frost flex flex-col p-[clamp(22px,3vw,32px)] ${selected ? "ring-[1.5px] ring-ink" : ""}`}
                   >
-                    <h3 className="mb-2 mt-0 font-display text-[22px] font-medium leading-[1.25]">{path.name}</h3>
-                    <p className="mb-1.5 mt-0 text-[13px] text-muted-foreground">{path.who}</p>
-                    <p className="mb-5 mt-0 text-sm leading-[1.65] text-muted-foreground text-pretty">{path.offer}</p>
+                    <h3 className="mb-2 mt-0 font-display text-[22px] font-medium leading-[1.25] max-md:text-[24px]">{path.name}</h3>
+                    <p className="mb-1.5 mt-0 text-[13px] text-muted-foreground max-md:text-[14px]">{path.who}</p>
+                    <p className="mb-5 mt-0 text-sm leading-[1.65] text-muted-foreground text-pretty max-md:text-[15px]">{path.offer}</p>
                     <div className="mb-2.5 font-mono text-[10.5px] uppercase tracking-[.2em] text-[#70685c]">
                       {t.audiences.nextLabel}
                     </div>
-                    <ol className="mb-6 mt-0 flex list-decimal flex-col gap-2 pl-5 text-[13.5px] leading-[1.55] text-muted-foreground">
+                    <ol className="mb-6 mt-0 flex list-decimal flex-col gap-2 pl-5 text-[13.5px] leading-[1.55] text-muted-foreground max-md:text-[14.5px]">
                       {path.steps.map((s) => (
                         <li key={s}>{s}</li>
                       ))}
                     </ol>
                     {a === "users" && (
                       <details className="group mb-6 rounded-xl border border-border px-4 py-3">
-                        <summary className="cursor-pointer list-none text-[13px] font-semibold [&::-webkit-details-marker]:hidden">
+                        <summary className="cursor-pointer list-none text-[13px] font-semibold [&::-webkit-details-marker]:hidden max-md:text-[14px]">
                           <ChevronRight aria-hidden="true" size={14} strokeWidth={2} className="details-caret mr-1 inline-block align-[-2px] transition-transform duration-200" />
                           {t.hr.title}
                         </summary>
@@ -350,7 +386,7 @@ export default function App() {
                       <a
                         href="#how"
                         onClick={() => chooseAudience(a)}
-                        className="text-[13px] font-semibold underline underline-offset-4 hover:text-[#3d4a61]"
+                        className="text-[13px] font-semibold underline underline-offset-4 hover:text-[#3d4a61] max-md:text-[14px]"
                       >
                         <WithArrow text={`${t.audiences.howLink}: ${path.name}`} />
                       </a>
@@ -359,7 +395,7 @@ export default function App() {
                 );
               })}
             </ul>
-            <p data-reveal className="mb-0 mt-6 max-w-[760px] text-[12.5px] leading-[1.65] text-muted-foreground">
+            <p data-reveal className="mb-0 mt-6 max-w-[760px] text-[12.5px] leading-[1.65] text-muted-foreground max-md:text-[13.5px]">
               {t.audiences.note}
             </p>
           </div>
@@ -385,15 +421,15 @@ export default function App() {
               </div>
               <div data-reveal>
                 <div className="eyebrow mb-[22px]">{t.what.whyLabel}</div>
-                <h3 className="mb-6 mt-0 font-display text-[clamp(28px,4vw,42px)] font-light leading-[1.1] tracking-[-.01em]">
+                <h3 className="mb-6 mt-0 font-display text-[clamp(28px,4vw,42px)] font-light leading-[1.1] tracking-[-.01em] max-md:text-[31px]">
                   {t.what.whyTitleTop}
                   <br />
                   <span className="font-semibold">{t.what.whyTitleEm}</span>
                 </h3>
-                <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty">
+                <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">
                   {t.what.whyP1}
                 </p>
-                <p className="m-0 text-[15px] font-bold leading-[1.7]">{t.what.whyP2}</p>
+                <p className="m-0 text-[15px] font-bold leading-[1.7] max-md:text-[16px]">{t.what.whyP2}</p>
               </div>
             </div>
           </div>
@@ -404,7 +440,7 @@ export default function App() {
           <div className={`${CONTAINER} ${SECTION_Y}`}>
             <div data-reveal className="eyebrow mb-[22px]">{t.how.label}</div>
             {/* the design's only heading without an explicit line-height */}
-            <h2 data-reveal style={D(0.1)} className="m-0 mb-10 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-normal tracking-[-.01em]">
+            <h2 data-reveal style={D(0.1)} className="m-0 mb-10 font-display text-[clamp(31px,4.6vw,50px)] font-light leading-normal tracking-[-.01em] max-md:text-[34px] max-md:leading-[1.1]">
               {t.how.title}
             </h2>
             <div
@@ -427,11 +463,13 @@ export default function App() {
                   tabIndex={howTab === tab.key ? 0 : -1}
                   onClick={() => setHowTab(tab.key)}
                   onKeyDown={(e) => onTabKey(e, i)}
-                  className={`press rounded-full px-6 py-[11px] text-[13.5px] font-semibold transition-colors duration-200 max-md:px-2 max-md:text-[12.5px] max-md:leading-tight ${
+                  className={`press rounded-full px-6 py-[11px] text-[13.5px] font-semibold transition-colors duration-200 max-md:min-h-11 max-md:whitespace-nowrap max-md:px-2 max-md:text-[14px] max-md:leading-tight ${
                     howTab === tab.key ? "bg-ink text-light" : "text-muted-foreground"
                   }`}
                 >
-                  {tab.label}
+                  {/* phones get one-word labels so the three-column control never wraps */}
+                  <span className="max-md:hidden">{tab.label}</span>
+                  <span className="md:hidden">{tab.short}</span>
                 </button>
               ))}
             </div>
@@ -447,8 +485,8 @@ export default function App() {
               {t.how.steps[howTab].map((item) => (
                 <div key={item.step} data-reveal className="glass-quiet box-content p-9 md:min-h-[230px] max-md:p-7">
                   <div className="mb-[34px] font-mono text-[11px] text-[#70685c] max-md:mb-5">{item.step}</div>
-                  <h3 className="mb-2.5 mt-0 font-display text-[22px] font-medium leading-[1.25]">{item.title}</h3>
-                  <p className="m-0 text-sm leading-[1.65] text-muted-foreground text-pretty">{item.body}</p>
+                  <h3 className="mb-2.5 mt-0 font-display text-[22px] font-medium leading-[1.25] max-md:text-[24px]">{item.title}</h3>
+                  <p className="m-0 text-sm leading-[1.65] text-muted-foreground text-pretty max-md:text-[15px]">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -476,12 +514,12 @@ export default function App() {
                   data-reveal
                   className="grid grid-cols-[minmax(0,260px)_minmax(0,1fr)] items-baseline gap-x-[clamp(24px,5vw,72px)] gap-y-3 border-b border-[rgba(245,241,232,.14)] py-[clamp(24px,3.5vw,40px)] max-md:grid-cols-1"
                 >
-                  <div className="font-display text-[clamp(44px,6vw,76px)] font-light leading-none tracking-[-.02em] text-light [font-variant-numeric:tabular-nums]">
+                  <div className="font-display text-[clamp(44px,6vw,76px)] font-light leading-none max-md:text-[50px] tracking-[-.02em] text-light [font-variant-numeric:tabular-nums]">
                     {st.n}
                   </div>
                   <div className="flex flex-col gap-3.5">
                     <p className="m-0 max-w-[640px] text-[17px] leading-[1.6] text-[#e8e2d6] text-pretty max-md:text-[16px]">{st.d}</p>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12.5px]">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12.5px] max-md:text-[13.5px]">
                       <span className="rounded-full border border-[rgba(245,241,232,.25)] px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[.14em] text-[#d8d2c5]">
                         {t.evidence.chip}
                       </span>
@@ -507,18 +545,18 @@ export default function App() {
                 </li>
               ))}
             </ol>
-            <p data-reveal className="mb-0 mt-6 text-[12.5px] leading-[1.6] text-[#a89f8c]">
+            <p data-reveal className="mb-0 mt-6 text-[12.5px] leading-[1.6] text-[#a89f8c] max-md:text-[13.5px]">
               {t.evidence.disclaimer}
             </p>
             <div data-reveal className="mt-8 flex flex-wrap items-start justify-between gap-x-10 gap-y-6">
               <button
                 type="button"
                 onClick={() => openContact("companies")}
-                className="press max-w-full rounded-full bg-light px-[30px] py-3.5 text-center text-[13.5px] font-bold text-ink transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)]"
+                className="press max-w-full rounded-full bg-light px-[30px] py-3.5 text-center text-[13.5px] font-bold text-ink transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_30px_rgba(0,0,0,.25)] max-md:text-[14.5px]"
               >
                 <WithArrow text={t.evidence.cta} />
               </button>
-              <details className="group max-w-[640px] text-[11.5px] text-[#a89f8c]">
+              <details className="group max-w-[640px] text-[11.5px] text-[#a89f8c] max-md:text-[12.5px]">
                 {/* custom marker: iOS renders the native one as a blue emoji */}
                 <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                   <ChevronRight aria-hidden="true" size={14} strokeWidth={2} className="details-caret mr-1 inline-block align-[-2px] transition-transform duration-200" />
@@ -552,15 +590,15 @@ export default function App() {
                 <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#a89f8c]">
                   {t.benefits.companies.eyebrow}
                 </div>
-                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
+                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15] max-md:text-[29px]">
                   {t.benefits.companies.title}
                 </h3>
-                <p className="mb-[26px] mt-0 text-[15px] leading-[1.65] text-[#a89f8c]">{t.benefits.companies.desc}</p>
+                <p className="mb-[26px] mt-0 text-[15px] leading-[1.65] text-[#a89f8c] max-md:text-[16px]">{t.benefits.companies.desc}</p>
                 <ul className="mb-8 mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.companies.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
                       <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-[#a89f8c]" />
-                      <span className="text-sm leading-[1.6] text-[#d8d2c5]">{b}</span>
+                      <span className="text-sm leading-[1.6] text-[#d8d2c5] max-md:text-[15px]">{b}</span>
                     </li>
                   ))}
                 </ul>
@@ -568,7 +606,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => openContact("companies")}
-                    className="press inline-block max-w-full rounded-full bg-light px-7 py-[13px] text-[13.5px] font-bold text-ink hover:bg-white focus-visible:bg-white"
+                    className="press inline-block max-w-full rounded-full bg-light px-7 py-[13px] text-[13.5px] font-bold text-ink hover:bg-white focus-visible:bg-white max-md:text-[14.5px]"
                   >
                     <WithArrow text={t.benefits.companies.btn} />
                   </button>
@@ -588,19 +626,19 @@ export default function App() {
                 <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#70685c]">
                   {t.benefits.gyms.eyebrow}
                 </div>
-                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
+                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15] max-md:text-[29px]">
                   {t.benefits.gyms.title}
                 </h3>
-                <p className="mb-[22px] mt-0 text-[15px] leading-[1.65] text-muted-foreground">{t.benefits.gyms.desc}</p>
+                <p className="mb-[22px] mt-0 text-[15px] leading-[1.65] text-muted-foreground max-md:text-[16px]">{t.benefits.gyms.desc}</p>
                 <ul className="mb-[22px] mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.gyms.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
                       <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-ink/40" />
-                      <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
+                      <span className="text-sm leading-[1.6] text-muted-foreground max-md:text-[15px]">{b}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c]">
+                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c] max-md:text-[13.5px]">
                   {t.benefits.gyms.note}
                 </p>
                 <div className="mt-auto">
@@ -617,19 +655,19 @@ export default function App() {
                 <div className="mb-[18px] font-mono text-[11px] uppercase tracking-[.22em] text-[#70685c]">
                   {t.benefits.users.eyebrow}
                 </div>
-                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15]">
+                <h3 className="mb-3.5 mt-0 font-display text-[clamp(26px,3.2vw,34px)] font-normal leading-[1.15] max-md:text-[29px]">
                   {t.benefits.users.title}
                 </h3>
-                <p className="mb-[22px] mt-0 text-[15px] leading-[1.65] text-muted-foreground">{t.benefits.users.desc}</p>
+                <p className="mb-[22px] mt-0 text-[15px] leading-[1.65] text-muted-foreground max-md:text-[16px]">{t.benefits.users.desc}</p>
                 <ul className="mb-[22px] mt-0 flex list-none flex-col gap-3 p-0">
                   {t.benefits.users.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3">
                       <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-ink/40" />
-                      <span className="text-sm leading-[1.6] text-muted-foreground">{b}</span>
+                      <span className="text-sm leading-[1.6] text-muted-foreground max-md:text-[15px]">{b}</span>
                     </li>
                   ))}
                 </ul>
-                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c]">
+                <p className="mb-7 mt-0 border-l-2 border-ink/20 pl-4 text-[12.5px] italic leading-[1.65] text-[#70685c] max-md:text-[13.5px]">
                   {t.benefits.users.note}
                 </p>
                 <div className="mt-auto">
@@ -645,30 +683,72 @@ export default function App() {
           </div>
         </section>
 
-        {/* ── 6. CONTROL & SAFETY ────────────────────────────────── */}
+        {/* ── 6. CONTROL, VERIFICATION & PRIVACY ─────────────────── */}
+        {/* every step and commitment links to the clause of the Términos / Reglas that makes it */}
         <section id="safety" data-dark-surface className="surface-dark bg-ink text-light">
-          <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
-            <div data-reveal>
-              <div className="eyebrow mb-[22px] !text-[#a89f8c]">{t.safety.eyebrow}</div>
-              <h2 className={`${H2} mb-6`}>
-                {t.safety.titleTop}
-                <br />
-                <span className="font-semibold">{t.safety.titleEm}</span>
-              </h2>
-              <p className="m-0 text-base leading-[1.7] text-[#a89f8c] text-pretty">{t.safety.paragraph}</p>
+          <div className={`${CONTAINER} ${SECTION_Y}`}>
+            <div className={`${GRID_2COL} items-start`}>
+              <div data-reveal>
+                <div className="eyebrow mb-[22px] !text-[#a89f8c]">{t.safety.eyebrow}</div>
+                <h2 className={`${H2} mb-6`}>
+                  {t.safety.titleTop}
+                  <br />
+                  <span className="font-semibold">{t.safety.titleEm}</span>
+                </h2>
+                <p className="m-0 text-base leading-[1.7] text-[#a89f8c] text-pretty">{t.safety.paragraph}</p>
+              </div>
+              <div data-reveal style={D(0.15)} className="pt-[clamp(0px,4vw,56px)]">
+                <h3 id="safety-flow" className="eyebrow mb-6 mt-0 !text-[#a89f8c]">
+                  {t.safety.flowLabel}
+                </h3>
+                <ol aria-labelledby="safety-flow" className="m-0 list-none p-0">
+                  {t.safety.flow.map((step, i) => (
+                    <li key={step.text} className="relative flex gap-4 pb-6 last:pb-0">
+                      {/* the hairline joining the step numbers */}
+                      {i < t.safety.flow.length - 1 && (
+                        <span aria-hidden="true" className="absolute bottom-0 left-4 top-9 w-px bg-[rgba(245,241,232,.18)]" />
+                      )}
+                      <span
+                        aria-hidden="true"
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[rgba(245,241,232,.3)] font-mono text-[12px] text-[#d8d2c5]"
+                      >
+                        {i + 1}
+                      </span>
+                      <div className="flex flex-col gap-1.5 pt-1">
+                        <p className="m-0 text-[15px] leading-[1.55] text-[#e8e2d6] text-pretty max-md:text-[16px]">{step.text}</p>
+                        <LegalRefs refs={step.refs} />
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
-            <ul data-reveal-group data-reveal-stagger="90" className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-3 p-0 pt-[clamp(0px,4vw,56px)]">
-              {t.safety.bullets.map((b, i) => (
-                <li
-                  key={i}
-                  data-reveal
-                  className="glass-dark flex items-start gap-3 p-5"
-                >
-                  <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-[#a89f8c]" />
-                  <span className="text-[13.5px] leading-[1.55] text-[#d8d2c5]">{b}</span>
-                </li>
-              ))}
-            </ul>
+            <div data-reveal className="mt-[clamp(48px,6vw,80px)] border-t border-[rgba(245,241,232,.14)] pt-[clamp(32px,4vw,48px)]">
+              <h3 id="safety-privacy" className="eyebrow mb-6 mt-0 !text-[#a89f8c]">
+                {t.safety.privacyLabel}
+              </h3>
+              <ul
+                aria-labelledby="safety-privacy"
+                data-reveal-group
+                data-reveal-stagger="90"
+                className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-3 p-0"
+              >
+                {t.safety.privacy.map((item) => (
+                  <li key={item.text} data-reveal className="glass-dark flex flex-col gap-3 p-5">
+                    <span className="flex items-start gap-3">
+                      <Check aria-hidden="true" size={16} strokeWidth={2} className="mt-[3px] shrink-0 text-[#a89f8c]" />
+                      <span className="text-[14px] leading-[1.55] text-[#e8e2d6] max-md:text-[15px]">{item.text}</span>
+                    </span>
+                    <span className="mt-auto pl-7">
+                      <LegalRefs refs={item.refs} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mb-0 mt-6 max-w-[760px] text-[13px] leading-[1.65] text-[#a89f8c] text-pretty max-md:text-[14px]">
+                {t.safety.law}
+              </p>
+            </div>
           </div>
         </section>
 
@@ -682,15 +762,13 @@ export default function App() {
                 <Dot />
                 {t.digital.badge}
               </span>
-              <h2 id="digital-title" className={`${H2} mb-6`}>
-                {t.digital.titleTop}
-                <br />
-                <span className="font-semibold">{t.digital.titleEm}</span>
+              <h2 id="digital-title" className={`${H2_UTILITY} mb-6`}>
+                {t.digital.titleTop} {t.digital.titleEm}
               </h2>
-              <p className="mb-7 mt-0 max-w-[560px] text-[15px] leading-[1.7] text-muted-foreground text-pretty">
+              <p className="mb-7 mt-0 max-w-[560px] text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">
                 {t.digital.desc}
               </p>
-              <p className="m-0 max-w-[560px] border-l-2 border-ink/20 pl-4 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty">
+              <p className="m-0 max-w-[560px] border-l-2 border-ink/20 pl-4 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty max-md:text-[14.5px]">
                 {t.digital.note}
               </p>
             </div>
@@ -708,14 +786,14 @@ export default function App() {
                   <li
                     key={area}
                     data-reveal
-                    className="border-b border-border py-3 text-[14px] text-muted-foreground last:border-b-0"
+                    className="border-b border-border py-3 text-[14px] text-muted-foreground last:border-b-0 max-md:text-[15px]"
                   >
                     {area}
                   </li>
                 ))}
               </ul>
               <div className="mt-7 border-t border-border pt-7">
-                <p className="mb-5 mt-0 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty">
+                <p className="mb-5 mt-0 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty max-md:text-[14.5px]">
                   {t.digital.partnerText}
                 </p>
                 <a href="#contact" className={BTN_OUTLINE}>
@@ -731,17 +809,17 @@ export default function App() {
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
             <div data-reveal>
               <div className="eyebrow mb-[22px]">{t.pilot.label}</div>
-              <h2 className="mb-6 mt-0 font-display text-[clamp(30px,4.3vw,46px)] font-light leading-[1.12] tracking-[-.01em]">
+              <h2 className="mb-6 mt-0 font-display text-[clamp(30px,4.3vw,46px)] font-light leading-[1.12] tracking-[-.01em] max-md:text-[33px]">
                 {t.pilot.titleTop}
                 <br />
                 <span className="font-semibold">{t.pilot.titleEm}</span>
               </h2>
               <div className="mb-6 rounded-2xl border border-[rgba(33,43,60,.15)] bg-white/40 px-5 py-4">
-                <h3 className="mb-1.5 mt-0 text-[13.5px] font-semibold">{t.pilot.statusTitle}</h3>
-                <p className="m-0 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty">{t.pilot.status}</p>
+                <h3 className="mb-1.5 mt-0 text-[13.5px] font-semibold max-md:text-[14.5px]">{t.pilot.statusTitle}</h3>
+                <p className="m-0 text-[13.5px] leading-[1.65] text-muted-foreground text-pretty max-md:text-[14.5px]">{t.pilot.status}</p>
               </div>
-              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty">{t.pilot.p1}</p>
-              <p className="mb-[30px] mt-0 text-[15px] leading-[1.7] text-muted-foreground">{t.pilot.p2}</p>
+              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">{t.pilot.p1}</p>
+              <p className="mb-[30px] mt-0 text-[15px] leading-[1.7] text-muted-foreground max-md:text-[16px]">{t.pilot.p2}</p>
               <div className="flex flex-wrap gap-3">
                 {(
                   [
@@ -756,13 +834,14 @@ export default function App() {
                 ))}
               </div>
             </div>
-            <div data-reveal style={D(0.15)} className="glass-quiet glass-frost p-[clamp(24px,4vw,40px)]">
+            <div data-reveal style={D(0.15)} className="glass-quiet glass-frost p-[clamp(24px,4vw,40px)] max-md:p-5">
               <fieldset className="m-0 min-w-0 border-0 p-0" aria-describedby="zones-hint">
                 <legend className="eyebrow mb-3 p-0">{t.pilot.zonesLabel}</legend>
-                <p id="zones-hint" className="mb-5 mt-0 text-[13px] leading-[1.6] text-muted-foreground">
+                <p id="zones-hint" className="mb-5 mt-0 text-[13px] leading-[1.6] text-muted-foreground max-md:text-[14px]">
                   {t.pilot.zonesHint}
                 </p>
-                <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-2.5">
+                <PilotMap selected={areas} onToggle={toggleArea} />
+                <div data-reveal-group data-reveal-stagger="70" className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-2.5 max-md:grid-cols-2 max-md:gap-2">
                   {[...LAUNCH_ZONES, "other"].map((zone) => (
                     <label key={zone} data-reveal className="pill-choice pill-choice--wide">
                       <input
@@ -782,12 +861,12 @@ export default function App() {
                 </div>
               </fieldset>
               {areaLabels.length > 0 && (
-                <p className="mb-0 mt-5 text-[12.5px] leading-[1.6] text-muted-foreground">
+                <p className="mb-0 mt-5 text-[12.5px] leading-[1.6] text-muted-foreground max-md:text-[13.5px]">
                   <span className="font-semibold text-ink">{t.pilot.zonesSelected}</span> {areaLabels.join(", ")}
                 </p>
               )}
               <div className="mt-7 border-t border-border pt-7">
-                <p className="m-0 text-xs italic leading-[1.7] text-[#70685c]">{t.pilot.zonesNote}</p>
+                <p className="m-0 text-xs italic leading-[1.7] text-[#70685c] max-md:text-[13px]">{t.pilot.zonesNote}</p>
               </div>
             </div>
           </div>
@@ -803,7 +882,7 @@ export default function App() {
                 <br />
                 <span className="font-semibold">{t.categories.titleEm}</span>
               </h2>
-              <p className="m-0 max-w-[300px] text-right text-[13.5px] leading-[1.65] text-muted-foreground max-md:text-left">
+              <p className="m-0 max-w-[300px] text-right text-[13.5px] leading-[1.65] text-muted-foreground max-md:text-left max-md:text-[14.5px]">
                 {t.categories.intro}
               </p>
             </div>
@@ -817,7 +896,7 @@ export default function App() {
                     className="group flex h-[150px] flex-col items-center justify-center gap-3.5 rounded-2xl border border-border/70 bg-white/40 px-2 transition-colors duration-[250ms] hover:bg-white/75 max-md:h-[96px] max-md:gap-2.5"
                   >
                     <Icon aria-hidden="true" className="text-ink/45 transition-colors duration-[250ms] group-hover:text-ink" />
-                    <span className="text-center text-[11.5px] font-semibold text-muted-foreground">{label}</span>
+                    <span className="text-center text-[11.5px] font-semibold text-muted-foreground max-md:text-[12.5px]">{label}</span>
                   </li>
                 );
               })}
@@ -830,10 +909,8 @@ export default function App() {
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
             <div data-reveal>
               <div className="eyebrow mb-[22px]">{t.faq.label}</div>
-              <h2 className={`${H2} mb-8`}>
-                {t.faq.titleTop}
-                <br />
-                <span className="font-semibold">{t.faq.titleEm}</span>
+              <h2 className={`${H2_UTILITY} mb-8`}>
+                {t.faq.titleTop} {t.faq.titleEm}
               </h2>
               <AudiencePills
                 name="faq-filter"
@@ -859,7 +936,7 @@ export default function App() {
                         onClick={() => setFaqOpen(open ? -1 : f.i)}
                         className="flex w-full items-center justify-between gap-4 py-5 text-left"
                       >
-                        <span className="text-[14.5px] font-semibold">{f.q}</span>
+                        <span className="text-[14.5px] font-semibold max-md:text-[15.5px]">{f.q}</span>
                         <svg aria-hidden="true" viewBox="0 0 16 16" width={16} height={16} className="faq-sign shrink-0 text-[#70685c]">
                           <path d="M2 8h12" />
                           <path className="faq-sign-v" d="M8 2v12" />
@@ -874,7 +951,7 @@ export default function App() {
                       aria-hidden={!open}
                     >
                       <div>
-                        <p className="m-0 pb-5 text-[13.5px] leading-[1.7] text-muted-foreground">{f.a}</p>
+                        <p className="m-0 pb-5 text-[13.5px] leading-[1.7] text-muted-foreground max-md:text-[14.5px]">{f.a}</p>
                       </div>
                     </div>
                   </div>
@@ -889,15 +966,13 @@ export default function App() {
           <div className={`${CONTAINER} ${SECTION_Y} ${GRID_2COL} items-start`}>
             <div data-reveal>
               <div className="eyebrow mb-[22px]">{t.contact.label}</div>
-              <h2 className={`${H2} mb-6`}>
-                {t.contact.titleTop}
-                <br />
-                <span className="font-semibold">{t.contact.titleEm}</span>
+              <h2 className={`${H2_UTILITY} mb-6`}>
+                {t.contact.titleTop} {t.contact.titleEm}
               </h2>
-              <p className="mb-9 mt-0 max-w-[380px] text-[15px] leading-[1.7] text-muted-foreground text-pretty">
+              <p className="mb-9 mt-0 max-w-[380px] text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">
                 {t.contact.intro}
               </p>
-              <div className="flex items-center gap-3 text-[13.5px] text-muted-foreground">
+              <div className="flex items-center gap-3 text-[13.5px] text-muted-foreground max-md:text-[14.5px]">
                 <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full border border-[rgba(33,43,60,.15)] text-[#70685c]">
                   <MapPin size={16} strokeWidth={1.75} />
                 </span>
@@ -909,7 +984,7 @@ export default function App() {
                 type="button"
                 onClick={() => openContact()}
                 data-reveal
-                className="press rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)]"
+                className="press rounded-full bg-ink p-4 text-center text-sm font-bold text-primary-foreground shadow-[0_14px_30px_rgba(33,43,60,.18)] transition-[translate,box-shadow,scale] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(33,43,60,.24)] max-md:text-[15px]"
               >
                 <WithArrow text={t.contact.ctaForm} />
               </button>
@@ -933,14 +1008,15 @@ export default function App() {
                 <br />
                 <span className="font-semibold">{t.about.titleEm}</span>
               </h2>
-              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty">{t.about.p1}</p>
-              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty">{t.about.p2}</p>
-              <p className="m-0 text-[15px] font-bold leading-[1.7]">{t.about.p3}</p>
+              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">{t.about.p1}</p>
+              <p className="mb-4 mt-0 text-[15px] leading-[1.7] text-muted-foreground text-pretty max-md:text-[16px]">{t.about.p2}</p>
+              <p className="m-0 text-[15px] font-bold leading-[1.7] max-md:text-[16px]">{t.about.p3}</p>
             </div>
           </div>
         </section>
       </main>
 
+      <InterestDock label={t.hero.ctaPrimary} onOpen={() => openContact()} />
       <SiteFooter lang={lang} />
     </div>
   );

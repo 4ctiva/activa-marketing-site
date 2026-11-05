@@ -262,20 +262,26 @@ function MembershipPhone() {
 export default function PhoneMockups({ caption }: { caption: string }) {
   return (
     <figure className="m-0">
+      {/* phones: one below md, side by side to xl, then overlapped in quiet depth
+          (a slight tilt, scaled to fit the hero's right column) */}
       <div
         aria-hidden="true"
         data-reveal-group
         data-reveal-stagger="160"
-        className="flex flex-wrap justify-center gap-[26px] px-[clamp(16px,4vw,48px)] pt-10"
+        className="flex justify-center gap-[26px] pt-12 max-md:pt-10 xl:pt-0 xl:[zoom:.82] min-[1400px]:[zoom:.88]"
       >
-        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_infinite]">
-          <NetworkPhone />
+        <div data-reveal className="relative z-10 xl:rotate-[-2deg]">
+          <div className="animate-[phoneFloat_6s_ease-in-out_infinite]">
+            <NetworkPhone />
+          </div>
         </div>
-        <div data-reveal className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
-          <MembershipPhone />
+        <div data-reveal className="max-md:hidden xl:-ml-[150px] xl:mt-24 xl:rotate-[2deg]">
+          <div className="animate-[phoneFloat_6s_ease-in-out_-3s_infinite]">
+            <MembershipPhone />
+          </div>
         </div>
       </div>
-      <figcaption className="mx-auto mt-7 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty">
+      <figcaption className="mx-auto mt-7 box-content max-w-[560px] px-6 text-center text-[12px] leading-[1.6] text-muted-foreground text-pretty max-md:text-[13px] xl:max-w-[420px] xl:px-0">
         <span aria-hidden="true" className="mr-1.5 rounded-full border border-[rgba(33,43,60,.2)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-[.16em]">
           Demo
         </span>

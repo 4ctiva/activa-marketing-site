@@ -1,6 +1,7 @@
 // Based on "Terminos y Condiciones ACTIVA 1.docx" (Versión 2026-09-30), with the final values and the
 // alignment with the Reglas de Negocio decided on 2026-10-08, optional-photo/privacy decisions of 2026-10-09,
-// and ONVO disclosures supplied by ACTIVA and accepted for drafting on 2026-10-12.
+// and ONVO disclosures supplied by ACTIVA and accepted for drafting on 2026-10-12. ACTIVA approved this
+// version as final on 2026-11-05, so it no longer carries a review notice.
 // Inline markup: **bold**, [label](href), {{pending}} — see RichText.tsx.
 import type { TermsDoc } from "../model";
 
@@ -8,7 +9,6 @@ export const TERMINOS: TermsDoc = {
   title: "Términos y Condiciones de ACTIVA",
   subtitle: "Membresías para personas vinculadas a empresas y asociaciones participantes",
   version: "2026-10-12",
-  reviewNotice: "Borrador para revisión. Incorpora las decisiones de ACTIVA sobre fotografía opcional y privacidad, y la información comunicada por ONVO. Esta versión requiere aprobación final antes de utilizarse para recabar aceptaciones. Los plazos de conservación y eliminación requieren validación técnica antes de su entrada en vigor. La fecha de entrada en vigor está sujeta a esa aprobación.",
   effective: "1 de noviembre de 2026",
   essentials: {
     title: "Lo esencial",

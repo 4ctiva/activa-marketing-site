@@ -1,4 +1,5 @@
 import { translations, type Lang, PRIMARY_EMAIL } from "../../i18n";
+import { CONTACT } from "../../lib/audience";
 import { LEGAL_PATHS } from "../../legal/model";
 import { InstagramIcon, MailIcon, WhatsAppIcon } from "./icons";
 import logoFull from "../../../../assets/optimized/logo-full-400w.webp";
@@ -37,7 +38,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.legalLabel}
             </div>
-            <div className="flex flex-col gap-2.5 text-[13.5px]">
+            <div className="flex flex-col gap-2.5 text-[13.5px] max-md:text-[14.5px]">
               {legalLinks.map((link) => (
                 <a key={link.href} href={link.href} className={linkCls}>
                   {link.label}
@@ -49,7 +50,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.navLabel}
             </div>
-            <div className="flex flex-col gap-2.5 text-[13.5px]">
+            <div className="flex flex-col gap-2.5 text-[13.5px] max-md:text-[14.5px]">
               {navLinks.map((link) => (
                 <a key={link.href} href={link.href} className={linkCls}>
                   {link.label}
@@ -61,19 +62,19 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             <div className="mb-4 font-mono text-[10.5px] uppercase tracking-[.22em] text-[#8f887d]">
               {t.footer.contactLabel}
             </div>
-            <div className="flex flex-col gap-2.5 text-[13.5px] text-[#a89f8c]">
+            <div className="flex flex-col gap-2.5 text-[13.5px] text-[#a89f8c] max-md:text-[14.5px]">
               <a href={`mailto:${PRIMARY_EMAIL}`} className={`flex items-center gap-[9px] ${linkCls}`}>
                 <MailIcon size={15} className="shrink-0" />
                 {PRIMARY_EMAIL}
               </a>
               <a
-                href="https://wa.me/16073196214"
+                href={`https://wa.me/${CONTACT.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`flex items-center gap-[9px] ${linkCls}`}
               >
                 <WhatsAppIcon size={15} className="shrink-0" />
-                +1 (607) 319-6214
+                {CONTACT.whatsappLabel}
               </a>
               <a
                 href="https://www.instagram.com/activawellnesscr/"
@@ -88,7 +89,7 @@ export default function SiteFooter({ lang, anchorPrefix = "" }: { lang: Lang; an
             </div>
           </div>
         </div>
-        <div className="pt-6 text-[11.5px] text-[#8f887d]">{t.footer.rights}</div>
+        <div className="pt-6 text-[11.5px] text-[#8f887d] max-md:text-[12.5px]">{t.footer.rights}</div>
       </div>
     </footer>
   );

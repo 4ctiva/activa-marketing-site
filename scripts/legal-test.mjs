@@ -545,13 +545,21 @@ try {
       privacy.a.includes('Supabase') && privacy.a.includes('Upstash') && privacy.a.includes('Sentry') &&
       privacy.b.includes('cinco días hábiles') && privacy.b.includes('desmarcada por defecto') &&
       privacy.b.includes('autorización independiente y específica') && !privacy.a.includes('Texto pendiente:'), privacy.b);
-    check('privacy: draft is clearly labeled and latest has a fixed-version URL',
-      privacy.review?.includes('Aún no habilitado para aceptación') && privacy.latestLink.includes('?version=2026-10-12'));
+    // 2026-10-12 was approved as final on 2026-11-05: no review notice, a plain effective date
+    check('privacy: approved version carries no review notice and latest has a fixed-version URL',
+      !privacy.review && privacy.latestLink.includes('?version=2026-10-12'));
     await page.evaluate(() => document.getElementById('aviso-de-privacidad').scrollIntoView({ behavior: 'instant' }));
     await pump(page, 300);
     await shot(page, 'privacy-annex-a-desktop');
+    await page.close();
+  }
+  {
+    // the earlier draft keeps its review status, on screen and in print
+    const { page } = await open(`${PAGES.terminos}?version=2026-10-09`);
+    check('archive: the 2026-10-09 draft is still labeled as a draft',
+      (await page.evaluate(() => document.querySelector('.legal-review-notice')?.textContent ?? '')).includes('Aún no habilitado para aceptación'));
     await page.emulateMediaType('print');
-    check('privacy: review status remains visible in print', await page.evaluate(() => getComputedStyle(document.querySelector('.legal-review-notice')).display !== 'none'));
+    check('archive: review status remains visible in print', await page.evaluate(() => getComputedStyle(document.querySelector('.legal-review-notice')).display !== 'none'));
     await page.close();
   }
   {

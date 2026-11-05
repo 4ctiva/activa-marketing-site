@@ -122,7 +122,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
             <h1
               ref={titleRef}
               tabIndex={-1}
-              className="m-0 font-display text-[clamp(34px,5.4vw,58px)] font-light leading-[1.06] tracking-[-.015em] text-ink outline-none"
+              className="m-0 font-display text-[clamp(34px,5.4vw,58px)] font-light leading-[1.06] tracking-[-.015em] text-ink outline-none max-md:text-[38px]"
             >
               <span className="legal-mark">{meta.titleTop}</span>
               <br />
@@ -157,7 +157,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
             </div>
 
             {meta.reviewNotice && (
-              <aside lang="es" aria-label="Estado de revisión" className="legal-review-notice mt-6 max-w-[700px] rounded-[var(--radius-surface)] border-2 border-[#8a4b16] bg-[#fff2df] px-5 py-4 text-[14px] leading-[1.65] text-[#603710] print:break-inside-avoid print:bg-transparent print:text-black">
+              <aside lang="es" aria-label="Estado de revisión" className="legal-review-notice mt-6 max-w-[700px] rounded-[var(--radius-surface)] border-2 border-[#8a4b16] bg-[#fff2df] px-5 py-4 text-[14px] leading-[1.65] text-[#603710] print:break-inside-avoid print:bg-transparent print:text-black max-md:text-[15px]">
                 <strong className="mb-1 block font-semibold">Borrador para revisión · Aún no habilitado para aceptación</strong>
                 <RichText text={meta.reviewNotice} />
               </aside>
@@ -166,7 +166,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
             {(lang === "en" || meta.hasPending || archived) && (
               <div lang={lang} className="legal-noprint mt-6 flex flex-col gap-2.5">
                 {archived && (
-                  <p className="m-0 flex max-w-[640px] items-start gap-3 rounded-[var(--radius-surface)] border border-ink px-4 py-3 text-[13.5px] leading-[1.55] text-ink">
+                  <p className="m-0 flex max-w-[640px] items-start gap-3 rounded-[var(--radius-surface)] border border-ink px-4 py-3 text-[13.5px] leading-[1.55] text-ink max-md:text-[14.5px]">
                     <span>
                       <strong className="font-semibold">{L.archivedTitle}.</strong> {L.archivedBody}{" "}
                       <a href={LEGAL_PATHS[doc]} className="underline underline-offset-[3px]">
@@ -176,7 +176,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                   </p>
                 )}
                 {lang === "en" && (
-                  <p className="glass-quiet m-0 flex max-w-[640px] items-start gap-3 px-4 py-3 text-[13.5px] leading-[1.55] text-ink/80 shadow-none text-pretty">
+                  <p className="glass-quiet m-0 flex max-w-[640px] items-start gap-3 px-4 py-3 text-[13.5px] leading-[1.55] text-ink/80 shadow-none text-pretty max-md:text-[14.5px]">
                     <span className="mt-px shrink-0 rounded-full bg-ink px-2 py-[3px] font-mono text-[10px] font-bold tracking-[.12em] text-light">
                       ES
                     </span>
@@ -186,7 +186,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                   </p>
                 )}
                 {meta.hasPending && (
-                  <p className="m-0 flex items-center gap-2.5 text-[12.5px] text-muted-foreground">
+                  <p className="m-0 flex items-center gap-2.5 text-[12.5px] text-muted-foreground max-md:text-[13.5px]">
                     <span lang="es" aria-hidden="true">
                       <Pending text="…" />
                     </span>
@@ -208,7 +208,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                   </div>
                   <a
                     href={legalVersionHref(LEGAL_PATHS[other], meta.linkVersion)}
-                    className="group flex items-baseline justify-between gap-3 text-[13.5px] font-medium text-ink/80 transition-colors duration-200 hover:text-ink"
+                    className="group flex items-baseline justify-between gap-3 text-[13.5px] font-medium text-ink/80 transition-colors duration-200 hover:text-ink max-md:text-[14.5px]"
                   >
                     {otherTitle(other)}
                     <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -248,7 +248,7 @@ export default function LegalPage({ doc }: { doc: LegalDocId }) {
                     history.replaceState(null, "", window.location.pathname + window.location.search);
                     titleRef.current?.focus({ preventScroll: true });
                   }}
-                  className="glass-quiet glass-hover flex items-center justify-center gap-2 px-6 py-5 text-[13.5px] font-medium text-ink/80 hover:text-ink"
+                  className="glass-quiet glass-hover flex items-center justify-center gap-2 px-6 py-5 text-[13.5px] font-medium text-ink/80 hover:text-ink max-md:text-[14.5px]"
                 >
                   {L.backToTop} <span aria-hidden="true">↑</span>
                 </a>
@@ -279,7 +279,7 @@ function VersionHistory({ meta, path, lang }: { meta: DocMeta; path: string; lan
         {meta.versions.map((v, i) => {
           const shown = v.version === meta.version;
           return (
-            <li key={v.version} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-border py-2.5 text-[14px] first:border-t-0">
+            <li key={v.version} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-border py-2.5 text-[14px] first:border-t-0 max-md:text-[15px]">
               <a
                 href={legalVersionHref(path, v.version)}
                 aria-current={shown ? "page" : undefined}
@@ -440,7 +440,7 @@ function MobileToc({ items, label, lang }: { items: TocItem[]; label: string; la
           className="flex cursor-pointer list-none items-center justify-between rounded-[var(--radius-surface)] px-5 py-3.5 font-mono text-[11px] uppercase tracking-[.18em] text-ink/80 [&::-webkit-details-marker]:hidden"
         >
           {label}
-          <span aria-hidden="true" className="details-caret text-[13px] transition-transform duration-200">
+          <span aria-hidden="true" className="details-caret text-[13px] transition-transform duration-200 max-md:text-[14px]">
             ›
           </span>
         </summary>
@@ -450,7 +450,7 @@ function MobileToc({ items, label, lang }: { items: TocItem[]; label: string; la
               <a
                 href={`#${item.id}`}
                 onClick={() => ref.current?.removeAttribute("open")}
-                className="flex gap-2.5 py-1.5 text-[14px] leading-[1.4] text-ink/80 hover:text-ink"
+                className="flex gap-2.5 py-1.5 text-[14px] leading-[1.4] text-ink/80 hover:text-ink max-md:text-[15px]"
               >
                 {item.num && <span className="w-[1.4rem] shrink-0 font-mono text-[11.5px] leading-[1.6]">{item.num}</span>}
                 <span>{item.label}</span>
@@ -474,7 +474,7 @@ function MobileToc({ items, label, lang }: { items: TocItem[]; label: string; la
           aria-hidden={!away}
           className="glass glass-pill flex items-center gap-2 px-4 py-2.5 font-mono text-[11px] uppercase tracking-[.16em] text-ink"
         >
-          <span aria-hidden="true" className="text-[13px] leading-none">
+          <span aria-hidden="true" className="text-[13px] leading-none max-md:text-[14px]">
             ☰
           </span>
           {label}

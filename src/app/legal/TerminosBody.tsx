@@ -4,7 +4,7 @@ import { ArrowLink, ClauseList, KeyValueCard, MiniLabel } from "./parts";
 import { ruleTopicHref, rulesByTermsTarget, termsIds, type RuleTopic, type RulesDoc, type TermsDoc } from "./model";
 
 
-const H2 = "m-0 font-display text-[clamp(25px,3vw,32px)] font-light leading-[1.15] tracking-[-.01em] text-ink";
+const H2 = "m-0 font-display text-[clamp(25px,3vw,32px)] font-light leading-[1.15] tracking-[-.01em] text-ink max-md:text-[28px]";
 
 /** Términos y Condiciones — Lo esencial, Datos clave and the 20 numbered sections. */
 export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDoc; rules: RulesDoc; linkVersion?: string }) {
@@ -20,13 +20,13 @@ export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDo
         </h2>
         <ul className="m-0 grid list-none gap-y-3.5 p-0">
           {essentials.items.map((item) => (
-            <li key={item.lead} className="relative pl-[18px] text-[14.5px] leading-[1.7] text-ink/85 text-pretty">
+            <li key={item.lead} className="relative pl-[18px] text-[14.5px] leading-[1.7] text-ink/85 text-pretty max-md:text-[15.5px]">
               <span aria-hidden="true" className="legal-dot absolute left-0 top-[.62em] size-[6px] rounded-full bg-sand-deep" />
               <strong className="font-semibold text-ink">{item.lead}</strong> <RichText text={item.text} />
             </li>
           ))}
         </ul>
-        <p className="mb-0 mt-6 border-t border-border pt-4 text-[13px] italic leading-[1.6] text-muted-foreground">
+        <p className="mb-0 mt-6 border-t border-border pt-4 text-[13px] italic leading-[1.6] text-muted-foreground max-md:text-[14px]">
           {essentials.note}
         </p>
         {/* the Reglas' "Encabezado" refs (RN 13) also surface here, right under the header */}
@@ -48,7 +48,7 @@ export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDo
           {keyData.plans.title}
         </h3>
         <PlansTable head={keyData.plans.head} rows={keyData.plans.rows} />
-        <p className="mb-0 mt-3.5 text-[13px] italic leading-[1.6] text-muted-foreground">{keyData.plans.note}</p>
+        <p className="mb-0 mt-3.5 text-[13px] italic leading-[1.6] text-muted-foreground max-md:text-[14px]">{keyData.plans.note}</p>
       </section>
 
       {/* ── TÉRMINOS ──────────────────────────────────────────── */}
@@ -62,7 +62,7 @@ export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDo
               !doc.annexes.length && i === doc.sections.length - 1 ? "legal-last-section" : ""
             }`}
           >
-            <h3 className="mb-3 mt-0 font-display text-[clamp(20px,2.3vw,24px)] font-normal leading-[1.25] text-ink">
+            <h3 className="mb-3 mt-0 font-display text-[clamp(20px,2.3vw,24px)] font-normal leading-[1.25] text-ink max-md:text-[22px]">
               <span className="legal-mark">
                 <span className="mr-1 font-light text-[#76674a]">{s.num}.</span> {s.title}
               </span>
@@ -87,13 +87,13 @@ export default function TerminosBody({ doc, rules, linkVersion }: { doc: TermsDo
                 i === doc.annexes.length - 1 ? "legal-last-section" : ""
               }`}
             >
-              <h3 className="mb-3 mt-0 font-display text-[clamp(20px,2.3vw,24px)] font-normal leading-[1.25] text-ink">
+              <h3 className="mb-3 mt-0 font-display text-[clamp(20px,2.3vw,24px)] font-normal leading-[1.25] text-ink max-md:text-[22px]">
                 <span className="legal-mark">
                   <span className="mr-1 font-light text-[#76674a]">Anexo {a.letter}.</span> {a.title}
                 </span>
               </h3>
               {a.paragraphs.map((text) => (
-                <p key={text} className="mb-3 mt-0 text-[15.5px] leading-[1.75] text-ink/85 text-pretty">
+                <p key={text} className="mb-3 mt-0 text-[15.5px] leading-[1.75] text-ink/85 text-pretty max-md:text-[16.5px]">
                   <RichText text={text} />
                 </p>
               ))}
@@ -131,7 +131,7 @@ function PlansTable({ head, rows }: { head: string[]; rows: string[][] }) {
   return (
     <>
       <div className="glass-quiet overflow-hidden max-sm:hidden">
-        <table className="w-full border-collapse text-left text-[14.5px]">
+        <table className="w-full border-collapse text-left text-[14.5px] max-md:text-[15.5px]">
           <thead>
             <tr>
               {head.map((h, i) => (
